@@ -5,7 +5,7 @@
                 <div class="col-lg-5 text-center text-lg-start">
                     <div class="d-inline-flex align-items-center gap-2 bg-white border px-3 py-2 rounded-pill shadow-sm mb-4">
                         <span class="badge bg-success rounded-pill p-1"><span class="visually-hidden">Online</span></span>
-                        <small class="fw-bold text-uppercase tracking-wider text-muted" style="font-size: 0.7rem;">KawalDiri 2.0 Kini Hadir</small>
+                        <small class="fw-bold text-uppercase tracking-wider text-muted" style="font-size: 0.7rem;">KawalDiri 1.0 Kini Hadir</small>
                     </div>
                     <h1 class="display-3 font-black lh-1 mb-4">
                         Atur Hidup. <br>

@@ -125,18 +125,43 @@
         .font-black {
             font-weight: 900;
         }
+
+        .transition-fade {
+            transition: 0.3s ease-in-out;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        html.is-animating .transition-fade {
+            opacity: 0;
+            transform: scale(0.99);
+        }
     </style>
 </head>
 
 <body>
 
-    @include('components.navbar')
+    <div id="swup" class="transition-fade">
+        @include('components.navbar')
 
-    @yield('content')
+        @yield('content')
 
-    @include('components.footer')
+        @include('components.footer')
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/swup@4"></script>
+    <script src="https://unpkg.com/@swup/scripts-plugin@2"></script>
+    <script src="https://unpkg.com/@swup/scripts-plugin@2"></script>
+    <script src="https://unpkg.com/@swup/head-plugin@2"></script>
+    <script src="https://unpkg.com/@swup/preload-plugin@3"></script>
+    <script>
+        const swup = new Swup({
+            plugins: [new SwupScriptsPlugin(), new SwupHeadPlugin(), new SwupPreloadPlugin()],
+            containers: ["#swup"],
+            cache: true
+        });
+    </script>
 </body>
 
 </html>

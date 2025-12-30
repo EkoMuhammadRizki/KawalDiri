@@ -45,18 +45,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                                Bagaimana cara meningkatkan paket langganan?
-                            </button>
-                        </h2>
-                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-muted small lh-lg">
-                                Masuk ke menu Profil Anda dan pilih "Kelola Langganan". Di sana Anda akan melihat opsi untuk meningkatkan ke paket Pro atau Premium. Pembayaran akan diproses secara aman.
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">

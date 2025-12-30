@@ -29,13 +29,16 @@
         <div class="col-lg-6">
             <ul class="nav nav-underline gap-4">
                 <li class="nav-item">
-                    <a class="nav-link active py-3 px-0 border-primary cursor-pointer" href="#">Semua Tugas</a>
+                    <a class="nav-link py-3 px-0 cursor-pointer {{ $filter == 'all' ? 'active border-primary' : 'border-transparent text-muted' }}"
+                        href="{{ route('tasks', ['filter' => 'all']) }}">Semua Tugas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link py-3 px-0 border-transparent cursor-pointer text-muted" href="#">Tertunda</a>
+                    <a class="nav-link py-3 px-0 cursor-pointer {{ $filter == 'pending' ? 'active border-primary' : 'border-transparent text-muted' }}"
+                        href="{{ route('tasks', ['filter' => 'pending']) }}">Tertunda</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link py-3 px-0 border-transparent cursor-pointer text-muted" href="#">Selesai</a>
+                    <a class="nav-link py-3 px-0 cursor-pointer {{ $filter == 'completed' ? 'active border-primary' : 'border-transparent text-muted' }}"
+                        href="{{ route('tasks', ['filter' => 'completed']) }}">Selesai</a>
                 </li>
             </ul>
         </div>
@@ -61,10 +64,11 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if($filter == 'all' || $filter == 'pending')
                     <!-- Item 1 -->
                     <tr>
                         <td class="text-center">
-                            <input class="form-check-input status-checkbox" type="checkbox">
+                            <input class="form-check-input status-checkbox" type="checkbox" onclick="Swal.fire('Selesai!', 'Tugas ditandai selesai.', 'success')">
                         </td>
                         <td>
                             <div class="d-flex flex-column">
@@ -92,7 +96,7 @@
                     <!-- Item 2 -->
                     <tr>
                         <td class="text-center">
-                            <input class="form-check-input status-checkbox" type="checkbox">
+                            <input class="form-check-input status-checkbox" type="checkbox" onclick="Swal.fire('Selesai!', 'Tugas ditandai selesai.', 'success')">
                         </td>
                         <td>
                             <div class="d-flex flex-column">
@@ -116,11 +120,13 @@
                             </div>
                         </td>
                     </tr>
+                    @endif
 
+                    @if($filter == 'all' || $filter == 'completed')
                     <!-- Item 3 (Completed) -->
                     <tr class="bg-light">
                         <td class="text-center">
-                            <input class="form-check-input status-checkbox" type="checkbox" checked>
+                            <input class="form-check-input status-checkbox" type="checkbox" checked onclick="Swal.fire('Dikembalikan!', 'Tugas dikembalikan ke pending.', 'info')">
                         </td>
                         <td>
                             <div class="d-flex flex-column opacity-50">
@@ -141,6 +147,7 @@
                             <button class="btn btn-sm btn-light opacity-50"><span class="material-symbols-outlined fs-6">undo</span></button>
                         </td>
                     </tr>
+                    @endif
                 </tbody>
             </table>
         </div>

@@ -14,7 +14,7 @@
                     <h6 class="fw-bold mb-4">Produk</h6>
                     <ul class="list-unstyled small text-muted">
                         <li class="mb-2">Fitur Keren</li>
-                        <li class="mb-2">Harga</li>
+
                         <li class="mb-2">Download</li>
                     </ul>
                 </div>

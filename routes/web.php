@@ -53,7 +53,7 @@ Route::get('/dashboard', function () {
 
 // Halaman Manajer Tugas (To-Do List)
 Route::get('/tasks', function () {
-    return view('dashboard.tasks'); // Menampilkan view resources/views/dashboard/tasks.blade.php
+    return view('dashboard.tasks', ['filter' => request()->query('filter', 'all')]);
 })->name('tasks');
 
 // Halaman Pelacak Keuangan (Finance Tracker)

@@ -46,7 +46,6 @@
                             <h4 class="fw-bold mb-1">Jane Doe</h4>
                             <p class="text-muted small mb-2">jane.doe@lifemanager.com</p>
                             <div class="d-flex gap-2 justify-content-center justify-content-md-start">
-                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3">Paket Pro</span>
                                 <span class="badge bg-success-subtle text-success rounded-pill px-3">Terverifikasi</span>
                             </div>
                         </div>
@@ -177,6 +176,41 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Logout Section -->
+            <div class="card mt-4">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold text-danger mb-3">Zona Berbahaya</h6>
+                    <p class="text-muted small mb-4">Setelah Anda keluar, sesi Anda akan berakhir.</p>
+                    <button class="btn btn-danger w-100 fw-bold d-flex align-items-center justify-content-center gap-2" onclick="confirmLogout()">
+                        <span class="material-symbols-outlined">logout</span> Keluar dari Aplikasi
+                    </button>
+                </div>
+            </div>
+
+            <form id="logout-form" method="POST" action="{{ route('logout') }}" class="d-none">
+                @csrf
+            </form>
+
+            <script>
+                function confirmLogout() {
+                    Swal.fire({
+                        title: 'Konfirmasi Keluar',
+                        text: "Apakah Anda yakin ingin mengakhiri sesi ini?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, Keluar',
+                        cancelButtonText: 'Batal',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('logout-form').submit();
+                        }
+                    });
+                }
+            </script>
         </div>
     </div>
 </div>
