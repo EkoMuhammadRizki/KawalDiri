@@ -62,5 +62,15 @@ Aplikasi ini dibangun menggunakan teknologi web modern yang handal:
 7.  Jalankan `php artisan serve` untuk memulai server lokal.
 8.  Buka `http://127.0.0.1:8000` di browser Anda.
 
+## 📝 Catatan Pembaruan (Terbaru)
+
+### Update: Modernisasi UI & Perbaikan Bug
+*   **Fix Bug:** Memperbaiki masalah layar yang semakin gelap (backdrop stacking) saat membuka modal berulang kali dengan menonaktifkan re-inisialisasi script Bootstrap/SweetAlert oleh Swup.js.
+*   **Redesign Modal:** Mengubah tampilan modal "Tugas Baru" dan "Transaksi Baru" menjadi lebih modern, bersih, dan premium.
+    *   Implementasi *Soft Inputs* dan *Segmented Controls* (Tab Pilihan).
+    *   Input mata uang yang lebih besar dan jelas.
+*   **Filter Tugas:** Menambahkan fitur tab "Semua", "Tertunda", dan "Selesai" pada halaman Manajer Tugas yang berfungsi penuh.
+*   **Dokumentasi:** Penambahan komentar kode (Bahasa Indonesia) untuk memudahkan pengembangan selanjutnya.
+
 ---
 Dikembangkan dengan ❤️ oleh Tim KawalDiri.

@@ -52,6 +52,7 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 // Halaman Manajer Tugas (To-Do List)
+// Menerima parameter 'filter' dari URL untuk menyaring tugas (all, pending, completed).
 Route::get('/tasks', function () {
     return view('dashboard.tasks', ['filter' => request()->query('filter', 'all')]);
 })->name('tasks');

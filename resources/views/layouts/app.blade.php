@@ -40,6 +40,7 @@
     @stack('modals')
 
     <!-- Bootstrap Bundle JS -->
+    <!-- data-swup-ignore-script ditambahkan untuk mencegah inisialisasi ulang saat navigasi, menghindari masalah background modal menumpuk -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" data-swup-ignore-script></script>
 
     <!-- Swup JS -->

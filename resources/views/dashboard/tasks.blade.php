@@ -27,6 +27,7 @@
     <!-- Filters & Search -->
     <div class="row align-items-center mb-4 g-3">
         <div class="col-lg-6">
+            <!-- Tab Navigasi Filter: Menggunakan parameter 'filter' dari URL untuk menentukan state aktif -->
             <ul class="nav nav-underline gap-4">
                 <li class="nav-item">
                     <a class="nav-link py-3 px-0 cursor-pointer {{ $filter == 'all' ? 'active border-primary' : 'border-transparent text-muted' }}"
@@ -64,6 +65,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Logic: Tampilkan jika filter adalah 'all' atau 'pending' (Tugas Aktif) -->
                     @if($filter == 'all' || $filter == 'pending')
                     <!-- Item 1 -->
                     <tr>
@@ -122,6 +124,7 @@
                     </tr>
                     @endif
 
+                    <!-- Logic: Tampilkan jika filter adalah 'all' atau 'completed' (Tugas Selesai) -->
                     @if($filter == 'all' || $filter == 'completed')
                     <!-- Item 3 (Completed) -->
                     <tr class="bg-light">

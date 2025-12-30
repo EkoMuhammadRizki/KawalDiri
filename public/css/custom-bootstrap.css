@@ -490,10 +490,10 @@ body {
 }
 
 /* =========================================
-   MODERNI MODAL STYLES
+   GAYA MODAL MODERN (MODERN MODAL STYLES)
    ========================================= */
 
-/* Modal Content & Backdrop */
+/* Konten Modal & Latar Belakang (Backdrop) */
 .modal-content.modern-modal {
     border: none;
     border-radius: 20px;
@@ -516,7 +516,7 @@ body {
     gap: 12px;
 }
 
-/* Modern Inputs */
+/* Input Modern (Tampilan Lebih Halus) */
 .form-label.modern-label {
     font-size: 0.85rem;
     font-weight: 600;
@@ -549,7 +549,7 @@ body {
     outline: none;
 }
 
-/* Hero Icon in Modal */
+/* Ikon Hero di dalam Modal */
 .modal-hero-icon {
     width: 64px;
     height: 64px;
@@ -566,7 +566,7 @@ body {
     font-size: 32px;
 }
 
-/* Modern Buttons (Gradient & Soft) */
+/* Tombol Modern (Gradasi & Halus) */
 .btn-modern-primary {
     background: linear-gradient(135deg, #4051b5, #303f9f);
     color: white;
@@ -601,7 +601,7 @@ body {
     color: #475569;
 }
 
-/* Segmented Control (Radio Tabs) */
+/* Segmented Control (Radio Tabs) - Pilihan Kategori */
 .segmented-control {
     background: #f1f5f9;
     padding: 4px;
@@ -645,7 +645,7 @@ body {
     /* Green for Income */
 }
 
-/* Currency Input Large */
+/* Input Mata Uang Besar (Large Currency Input) */
 .currency-input-wrapper {
     position: relative;
 }
