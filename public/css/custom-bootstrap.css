@@ -1,0 +1,345 @@
+/* User Provided Custom Styles for KawalDiri */
+
+:root {
+    --primary-color: #4051b5;
+    --bg-light: #f3f4f6;
+    --text-main: #111218;
+    --text-sub: #5d6389;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-main);
+}
+
+/* Sidebar Styles */
+/* Sidebar Custom Styles */
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    z-index: 1000;
+    overflow-x: hidden;
+    transition: all 0.3s;
+}
+
+.main-content {
+    margin-left: 280px;
+    padding: 30px;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+.nav-link {
+    color: #64748b;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    transition: 0.2s;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    background-color: #f1f5f9;
+    color: var(--primary-color);
+}
+
+.nav-link.active {
+    background-color: rgba(18, 50, 226, 0.1) !important;
+    color: var(--primary-color) !important;
+    font-weight: 700;
+}
+
+/* Profile Image Wrapper */
+.profile-img-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.edit-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+/* Theme Option Selectors */
+.theme-box {
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.theme-radio:checked+.theme-box {
+    border-color: var(--primary-color);
+    background-color: rgba(18, 50, 226, 0.05);
+}
+
+.hover-bg:hover {
+    background-color: #f8f9fa;
+}
+
+/* Card Styles */
+.card {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    background-color: #fff;
+}
+
+.kpi-card {
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.icon-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.bg-indigo-light {
+    background-color: rgba(63, 81, 181, 0.1);
+    color: #3F51B5;
+}
+
+.bg-emerald-light {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10B981;
+}
+
+.text-primary {
+    color: #3F51B5 !important;
+}
+
+.text-success {
+    color: #10B981 !important;
+}
+
+/* =========================================
+   STYLE TAMBAHAN (Search, Accordion, Cards)
+   ========================================= */
+
+/* Kustomisasi Search Bar (Kolom Pencarian) */
+.search-container {
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
+
+.search-input {
+    padding-left: 45px !important;
+    height: 60px;
+    border-radius: 15px;
+    border: 1px solid #e2e8f0;
+    font-size: 1.1rem;
+}
+
+/* Accordion Customization */
+.accordion-button:not(.collapsed) {
+    background-color: rgba(18, 50, 226, 0.05);
+    color: var(--primary-color);
+    box-shadow: none;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(18, 50, 226, 0.1);
+}
+
+/* Quick Link Card */
+.quick-link-card {
+    transition: all 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+
+.quick-link-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Drag Placeholder */
+.drag-placeholder {
+    border: 2px dashed #cbd5e1;
+    background-color: #f8fafc;
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.drag-placeholder:hover {
+    border-color: #3F51B5;
+    background-color: rgba(63, 81, 181, 0.05);
+}
+
+/* Task Manager Specific Styles */
+.btn-primary-custom {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(64, 81, 181, 0.2);
+    transition: all 0.2s;
+}
+
+.btn-primary-custom:hover {
+    background-color: #334092;
+    color: white;
+}
+
+.task-card {
+    background: white;
+    border-radius: 15px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    color: var(--text-sub);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 15px 20px;
+}
+
+.table tbody td {
+    padding: 18px 20px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.status-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.badge-priority {
+    font-weight: 700;
+    font-size: 11px;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+/* Helper Classes */
+.x-small {
+    font-size: 0.75rem;
+}
+
+.hover-bg-light:hover {
+    background-color: #f8f9fa;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .sidebar {
+        width: 80px;
+    }
+
+    .sidebar h1,
+    .sidebar h2,
+    .sidebar p,
+    .sidebar span:not(.material-symbols-outlined) {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 80px;
+        padding: 20px;
+    }
+
+    .nav-link {
+        justify-content: center;
+        padding: 10px;
+    }
+
+    /* Hide footer profile text on mobile/collapsed sidebar */
+    .border-top .d-flex div {
+        display: none;
+    }
+}
+
+/* Modal Z-Index Fix */
+.modal-backdrop {
+    z-index: 1050;
+}
+
+.modal {
+    z-index: 1055;
+}
+
+/* Utilities */
+.opacity-10 {
+    opacity: 0.1 !important;
+}
+
+.opacity-20 {
+    opacity: 0.2 !important;
+}
