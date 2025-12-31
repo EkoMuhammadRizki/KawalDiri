@@ -24,21 +24,19 @@ Route::get('/', function () {
 // ==========================================
 // Rute Otentikasi (Login & Register)
 // ==========================================
-// Menampilkan halaman login.
+// Menampilkan halaman login & register (Satu view 'auth')
 Route::get('/login', function () {
     return view('auth');
 })->name('login');
 
-// Menampilkan halaman registrasi (menggunakan view yang sama dengan login).
 Route::get('/register', function () {
     return view('auth');
 })->name('register');
 
-// Proses logout user.
-Route::post('/logout', function () {
-    auth()->logout();
-    return redirect('/');
-})->name('logout');
+// Proses Login & Register
+Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login.post');
+Route::post('/register', [App\Http\Controllers\AuthController::class, 'register'])->name('register.post');
+Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
 // ==========================================
 // Rute Halaman Dashboard (Panel Pengguna)
@@ -46,43 +44,50 @@ Route::post('/logout', function () {
 // Grup rute untuk fitur-fitur di dalam dashboard.
 // Catatan: Nanti bisa ditambahkan middleware(['auth']) untuk keamanan.
 
-// Halaman Utama Dashboard (Ringkasan)
-Route::get('/dashboard', function () {
-    return view('dashboard.index'); // Menampilkan view resources/views/dashboard/index.blade.php
-})->name('dashboard');
+// Grup rute untuk fitur-fitur di dalam dashboard.
+Route::middleware(['auth'])->group(function () {
+    // Halaman Utama Dashboard (Ringkasan)
+    Route::get('/dashboard', function () {
+        return view('dashboard.index');
+    })->name('dashboard');
 
-// Halaman Manajer Tugas (To-Do List)
-// Menerima parameter 'filter' dari URL untuk menyaring tugas (all, pending, completed).
-Route::get('/tasks', function () {
-    return view('dashboard.tasks', ['filter' => request()->query('filter', 'all')]);
-})->name('tasks');
+    // Halaman Manajer Tugas (To-Do List)
+    Route::get('/tasks', function () {
+        return view('dashboard.tasks', ['filter' => request()->query('filter', 'all')]);
+    })->name('tasks');
 
-// Halaman Pelacak Keuangan (Finance Tracker)
-Route::get('/finance', function () {
-    return view('dashboard.finance'); // Menampilkan view resources/views/dashboard/finance.blade.php
-})->name('finance');
+    // Halaman Pelacak Keuangan (Finance Tracker)
+    Route::get('/finance', function () {
+        return view('dashboard.finance');
+    })->name('finance');
 
-// Halaman Pengaturan (Settings)
-Route::get('/settings', function () {
-    return view('dashboard.settings'); // Menampilkan view resources/views/dashboard/settings.blade.php
-})->name('settings');
+    // Halaman Pengaturan (Settings)
+    Route::get('/settings', function () {
+        return view('dashboard.settings');
+    })->name('settings');
 
-// Halaman Bantuan & Dukungan (Help Center)
-Route::get('/help', function () {
-    return view('dashboard.help'); // Menampilkan view resources/views/dashboard/help.blade.php
-})->name('help');
+    // Halaman Bantuan & Dukungan (Help Center)
+    Route::get('/help', function () {
+        return view('dashboard.help');
+    })->name('help');
+});
 
 // ==========================================
-// Rute Admin (Placeholder/Sementara)
+// Rute Admin (Admin Panel)
 // ==========================================
-Route::prefix('admin')->group(function () {
-    // Dashboard Admin
-    Route::get('/', function () {
-        return view('admin.index');
-    })->name('admin.dashboard');
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Guest Admin Routes (Tidak perlu login)
+    Route::middleware('guest')->group(function () {
+        Route::get('/login', [App\Http\Controllers\Admin\AuthController::class, 'showLoginForm'])->name('login');
+        Route::post('/login', [App\Http\Controllers\Admin\AuthController::class, 'login'])->name('login.post');
+    });
 
-    // Manajemen User
-    Route::get('/users', function () {
-        return view('admin.users');
-    })->name('admin.users');
+    // Protected Admin Routes (Harus login sebagai admin)
+    Route::middleware(['auth', 'isAdmin'])->group(function () {
+        Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+        Route::post('/logout', [App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('logout');
+
+        // Manajemen Users
+        Route::get('/users', [App\Http\Controllers\Admin\DashboardController::class, 'users'])->name('users');
+    });
 });

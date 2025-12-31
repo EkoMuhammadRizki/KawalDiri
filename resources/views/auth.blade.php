@@ -2,40 +2,58 @@
 <html lang="id">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KawalDiri - Autentikasi</title>
+    <title>Masuk / Daftar - KawalDiri</title>
+
+    <!-- Google Fonts: Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://unpkg.com/swup@4"></script>
-    <script src="https://unpkg.com/@swup/scripts-plugin@2"></script>
-    <script src="https://unpkg.com/@swup/head-plugin@2"></script>
-    <script src="https://unpkg.com/@swup/preload-plugin@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Custom CSS (Static) -->
+    <link rel="stylesheet" href="{{ asset('css/app-style.css') }}">
+
     <style>
-        .transition-fade {
+        /* Global Reset to prevent gaps */
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+            background-color: #f8fafc;
+        }
+
+        /* Sliding Auth Page Styles - Scoped inline for reliability with Swup */
+        .auth-page .transition-fade {
             transition: 0.3s ease-in-out;
             opacity: 1;
             transform: scale(1);
         }
 
-        html.is-animating .transition-fade {
+        html.is-animating .auth-page .transition-fade {
             opacity: 0;
             transform: scale(0.99);
         }
 
-        :root {
+        .auth-page {
+            /* Root variables scoped if possible */
             --primary-color: #4f46e5;
             --primary-dark: #4338ca;
             --secondary-color: #f43f5e;
             --bg-light: #f8fafc;
-        }
 
-        body {
             font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg-light);
+            width: 100%;
             color: #1e293b;
             min-height: 100vh;
             display: flex;
@@ -43,10 +61,11 @@
             justify-content: center;
             overflow-x: hidden;
             position: relative;
+            margin: 0;
         }
 
         /* Background Blobs */
-        .blob {
+        .auth-page .blob {
             position: absolute;
             z-index: -1;
             filter: blur(80px);
@@ -66,7 +85,7 @@
         }
 
         /* Sliding Container Styles */
-        .container-auth {
+        .auth-page .container-auth {
             background-color: #fff;
             border-radius: 30px;
             box-shadow: 0 14px 28px rgba(0, 0, 0, 0.05), 0 10px 10px rgba(0, 0, 0, 0.02);
@@ -77,7 +96,7 @@
             min-height: 600px;
         }
 
-        .form-container {
+        .auth-page .form-container {
             position: absolute;
             top: 0;
             height: 100%;
@@ -85,32 +104,30 @@
             background-color: #fff;
             display: flex;
             align-items: flex-start;
-            /* Changed from center to flex-start */
             justify-content: center;
             flex-direction: column;
             padding: 0 50px;
             text-align: left;
-            /* Changed from center to left */
         }
 
-        .sign-in-container {
+        .auth-page .sign-in-container {
             left: 0;
             width: 50%;
             z-index: 2;
         }
 
-        .container-auth.right-panel-active .sign-in-container {
+        .auth-page .container-auth.right-panel-active .sign-in-container {
             transform: translateX(100%);
         }
 
-        .sign-up-container {
+        .auth-page .sign-up-container {
             left: 0;
             width: 50%;
             opacity: 0;
             z-index: 1;
         }
 
-        .container-auth.right-panel-active .sign-up-container {
+        .auth-page .container-auth.right-panel-active .sign-up-container {
             transform: translateX(100%);
             opacity: 1;
             z-index: 5;
@@ -132,7 +149,7 @@
             }
         }
 
-        .overlay-container {
+        .auth-page .overlay-container {
             position: absolute;
             top: 0;
             left: 50%;
@@ -143,11 +160,11 @@
             z-index: 100;
         }
 
-        .container-auth.right-panel-active .overlay-container {
+        .auth-page .container-auth.right-panel-active .overlay-container {
             transform: translateX(-100%);
         }
 
-        .overlay {
+        .auth-page .overlay {
             background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
             background-repeat: no-repeat;
             background-size: cover;
@@ -161,11 +178,11 @@
             transition: transform 0.6s ease-in-out;
         }
 
-        .container-auth.right-panel-active .overlay {
+        .auth-page .container-auth.right-panel-active .overlay {
             transform: translateX(50%);
         }
 
-        .overlay-panel {
+        .auth-page .overlay-panel {
             position: absolute;
             display: flex;
             align-items: center;
@@ -180,25 +197,25 @@
             transition: transform 0.6s ease-in-out;
         }
 
-        .overlay-left {
+        .auth-page .overlay-left {
             transform: translateX(-20%);
         }
 
-        .container-auth.right-panel-active .overlay-left {
+        .auth-page .container-auth.right-panel-active .overlay-left {
             transform: translateX(0);
         }
 
-        .overlay-right {
+        .auth-page .overlay-right {
             right: 0;
             transform: translateX(0);
         }
 
-        .container-auth.right-panel-active .overlay-right {
+        .auth-page .container-auth.right-panel-active .overlay-right {
             transform: translateX(20%);
         }
 
         /* Form Customization */
-        .form-control {
+        .auth-page .form-control {
             border-radius: 0.75rem;
             padding: 0.75rem 1rem 0.75rem 2.8rem;
             border: 2px solid #f1f5f9;
@@ -208,25 +225,24 @@
             width: 100%;
         }
 
-        .form-control:focus {
+        .auth-page .form-control:focus {
             border-color: var(--primary-color);
             box-shadow: none;
             background-color: #fff;
         }
 
-        .input-group-icon {
+        .auth-page .input-group-icon {
             position: relative;
             width: 100%;
             background-color: #f8fafc;
-            /* Match input bg to hide partial borders if needed */
         }
 
-        .input-wrapper {
+        .auth-page .input-wrapper {
             position: relative;
             width: 100%;
         }
 
-        .input-wrapper .material-symbols-outlined {
+        .auth-page .input-wrapper .material-symbols-outlined {
             position: absolute;
             left: 14px;
             top: 50%;
@@ -235,16 +251,15 @@
             z-index: 5;
             font-size: 20px;
             pointer-events: none;
-            /* Let clicks pass through to input */
         }
 
-        .input-group-block {
+        .auth-page .input-group-block {
             width: 100%;
             margin-bottom: 1rem;
             text-align: left;
         }
 
-        .input-label {
+        .auth-page .input-label {
             display: block;
             text-align: left;
             margin-bottom: 0.4rem;
@@ -256,7 +271,7 @@
             color: #64748b;
         }
 
-        .btn-auth {
+        .auth-page .btn-auth {
             background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
             border: none;
             border-radius: 0.75rem;
@@ -269,13 +284,13 @@
             margin-top: 10px;
         }
 
-        .btn-auth:hover {
+        .auth-page .btn-auth:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
             color: white;
         }
 
-        .btn-outline-white {
+        .auth-page .btn-outline-white {
             background: transparent;
             border: 2px solid #fff;
             color: #fff;
@@ -286,21 +301,20 @@
             transition: 0.3s;
         }
 
-        .btn-outline-white:hover {
+        .auth-page .btn-outline-white:hover {
             background: #fff;
             color: var(--primary-color);
         }
 
-        .text-gradient {
+        .auth-page .text-gradient {
             background: linear-gradient(to right, #4f46e5, #d946ef);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            /* Standard property */
         }
 
         /* Floating Icons for Overlay */
-        .floating-icon-card {
+        .auth-page .floating-icon-card {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 16px;
@@ -314,7 +328,7 @@
             justify-content: center;
         }
 
-        .icon-circle {
+        .auth-page .icon-circle {
             width: 30px;
             height: 30px;
             background: #fff;
@@ -326,29 +340,29 @@
             margin-bottom: 8px;
         }
 
-        .welcome-text h2 {
+        .auth-page .welcome-text h2 {
             line-height: 1.2;
         }
 
         @media (max-width: 768px) {
-            .container-auth {
+            .auth-page .container-auth {
                 min-height: 800px;
                 width: 100%;
                 margin: 20px;
             }
 
-            .form-container {
+            .auth-page .form-container {
                 width: 100%;
                 height: 50%;
                 transition: none;
             }
 
-            .overlay-container {
+            .auth-page .overlay-container {
                 display: none;
             }
 
-            .sign-in-container,
-            .sign-up-container {
+            .auth-page .sign-in-container,
+            .auth-page .sign-up-container {
                 width: 100%;
                 position: relative;
                 height: auto;
@@ -358,27 +372,27 @@
                 padding: 40px;
             }
 
-            .container-auth {
+            .auth-page .container-auth {
                 height: auto;
                 display: block;
                 overflow: visible;
             }
 
-            .sign-up-container {
+            .auth-page .sign-up-container {
                 display: none;
             }
 
-            .container-auth.right-panel-active .sign-up-container {
+            .auth-page .container-auth.right-panel-active .sign-up-container {
                 display: block;
                 transform: none;
             }
 
-            .container-auth.right-panel-active .sign-in-container {
+            .auth-page .container-auth.right-panel-active .sign-in-container {
                 display: none;
                 transform: none;
             }
 
-            .mobile-toggle {
+            .auth-page .mobile-toggle {
                 display: block;
                 margin-top: 20px;
                 color: var(--primary-color);
@@ -388,12 +402,12 @@
         }
 
         @media (min-width: 769px) {
-            .mobile-toggle {
+            .auth-page .mobile-toggle {
                 display: none;
             }
         }
 
-        .btn-back-home {
+        .auth-page .btn-back-home {
             position: absolute;
             top: 25px;
             color: white;
@@ -412,19 +426,17 @@
             transition: all 0.3s ease;
         }
 
-        .btn-back-home:hover {
+        .auth-page .btn-back-home:hover {
             background: white;
             color: var(--primary-color);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        /* Position for Left Overlay (Top-Left) */
         .overlay-left .btn-back-home {
             left: 30px;
         }
 
-        /* Position for Right Overlay (Top-Right) */
         .overlay-right .btn-back-home {
             right: 30px;
         }
@@ -433,15 +445,16 @@
 
 <body>
 
-    <div class="blob bg-primary" style="width: 400px; height: 400px; top: -100px; left: -100px;"></div>
-    <div class="blob bg-danger" style="width: 300px; height: 300px; bottom: -50px; right: -50px;"></div>
+    <div class="auth-page" style="width: 100%; display: flex; justify-content: center;">
+        <div class="blob bg-primary" style="width: 400px; height: 400px; top: -100px; left: -100px;"></div>
+        <div class="blob bg-danger" style="width: 300px; height: 300px; bottom: -50px; right: -50px;"></div>
 
-    <div id="swup" class="transition-fade" style="width: 100%; display: flex; justify-content: center;">
         <div class="container-auth {{ request()->routeIs('register') ? 'right-panel-active' : '' }}" id="container">
 
             <!-- LOGIN FORM -->
             <div class="form-container sign-in-container">
-                <form action="{{ route('dashboard') }}">
+                <form action="{{ route('login.post') }}" method="POST">
+                    @csrf
                     <div class="d-flex align-items-center gap-2 mb-3">
                         <div class="bg-primary rounded-3 d-flex align-items-center justify-content-center text-white" style="width: 35px; height: 35px;">
                             <span class="material-symbols-outlined fs-5">grid_view</span>
@@ -456,11 +469,17 @@
 
                     <p class="text-muted small mb-4">Masuk untuk melanjutkan perjalanan produktif Anda.</p>
 
+                    @if ($errors->any())
+                    <div class="alert alert-danger p-2 small w-100">
+                        {{ $errors->first() }}
+                    </div>
+                    @endif
+
                     <div class="input-group-block">
                         <label class="input-label">Email</label>
                         <div class="input-wrapper">
                             <span class="material-symbols-outlined">alternate_email</span>
-                            <input type="email" class="form-control" placeholder="nama@email.com" />
+                            <input type="email" name="email" class="form-control" placeholder="nama@email.com" required value="{{ old('email') }}" />
                         </div>
                     </div>
 
@@ -468,7 +487,7 @@
                         <label class="input-label">Kata Sandi</label>
                         <div class="input-wrapper">
                             <span class="material-symbols-outlined">lock</span>
-                            <input type="password" class="form-control" placeholder="••••••••" />
+                            <input type="password" name="password" class="form-control" placeholder="••••••••" required />
                         </div>
                         <div class="text-end mt-1">
                             <a href="#" class="text-decoration-none fw-bold text-primary" style="font-size: 0.75rem;">Lupa Sandi?</a>
@@ -477,12 +496,12 @@
 
                     <div class="d-flex justify-content-start w-100 mb-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                            <input class="form-check-input" type="checkbox" name="remember" id="rememberMe">
                             <label class="form-check-label small fw-medium" for="rememberMe">Ingat Saya</label>
                         </div>
                     </div>
 
-                    <button class="btn-auth">Masuk Sekarang</button>
+                    <button type="submit" class="btn-auth">Masuk Sekarang</button>
 
                     <div class="mobile-toggle" id="mobileSignUp">Belum punya akun? Daftar dulu</div>
                 </form>
@@ -490,7 +509,8 @@
 
             <!-- REGISTER FORM -->
             <div class="form-container sign-up-container">
-                <form action="{{ route('dashboard') }}">
+                <form action="{{ route('register.post') }}" method="POST">
+                    @csrf
                     <div class="d-flex align-items-center gap-2 mb-3">
                         <div class="bg-primary rounded-3 d-flex align-items-center justify-content-center text-white" style="width: 35px; height: 35px;">
                             <span class="material-symbols-outlined fs-5">grid_view</span>
@@ -503,11 +523,17 @@
                     </div>
                     <p class="text-muted small mb-4">Bergabunglah dan atur hidup Anda secara efisien.</p>
 
+                    @if ($errors->any())
+                    <div class="alert alert-danger p-2 small w-100">
+                        {{ $errors->first() }}
+                    </div>
+                    @endif
+
                     <div class="input-group-block">
                         <label class="input-label">Nama Lengkap</label>
                         <div class="input-wrapper">
                             <span class="material-symbols-outlined">person</span>
-                            <input type="text" class="form-control" placeholder="John Doe" />
+                            <input type="text" name="name" class="form-control" placeholder="John Doe" required value="{{ old('name') }}" />
                         </div>
                     </div>
 
@@ -515,7 +541,7 @@
                         <label class="input-label">Email</label>
                         <div class="input-wrapper">
                             <span class="material-symbols-outlined">alternate_email</span>
-                            <input type="email" class="form-control" placeholder="nama@email.com" />
+                            <input type="email" name="email" class="form-control" placeholder="nama@email.com" required value="{{ old('email') }}" />
                         </div>
                     </div>
 
@@ -523,7 +549,7 @@
                         <label class="input-label">Kata Sandi</label>
                         <div class="input-wrapper">
                             <span class="material-symbols-outlined">lock</span>
-                            <input type="password" class="form-control" id="registerPassword" placeholder="Buat kata sandi" minlength="8" required />
+                            <input type="password" name="password" class="form-control" id="registerPassword" placeholder="Buat kata sandi" minlength="8" required />
                         </div>
                         <!-- Password Strength Meter -->
                         <div class="mt-2" id="passwordStrengthBox" style="display: none;">
@@ -543,7 +569,7 @@
                         </label>
                     </div>
 
-                    <button class="btn-auth">Buat Akun Gratis</button>
+                    <button type="submit" class="btn-auth">Buat Akun Gratis</button>
 
                     <div class="mobile-toggle" id="mobileSignIn">Sudah punya akun? Masuk</div>
                 </form>
@@ -553,18 +579,18 @@
             <div class="overlay-container">
                 <div class="overlay">
                     <div class="overlay-panel overlay-left">
-                        <a href="{{ route('home') }}" class="btn-back-home">
+                        <a href="{{ route('home') }}" class="btn-back-home" onclick="sessionStorage.setItem('scrollToTop', 'true')">
                             <span class="material-symbols-outlined fs-6">arrow_back</span>
                         </a>
                         <div class="mb-4 text-white">
                             <span class="material-symbols-outlined" style="font-size: 54px;">waving_hand</span>
                         </div>
-                        <h2 class="fw-bold display-6 mb-3">Sudah Punya Akun?</h2>
+                        <h2 class="fw-bold display-6 mb-3 text-white">Sudah Punya Akun?</h2>
                         <p class="mb-4 text-white-50">Silakan masuk kembali untuk melanjutkan produktivitas Anda.</p>
                         <button class="btn-outline-white" id="signIn">Masuk Saja</button>
                     </div>
                     <div class="overlay-panel overlay-right">
-                        <a href="{{ route('home') }}" class="btn-back-home">
+                        <a href="{{ route('home') }}" class="btn-back-home" onclick="sessionStorage.setItem('scrollToTop', 'true')">
                             <span class="material-symbols-outlined fs-6">arrow_back</span>
                         </a>
                         <!-- Updated Right Overlay to match reference -->
@@ -583,7 +609,7 @@
                             </div>
                         </div>
 
-                        <h2 class="fw-bold display-6 mb-3">Baru di KawalDiri?</h2>
+                        <h2 class="fw-bold display-6 mb-3 text-white">Baru di KawalDiri?</h2>
                         <p class="mb-4 text-white-50">Mulai perjalanan Anda menuju kebebasan finansial dan hidup yang lebih teratur hari ini.</p>
                         <button class="btn-outline-white" id="signUp">Daftar Gratis</button>
                     </div>
@@ -720,14 +746,7 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        window.swup = new Swup({
-            plugins: [new SwupScriptsPlugin(), new SwupHeadPlugin(), new SwupPreloadPlugin()],
-            containers: ["#swup"],
-            cache: true,
-            linkSelector: 'a[href^="' + window.location.origin + '"]:not([data-no-swup]), a[href^="/"]:not([data-no-swup]), .nav-link'
-        });
-    </script>
+
 </body>
 
 </html>

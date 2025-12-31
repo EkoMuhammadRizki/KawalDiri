@@ -1,128 +1,132 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
-@section('title', 'User Management - KawalDiri')
+@section('title', 'Manajemen User')
+@section('page-title', 'Manajemen User')
+@section('page-subtitle', 'Kelola pengguna dan administrator sistem')
 
 @section('content')
-<div class="page-header">
-    <h1 class="page-title">👥 User Management</h1>
-</div>
+<div class="container-fluid">
 
-<!-- Filters -->
-<div class="filters mb-6">
-    <input type="text" class="form-input" placeholder="🔍 Cari user..." style="max-width: 300px;">
-    <select class="filter-select">
-        <option value="">Semua Status</option>
-        <option value="active">Aktif</option>
-        <option value="inactive">Nonaktif</option>
-    </select>
-    <select class="filter-select">
-        <option value="">Semua Role</option>
-        <option value="user">User</option>
-        <option value="admin">Admin</option>
-    </select>
-</div>
+    <!-- Filter & Search -->
+    <form action="{{ route('admin.users') }}" method="GET" class="row mb-4">
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text bg-white border-end-0">
+                    <span class="material-icons-round text-muted">search</span>
+                </span>
+                <input type="text" name="search" class="form-control border-start-0 ps-0" placeholder="Cari user..." value="{{ request('search') }}">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <select class="form-select" disabled title="Fitur ini belum tersedia (kolom status tidak ada di DB)">
+                <option value="">Semua Status</option>
+                <option value="active">Aktif</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="role" class="form-select" onchange="this.form.submit()">
+                <option value="">Semua Role</option>
+                <option value="user" {{ request('role') == 'user' ? 'selected' : '' }}>User</option>
+                <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+            </select>
+        </div>
+        <div class="col-md-2 text-end">
+            <button type="button" class="btn btn-primary" onclick="Swal.fire('Info', 'Fitur tambah user belum tersedia.', 'info')">
+                <span class="material-icons-round">person_add</span>
+                Tambah User
+            </button>
+        </div>
+    </form>
 
-<!-- Users Table -->
-<div class="widget">
-    <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr style="border-bottom: 1px solid var(--border-color);">
-                <th style="text-align: left; padding: var(--space-4); font-weight: 600; color: var(--text-muted); font-size: var(--text-sm);">USER</th>
-                <th style="text-align: left; padding: var(--space-4); font-weight: 600; color: var(--text-muted); font-size: var(--text-sm);">EMAIL</th>
-                <th style="text-align: left; padding: var(--space-4); font-weight: 600; color: var(--text-muted); font-size: var(--text-sm);">ROLE</th>
-                <th style="text-align: left; padding: var(--space-4); font-weight: 600; color: var(--text-muted); font-size: var(--text-sm);">STATUS</th>
-                <th style="text-align: right; padding: var(--space-4); font-weight: 600; color: var(--text-muted); font-size: var(--text-sm);">ACTIONS</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: var(--space-4);">
-                    <div class="flex items-center gap-3">
-                        <div class="user-avatar" style="width: 36px; height: 36px; font-size: 14px;">J</div>
-                        <div>
-                            <div style="font-weight: 500;">John Doe</div>
-                            <div class="text-muted text-sm">@johndoe</div>
-                        </div>
-                    </div>
-                </td>
-                <td style="padding: var(--space-4);">john@example.com</td>
-                <td style="padding: var(--space-4);"><span class="badge badge-primary">User</span></td>
-                <td style="padding: var(--space-4);"><span class="badge badge-success">🟢 Aktif</span></td>
-                <td style="padding: var(--space-4); text-align: right;">
-                    <button class="btn btn-icon btn-ghost" title="Nonaktifkan"><i data-lucide="lock"></i></button>
-                    <button class="btn btn-icon btn-ghost" title="Edit"><i data-lucide="edit"></i></button>
-                    <button class="btn btn-icon btn-ghost text-danger" title="Hapus" onclick="confirmDelete()"><i data-lucide="trash-2"></i></button>
-                </td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: var(--space-4);">
-                    <div class="flex items-center gap-3">
-                        <div class="user-avatar" style="width: 36px; height: 36px; font-size: 14px;">S</div>
-                        <div>
-                            <div style="font-weight: 500;">Sarah Lee</div>
-                            <div class="text-muted text-sm">@sarah</div>
-                        </div>
-                    </div>
-                </td>
-                <td style="padding: var(--space-4);">sarah@example.com</td>
-                <td style="padding: var(--space-4);"><span class="badge badge-warning">Admin</span></td>
-                <td style="padding: var(--space-4);"><span class="badge badge-success">🟢 Aktif</span></td>
-                <td style="padding: var(--space-4); text-align: right;">
-                    <button class="btn btn-icon btn-ghost" title="Nonaktifkan"><i data-lucide="lock"></i></button>
-                    <button class="btn btn-icon btn-ghost" title="Edit"><i data-lucide="edit"></i></button>
-                    <button class="btn btn-icon btn-ghost text-danger" title="Hapus" onclick="confirmDelete()"><i data-lucide="trash-2"></i></button>
-                </td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: var(--space-4);">
-                    <div class="flex items-center gap-3">
-                        <div class="user-avatar" style="width: 36px; height: 36px; font-size: 14px; background: var(--neutral-400);">B</div>
-                        <div>
-                            <div style="font-weight: 500;">Bob Smith</div>
-                            <div class="text-muted text-sm">@bobsmith</div>
-                        </div>
-                    </div>
-                </td>
-                <td style="padding: var(--space-4);">bob@example.com</td>
-                <td style="padding: var(--space-4);"><span class="badge badge-primary">User</span></td>
-                <td style="padding: var(--space-4);"><span class="badge badge-danger">🔴 Nonaktif</span></td>
-                <td style="padding: var(--space-4); text-align: right;">
-                    <button class="btn btn-icon btn-ghost" title="Aktifkan"><i data-lucide="unlock"></i></button>
-                    <button class="btn btn-icon btn-ghost" title="Edit"><i data-lucide="edit"></i></button>
-                    <button class="btn btn-icon btn-ghost text-danger" title="Hapus" onclick="confirmDelete()"><i data-lucide="trash-2"></i></button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- Users Table Card -->
+    <div class="stats-card p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead style="background-color: #F9FAFB; border-bottom: 2px solid #E5E7EB;">
+                    <tr>
+                        <th class="px-4 py-3 text-muted text-uppercase" style="font-size: 0.75rem; font-weight: 600;">User</th>
+                        <th class="px-4 py-3 text-muted text-uppercase" style="font-size: 0.75rem; font-weight: 600;">Email</th>
+                        <th class="px-4 py-3 text-muted text-uppercase" style="font-size: 0.75rem; font-weight: 600;">Role</th>
+                        <th class="px-4 py-3 text-muted text-uppercase" style="font-size: 0.75rem; font-weight: 600;">Status</th>
+                        <th class="px-4 py-3 text-muted text-uppercase text-end" style="font-size: 0.75rem; font-weight: 600;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($users as $user)
+                    <tr>
+                        <td class="px-4 py-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-circle {{ $user->role == 'admin' ? 'bg-warning' : 'bg-primary' }} text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-weight: 600;">
+                                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                                </div>
+                                <div>
+                                    <div class="fw-semibold">{{ $user->name }}</div>
+                                    <small class="text-muted">{{ $user->created_at->format('d M Y') }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3">{{ $user->email }}</td>
+                        <td class="px-4 py-3">
+                            @if($user->role == 'admin')
+                            <span class="badge" style="background-color: rgba(245, 158, 11, 0.1); color: #F59E0B; font-weight: 600;">Admin</span>
+                            @else
+                            <span class="badge" style="background-color: rgba(67, 56, 202, 0.1); color: #4338CA; font-weight: 600;">User</span>
+                            @endif
+                        </td>
+                        <td class="px-4 py-3">
+                            <span class="badge bg-success">🟢 Aktif</span>
+                        </td>
+                        <td class="px-4 py-3 text-end">
+                            <button class="btn btn-sm btn-light" title="Edit" onclick="Swal.fire('Info', 'Fitur edit user belum tersedia.', 'info')">
+                                <span class="material-icons-round" style="font-size: 18px;">edit</span>
+                            </button>
+                            <button class="btn btn-sm btn-light text-danger" title="Hapus" onclick="confirmDelete('{{ $user->name }}')">
+                                <span class="material-icons-round" style="font-size: 18px;">delete</span>
+                            </button>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="text-center py-5 text-muted">Tidak ada user ditemukan.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
 
-    <!-- Pagination -->
-    <div class="flex justify-between items-center p-4" style="border-top: 1px solid var(--border-color);">
-        <span class="text-muted text-sm">Showing 1-10 of 1,245 users</span>
-        <div class="flex gap-2">
-            <button class="btn btn-ghost btn-sm">← Prev</button>
-            <button class="btn btn-primary btn-sm">1</button>
-            <button class="btn btn-ghost btn-sm">2</button>
-            <button class="btn btn-ghost btn-sm">3</button>
-            <button class="btn btn-ghost btn-sm">Next →</button>
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between align-items-center p-4 border-top">
+            <small class="text-muted">Showing {{ $users->firstItem() ?? 0 }}-{{ $users->lastItem() ?? 0 }} of {{ $users->total() }} users</small>
+            <div>
+                {{ $users->withQueryString()->links('pagination::bootstrap-4') }}
+            </div>
         </div>
     </div>
+
 </div>
 @endsection
 
 @push('scripts')
 <script>
-    function confirmDelete() {
+    function confirmDelete(userName) {
         Swal.fire({
             title: 'Hapus User?',
-            text: 'Data user akan dihapus permanen.',
+            text: `User "${userName}" akan dihapus permanen.`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#ef4444',
             confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal'
+            cancelButtonText: 'Batal',
+            reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire('Dihapus!', 'User berhasil dihapus.', 'success');
+                Swal.fire({
+                    title: 'Dihapus!',
+                    text: 'User berhasil dihapus.',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
             }
         });
     }

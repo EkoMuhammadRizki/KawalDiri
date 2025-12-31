@@ -83,7 +83,7 @@
                             <h6 class="fw-bold mb-3">Transaksi Terbaru</h6>
                             <div class="d-flex align-items-center justify-content-between mb-3">
                                 <div class="d-flex align-items-center gap-3">
-                                    <div class="bg-warning-subtle text-warning p-2 rounded-circle">
+                                    <div class="bg-warning-subtle text-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
                                         <span class="material-symbols-outlined fs-6">coffee</span>
                                     </div>
                                     <div>
@@ -95,7 +95,7 @@
                             </div>
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center gap-3">
-                                    <div class="bg-info-subtle text-info p-2 rounded-circle">
+                                    <div class="bg-info-subtle text-info rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
                                         <span class="material-symbols-outlined fs-6">bolt</span>
                                     </div>
                                     <div>

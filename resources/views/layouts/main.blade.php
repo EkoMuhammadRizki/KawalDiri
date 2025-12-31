@@ -7,6 +7,8 @@
     <title>KawalDiri - Partner Pertumbuhanmu</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS (Static) -->
+    <link rel="stylesheet" href="{{ asset('css/app-style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
@@ -26,6 +28,7 @@
             color: var(--text-main);
             overflow-x: hidden;
         }
+
 
         /* Hero Background Decorations */
         .hero-blob {
@@ -141,7 +144,8 @@
 
 <body>
 
-    <div id="swup" class="transition-fade">
+
+    <div class="main-content">
         @include('components.navbar')
 
         @yield('content')
@@ -149,19 +153,8 @@
         @include('components.footer')
     </div>
 
+    @stack('scripts')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/swup@4"></script>
-    <script src="https://unpkg.com/@swup/scripts-plugin@2"></script>
-    <script src="https://unpkg.com/@swup/scripts-plugin@2"></script>
-    <script src="https://unpkg.com/@swup/head-plugin@2"></script>
-    <script src="https://unpkg.com/@swup/preload-plugin@3"></script>
-    <script>
-        const swup = new Swup({
-            plugins: [new SwupScriptsPlugin(), new SwupHeadPlugin(), new SwupPreloadPlugin()],
-            containers: ["#swup"],
-            cache: true
-        });
-    </script>
 </body>
 
 </html>

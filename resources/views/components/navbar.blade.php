@@ -1,10 +1,7 @@
     <nav class="navbar navbar-expand-lg sticky-top py-3">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2" href="#">
-                <div class="bg-primary rounded-3 p-1 d-flex align-items-center justify-content-center text-white" style="width: 35px; height: 35px;">
-                    <span class="material-symbols-outlined fs-5">grid_view</span>
-                </div>
-                <span class="fw-bold fs-4 tracking-tighter">KawalDiri</span>
+                <img src="{{ asset('images/logo.png') }}" alt="KawalDiri Logo" style="height: 50px; object-fit: contain;">
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>

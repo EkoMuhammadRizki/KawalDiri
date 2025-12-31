@@ -65,92 +65,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Logic: Tampilkan jika filter adalah 'all' atau 'pending' (Tugas Aktif) -->
-                    @if($filter == 'all' || $filter == 'pending')
-                    <!-- Item 1 -->
                     <tr>
-                        <td class="text-center">
-                            <input class="form-check-input status-checkbox" type="checkbox" onclick="Swal.fire('Selesai!', 'Tugas ditandai selesai.', 'success')">
-                        </td>
-                        <td>
-                            <div class="d-flex flex-column">
-                                <span class="fw-bold text-dark">Kirim Laporan Keuangan Q3</span>
-                                <span class="small text-muted">Analisis arus pendapatan dan siapkan draf akhir.</span>
-                            </div>
-                        </td>
-                        <td>
-                            <span class="badge badge-priority bg-danger-subtle text-danger text-uppercase">Tinggi</span>
-                        </td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2 small fw-semibold text-danger">
-                                <span class="material-symbols-outlined fs-6">calendar_today</span>
-                                Hari Ini
-                            </div>
-                        </td>
-                        <td class="text-end">
-                            <div class="btn-group">
-                                <button class="btn btn-sm btn-light"><span class="material-symbols-outlined fs-6">edit</span></button>
-                                <button class="btn btn-sm btn-light text-danger"><span class="material-symbols-outlined fs-6">delete</span></button>
+                        <td colspan="5" class="text-center py-5">
+                            <div class="d-flex flex-column align-items-center justify-content-center">
+                                <span class="material-symbols-outlined text-muted fs-1 opacity-25 mb-3">assignment_add</span>
+                                <h6 class="fw-bold text-muted">Belum ada tugas</h6>
+                                <p class="small text-muted mb-0">Tugas yang Anda buat akan muncul di sini.</p>
                             </div>
                         </td>
                     </tr>
-
-                    <!-- Item 2 -->
-                    <tr>
-                        <td class="text-center">
-                            <input class="form-check-input status-checkbox" type="checkbox" onclick="Swal.fire('Selesai!', 'Tugas ditandai selesai.', 'success')">
-                        </td>
-                        <td>
-                            <div class="d-flex flex-column">
-                                <span class="fw-bold text-dark">Belanja Bulanan</span>
-                                <span class="small text-muted">Susu, telur, roti, sayuran, dan biji kopi.</span>
-                            </div>
-                        </td>
-                        <td>
-                            <span class="badge badge-priority bg-warning-subtle text-warning text-uppercase">Sedang</span>
-                        </td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2 small fw-semibold text-muted">
-                                <span class="material-symbols-outlined fs-6">event</span>
-                                Besok
-                            </div>
-                        </td>
-                        <td class="text-end">
-                            <div class="btn-group">
-                                <button class="btn btn-sm btn-light"><span class="material-symbols-outlined fs-6">edit</span></button>
-                                <button class="btn btn-sm btn-light text-danger"><span class="material-symbols-outlined fs-6">delete</span></button>
-                            </div>
-                        </td>
-                    </tr>
-                    @endif
-
-                    <!-- Logic: Tampilkan jika filter adalah 'all' atau 'completed' (Tugas Selesai) -->
-                    @if($filter == 'all' || $filter == 'completed')
-                    <!-- Item 3 (Completed) -->
-                    <tr class="bg-light">
-                        <td class="text-center">
-                            <input class="form-check-input status-checkbox" type="checkbox" checked onclick="Swal.fire('Dikembalikan!', 'Tugas dikembalikan ke pending.', 'info')">
-                        </td>
-                        <td>
-                            <div class="d-flex flex-column opacity-50">
-                                <span class="fw-bold text-decoration-line-through">Tinjau PR #405</span>
-                                <span class="small">Review kode untuk alur otentikasi baru.</span>
-                            </div>
-                        </td>
-                        <td>
-                            <span class="badge badge-priority bg-secondary-subtle text-secondary text-uppercase">Selesai</span>
-                        </td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2 small text-muted opacity-50">
-                                <span class="material-symbols-outlined fs-6">check_circle</span>
-                                Kemarin
-                            </div>
-                        </td>
-                        <td class="text-end">
-                            <button class="btn btn-sm btn-light opacity-50"><span class="material-symbols-outlined fs-6">undo</span></button>
-                        </td>
-                    </tr>
-                    @endif
                 </tbody>
             </table>
         </div>

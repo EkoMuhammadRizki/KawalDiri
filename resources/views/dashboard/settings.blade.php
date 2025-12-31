@@ -109,15 +109,7 @@
                             <input class="form-check-input" type="checkbox" checked>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <p class="mb-0 fw-bold small">Notifikasi Push</p>
-                            <span class="x-small text-muted">Peringatan browser</span>
-                        </div>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox">
-                        </div>
-                    </div>
+
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <p class="mb-0 fw-bold small">Ringkasan Mingguan</p>
@@ -127,8 +119,7 @@
                             <input class="form-check-input" type="checkbox" checked>
                         </div>
                     </div>
-                    <hr>
-                    <a href="#" class="text-primary small fw-bold text-decoration-none">Pengaturan Lanjutan →</a>
+
                 </div>
             </div>
 

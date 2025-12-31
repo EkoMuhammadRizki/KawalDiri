@@ -2,11 +2,8 @@
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4">
-                    <div class="d-flex align-items-center gap-2 mb-4">
-                        <div class="bg-primary rounded-3 p-1 d-flex align-items-center justify-content-center text-white" style="width: 30px; height: 30px;">
-                            <span class="material-symbols-outlined fs-6">grid_view</span>
-                        </div>
-                        <span class="fw-bold fs-5">KawalDiri</span>
+                    <div class="mb-4">
+                        <img src="{{ asset('images/logo.png') }}" alt="KawalDiri Logo" style="height: 40px; object-fit: contain;">
                     </div>
                     <p class="text-muted small w-75">Sahabat produktivitas dan finansialmu. Bangun kebiasaan baik, capai target finansial, dan nikmati hidup yang lebih teratur.</p>
                 </div>

@@ -1,7 +1,18 @@
 <aside class="sidebar d-flex flex-column p-4">
     <div class="d-flex align-items-center gap-3 mb-5 px-2">
         <div class="rounded-3 d-flex align-items-center justify-content-center text-white" style="width: 40px; height: 40px; background-color: var(--primary-color) !important;">
-            <span class="material-symbols-outlined">spa</span>
+            @php
+            $currentRoute = request()->route()->getName();
+            $iconMap = [
+            'dashboard' => 'dashboard',
+            'tasks' => 'check_circle',
+            'finance' => 'payments',
+            'settings' => 'settings',
+            'help' => 'help',
+            ];
+            $currentIcon = $iconMap[$currentRoute] ?? 'spa';
+            @endphp
+            <span class="material-symbols-outlined">{{ $currentIcon }}</span>
         </div>
         <h1 class="h6 fw-bold mb-0">Kawal Diri</h1>
     </div>
@@ -39,23 +50,26 @@
                 <span class="material-symbols-outlined">logout</span>
             </button>
         </div>
-        <form id="logout-form" method="POST" action="{{ route('logout') }}" class="d-none">
-            @csrf
-        </form>
         @else
         <div class="d-flex align-items-center justify-content-between p-2 rounded-3 hover-bg">
-            <a href="{{ route('settings') }}" class="d-flex align-items-center gap-3 text-decoration-none text-reset overflow-hidden flex-grow-1">
-                <img src="https://ui-avatars.com/api/?name=Jane+Doe&background=1232e2&color=fff" class="rounded-circle" width="40" height="40">
+            <a href="{{ route('login') }}" class="d-flex align-items-center gap-3 text-decoration-none text-reset overflow-hidden flex-grow-1">
+                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <span class="material-symbols-outlined text-muted">person</span>
+                </div>
                 <div class="overflow-hidden">
-                    <p class="small fw-bold mb-0 text-truncate">Jane Doe</p>
-                    <p class="x-small text-muted mb-0 text-truncate">jane@lifemanager.com</p>
+                    <p class="small fw-bold mb-0 text-truncate">Tamu</p>
+                    <p class="x-small text-muted mb-0 text-truncate">Silakan Masuk</p>
                 </div>
             </a>
-            <button onclick="confirmSidebarLogout()" class="btn btn-link text-muted p-0 ms-2" title="Keluar">
-                <span class="material-symbols-outlined">logout</span>
-            </button>
+            <a href="{{ route('login') }}" class="btn btn-link text-muted p-0 ms-2" title="Masuk">
+                <span class="material-symbols-outlined">login</span>
+            </a>
         </div>
         @endif
+
+        <form id="logout-form" method="POST" action="{{ route('logout') }}" class="d-none" data-no-swup>
+            @csrf
+        </form>
     </div>
 </aside>
 
@@ -72,7 +86,12 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                document.getElementById('logout-form').submit();
+                const form = document.getElementById('logout-form');
+                if (form) {
+                    form.submit();
+                } else {
+                    window.location.href = "{{ route('logout') }}";
+                }
             }
         });
     }
