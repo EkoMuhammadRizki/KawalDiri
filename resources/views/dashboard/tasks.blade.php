@@ -18,7 +18,7 @@
         <div>
             <h2 class="fw-black mb-0" style="font-weight: 900; letter-spacing: -1px;">Pengelola Tugas</h2>
         </div>
-        <button class="btn btn-primary-custom d-none d-md-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#taskModal">
+        <button class="btn btn-primary-custom d-none d-md-flex align-items-center gap-2 rounded-pill" data-bs-toggle="modal" data-bs-target="#taskModal">
             <span class="material-symbols-outlined fs-5">add</span>
             <span>Tugas Baru</span>
         </button>

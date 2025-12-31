@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 | Web Routes (Rute Web)
 |--------------------------------------------------------------------------
 |
-| Di sini adalah tempat Anda mendaftarkan rute web untuk aplikasi Anda.
+| Di sini adalah tempat mendaftarkan rute web untuk aplikasi.
 | Rute-rute ini dimuat oleh RouteServiceProvider dan semuanya akan
 | ditetapkan ke grup middleware "web".
 |

@@ -8,7 +8,7 @@
             <p class="text-muted small">Pantau produktivitas dan pengeluaran Anda dalam satu tempat.</p>
         </div>
         <div class="d-flex gap-2">
-            <button class="btn btn-light border d-flex align-items-center gap-2 bg-white" data-bs-toggle="modal" data-bs-target="#taskModal">
+            <button class="btn btn-light border d-flex align-items-center gap-2 bg-white rounded-3" data-bs-toggle="modal" data-bs-target="#taskModal">
                 <span class="material-symbols-outlined">add_task</span> Tugas Baru
             </button>
             <button class="btn btn-primary d-flex align-items-center gap-2" style="background-color: #3F51B5; border-color: #3F51B5;" data-bs-toggle="modal" data-bs-target="#transactionModal">
