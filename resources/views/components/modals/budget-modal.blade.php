@@ -12,6 +12,8 @@
                 <form id="budgetForm">
                     <div class="mb-4">
                         <label for="budgetAmount" class="form-label fw-bold small">Total Anggaran</label>
+                        {{-- Input menggunakan format text agar bisa menerima titik pemisah ribuan --}}
+                        {{-- Atribut inputmode="numeric" memunculkan keyboard angka di mobile --}}
                         <div class="input-group">
                             <span class="input-group-text bg-white border-end-0 text-muted">Rp</span>
                             <input type="text" class="form-control border-start-0 ps-0" id="budgetAmount" name="budget" placeholder="1.000.000" inputmode="numeric">

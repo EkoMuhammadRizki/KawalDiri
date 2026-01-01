@@ -60,6 +60,9 @@
 
                     <form id="profileForm">
                         @csrf
+                        {{-- Form Pengaturan Profil --}}
+                        {{-- Field Nama dan Email dibuat read-only (tidak bisa diedit) dengan background khusus --}}
+                        {{-- sesuai permintaan user agar terlihat sebagai data default dari sistem --}}
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold">Nama Lengkap</label>
