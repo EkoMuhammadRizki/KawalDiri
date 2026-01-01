@@ -44,10 +44,15 @@
             </ul>
         </div>
         <div class="col-lg-6">
-            <div class="input-group">
-                <span class="input-group-text bg-white border-end-0 rounded-start-3"><span class="material-symbols-outlined text-muted">search</span></span>
-                <input type="text" class="form-control border-start-0 rounded-end-3 py-2" placeholder="Cari tugas...">
-            </div>
+            <form action="{{ route('tasks') }}" method="GET">
+                @if(request('filter'))
+                <input type="hidden" name="filter" value="{{ request('filter') }}">
+                @endif
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0 rounded-start-3"><span class="material-symbols-outlined text-muted">search</span></span>
+                    <input type="text" name="search" class="form-control border-start-0 rounded-end-3 py-2" placeholder="Cari tugas..." value="{{ request('search') }}">
+                </div>
+            </form>
         </div>
     </div>
 
@@ -57,11 +62,12 @@
             <table class="table table-hover mb-0">
                 <thead>
                     <tr>
-                        <th style="width: 60px;"></th>
-                        <th>Detail Tugas</th>
-                        <th style="width: 150px;">Prioritas</th>
-                        <th style="width: 200px;">Tenggat Waktu</th>
-                        <th class="text-end" style="width: 120px;">Aksi</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Detail Tugas</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2" style="width: 150px;">Prioritas</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2" style="width: 200px;">Tenggat</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width: 80px;">Hapus</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width: 80px;">Edit</th>
                     </tr>
                 </thead>
                 <tbody id="taskTableBody">
@@ -100,15 +106,22 @@
                                 {{ $task->status }}
                             </span>
                         </td>
-                        <td class="text-end">
+                        <td class="text-center">
                             <button class="btn btn-icon btn-sm text-danger hover-bg-danger-subtle" onclick="deleteTask({{ $task->id }})">
                                 <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-icon btn-sm text-primary hover-bg-primary-subtle"
+                                data-json='@json($task)'
+                                onclick="openEditTask(this)">
+                                <span class="material-symbols-outlined">edit</span>
                             </button>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center py-5">
+                        <td colspan="6" class="text-center py-5">
                             <div class="d-flex flex-column align-items-center justify-content-center">
                                 <span class="material-symbols-outlined text-muted fs-1 opacity-25 mb-3">assignment_add</span>
                                 <h6 class="fw-bold text-muted">Belum ada tugas</h6>
@@ -122,8 +135,8 @@
         </div>
 
         <!-- Pagination -->
-        <div class="p-3 bg-white border-top rounded-bottom-4">
-            {{ $tasks->appends(['filter' => $filter])->links('pagination::bootstrap-5') }}
+        <div class="p-3 bg-white border-top rounded-bottom-4 d-flex justify-content-center">
+            {{ $tasks->appends(['filter' => $filter])->links('vendor.pagination.custom') }}
         </div>
     </div>
 </div>

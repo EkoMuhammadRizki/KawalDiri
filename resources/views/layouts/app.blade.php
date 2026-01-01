@@ -406,9 +406,19 @@
             // Update Sidebar Icon
             updateSidebarIcon();
 
-            // Re-init Sidebar Profile Toggle if exists
-            if (window.toggleProfileMenu) {
-                // Ensure events are attached if they were lost
+            // Init Dashboard if on Dashboard
+            if (document.getElementById('productivityChart')) {
+                if (window.initDashboard) window.initDashboard();
+            }
+
+            // Init Finance if on Finance Page
+            if (document.querySelector('.finance-table-card')) {
+                if (window.initFinanceTracker) window.initFinanceTracker();
+            }
+
+            // Init Tasks if on Task Page
+            if (document.getElementById('taskTableBody')) {
+                if (window.initTaskManager) window.initTaskManager();
             }
         }
 

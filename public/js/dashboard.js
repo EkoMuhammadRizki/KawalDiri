@@ -25,17 +25,30 @@ async function initProductivityChart() {
             productivityChart.destroy();
         }
 
+        // Create Gradient
+        let gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(99, 102, 241, 0.5)'); // Top color (Primary)
+        gradient.addColorStop(1, 'rgba(99, 102, 241, 0.0)'); // Bottom color (Transparent)
+
         productivityChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: data.labels,
+                labels: data.labels, // Assuming labels are already ['Minggu 1', 'Minggu 2', ...] from API
                 datasets: [{
-                    label: 'Tugas Selesai',
+                    label: 'Produktivitas',
                     data: data.data,
-                    borderColor: 'rgb(99, 102, 241)',
-                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                    tension: 0.4,
+                    borderColor: '#6366f1', // Primary Color
+                    backgroundColor: gradient,
+                    borderWidth: 3,
+                    tension: 0.4, // Smooth Spline
                     fill: true,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#6366f1',
+                    pointBorderWidth: 2,
+                    pointRadius: 6,
+                    pointHoverRadius: 8,
+                    pointHoverBackgroundColor: '#6366f1',
+                    pointHoverBorderColor: '#fff'
                 }]
             },
             options: {
@@ -46,21 +59,69 @@ async function initProductivityChart() {
                         display: false
                     },
                     tooltip: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                        padding: 12,
-                        titleColor: '#fff',
-                        bodyColor: '#fff',
-                        borderColor: 'rgba(99, 102, 241, 0.3)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        titleColor: '#1e293b',
+                        bodyColor: '#1e293b',
+                        borderColor: '#e2e8f0',
                         borderWidth: 1,
+                        padding: 12,
+                        displayColors: false,
+                        titleFont: {
+                            size: 14,
+                            family: "'Plus Jakarta Sans', sans-serif"
+                        },
+                        bodyFont: {
+                            size: 13,
+                            family: "'Plus Jakarta Sans', sans-serif",
+                            weight: 'bold'
+                        },
+                        callbacks: {
+                            label: function (context) {
+                                return context.parsed.y + ' Tugas Selesai';
+                            }
+                        }
                     }
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
+                        grid: {
+                            borderDash: [5, 5],
+                            color: '#e2e8f0',
+                            drawBorder: false,
+                        },
                         ticks: {
+                            padding: 10,
+                            color: '#64748b',
+                            font: {
+                                family: "'Plus Jakarta Sans', sans-serif"
+                            },
                             precision: 0
+                        },
+                        border: {
+                            display: false
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false,
+                        },
+                        ticks: {
+                            padding: 10,
+                            color: '#64748b',
+                            font: {
+                                family: "'Plus Jakarta Sans', sans-serif"
+                            }
+                        },
+                        border: {
+                            display: false
                         }
                     }
+                },
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
                 }
             }
         });
@@ -151,9 +212,12 @@ async function initExpenseChart() {
 /**
  * Load recent activities
  */
-async function loadRecentActivities() {
+/**
+ * Load recent activities
+ */
+async function loadRecentActivities(page = 1) {
     try {
-        const response = await fetch('/api/dashboard/activities');
+        const response = await fetch(`/api/dashboard/activities?page=${page}`);
         const data = await response.json();
 
         const container = document.getElementById('recentActivitiesContainer');
@@ -184,11 +248,11 @@ async function loadRecentActivities() {
                             <div class="flex-grow-1">
                                 <h6 class="mb-1 fw-bold">${activity.title}</h6>
                                 <p class="small text-muted mb-0">
-                                    <span class="badge bg-${activity.priority === 'high' ? 'danger' : activity.priority === 'medium' ? 'warning' : 'secondary'}-subtle text-${activity.priority === 'high' ? 'danger' : activity.priority === 'medium' ? 'warning' : 'secondary'} me-2">${activity.priority}</span>
+                                    <span class="badge bg-${activity.priority === 'high' ? 'danger' : activity.priority === 'medium' ? 'warning' : 'secondary'}-subtle text-${activity.priority === 'high' ? 'danger' : activity.priority === 'medium' ? 'warning' : 'secondary'}-emphasis me-2">${activity.priority}</span>
                                     ${activity.date}
                                 </p>
                             </div>
-                            <span class="badge bg-${activity.status === 'completed' ? 'success' : 'primary'}-subtle text-${activity.status === 'completed' ? 'success' : 'primary'}">${activity.status === 'completed' ? 'Selesai' : 'Pending'}</span>
+                            <span class="badge bg-${activity.status === 'completed' ? 'success' : 'primary'}-subtle text-${activity.status === 'completed' ? 'success' : 'primary'}-emphasis">${activity.status === 'completed' ? 'Selesai' : 'Pending'}</span>
                         </div>
                     </div>
                 `;
@@ -213,19 +277,46 @@ async function loadRecentActivities() {
             }
         });
 
+        // Render Pagination Controls
+        if (data.pagination) {
+            const paginationHtml = `
+                <div class="d-flex justify-content-between align-items-center mt-3 custom-pagination-controls">
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" 
+                            onclick="loadRecentActivities(${data.pagination.current_page - 1})"
+                            ${data.pagination.current_page <= 1 ? 'disabled' : ''}>
+                        <span class="material-symbols-outlined fs-6 align-middle">chevron_left</span> Prev
+                    </button>
+                    <span class="small text-muted fw-medium">Page ${data.pagination.current_page}</span>
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" 
+                            onclick="loadRecentActivities(${data.pagination.current_page + 1})"
+                            ${!data.pagination.has_more ? 'disabled' : ''}>
+                        Next <span class="material-symbols-outlined fs-6 align-middle">chevron_right</span>
+                    </button>
+                </div>
+            `;
+            html += paginationHtml;
+        }
+
         container.innerHTML = html;
         console.log('✓ Recent activities loaded:', data.activities.length);
+
     } catch (error) {
         console.error('Error loading recent activities:', error);
     }
 }
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('✓ Dashboard JS loaded');
-
+// Initialize on page load
+window.initDashboard = function () {
+    console.log('✓ Dashboard JS initialized');
     // Initialize charts and activities
     initProductivityChart();
     initExpenseChart();
     loadRecentActivities();
+};
+
+document.addEventListener('DOMContentLoaded', function () {
+    if (document.getElementById('productivityChart')) {
+        window.initDashboard();
+    }
 });

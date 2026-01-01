@@ -38,7 +38,7 @@ class TaskController extends Controller
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
-        $tasks = $query->paginate(10);
+        $tasks = $query->paginate(5);
 
         if ($request->expectsJson()) {
             return response()->json([
@@ -60,13 +60,18 @@ class TaskController extends Controller
             'description' => 'nullable|string',
             'priority' => 'required|in:low,medium,high',
             'due_date' => 'required|date|after_or_equal:today',
+        ], [
+            'title.required' => 'Waduh, judul tugasnya lupa diisi nih! 😅',
+            'priority.required' => 'Seberapa penting nih? Prioritasnya dipilih dulu ya!',
+            'due_date.required' => 'Kapan harus selesai? Tenggat waktunya diisi ya! 📅',
+            'due_date.after_or_equal' => 'Masa deadline-nya di masa lalu? Move on dong! 😆',
         ]);
 
         $task = Auth::user()->tasks()->create($validated);
 
         return response()->json([
             'success' => true,
-            'message' => 'Tugas berhasil ditambahkan!',
+            'message' => 'Siap! Tugas baru berhasil ditambahkan! 🫡',
             'task' => $task
         ]);
     }
@@ -94,7 +99,7 @@ class TaskController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Status tugas berhasil diubah!',
+                'message' => 'Mantap! Status tugas berhasil diupdate! 🎉',
                 'task' => $task->fresh()
             ]);
         }
@@ -112,7 +117,7 @@ class TaskController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Tugas berhasil diperbarui!',
+            'message' => 'Oke, tugas berhasil diperbarui! 👌',
             'task' => $task->fresh()
         ]);
     }
@@ -134,7 +139,7 @@ class TaskController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Tugas berhasil dihapus!'
+            'message' => 'Tugas berhasil dihapus! Satu beban berkurang. chaks! 😌'
         ]);
     }
 }

@@ -15,6 +15,7 @@
                 </div>
 
                 <form id="taskForm">
+                    <input type="hidden" id="taskId" name="id">
                     <div class="mb-4">
                         <label for="taskName" class="form-label modern-label">Nama Tugas</label>
                         <input type="text" class="form-control form-control-modern" id="taskName" name="title" placeholder="Contoh: Selesaikan Laporan Q3">
@@ -38,6 +39,14 @@
                                 <option value="low">Rendah</option>
                             </select>
                         </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="taskStatus" class="form-label modern-label">Status</label>
+                        <select class="form-select form-select-modern" id="taskStatus" name="status">
+                            <option value="pending">Pending</option>
+                            <option value="completed">Completed</option>
+                        </select>
                     </div>
 
                     <div class="mb-2">

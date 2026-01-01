@@ -30,7 +30,7 @@ class TransactionController extends Controller
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
-        $transactions = $query->paginate(10);
+        $transactions = $query->paginate(5);
 
         // Calculate budget stats
         $user = Auth::user();
@@ -77,6 +77,12 @@ class TransactionController extends Controller
             'amount' => 'required|numeric|min:0',
             'date' => 'required|date',
             'status' => 'sometimes|in:paid,pending',
+        ], [
+            'title.required' => 'Waduh, transaksinya buat apa nih? Judulnya diisi dulu ya! 😅',
+            'category.required' => 'Kategorinya lupa dipilih nih! 😬',
+            'amount.required' => 'Nominalnya berapa? Jangan kosong ya! 💸',
+            'amount.min' => 'Masa nominalnya minus? Yang bener ah! 😆',
+            'date.required' => 'Kapan nih transaksinya? Tanggalnya diisi ya! 📅',
         ]);
 
         $validated['status'] = $validated['status'] ?? 'paid';
@@ -85,7 +91,44 @@ class TransactionController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Transaksi berhasil ditambahkan!',
+            'message' => 'Mantap! Transaksi baru berhasil dicatat! 🤑',
+            'transaction' => $transaction
+        ]);
+    }
+
+    /**
+     * Update the specified transaction.
+     */
+    public function update(Request $request, Transaction $transaction)
+    {
+        // Pastikan transaction milik user yang sedang login
+        if ($transaction->user_id !== Auth::id()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ], 403);
+        }
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
+            'type' => 'required|in:income,expense',
+            'amount' => 'required|numeric|min:0',
+            'date' => 'required|date',
+            'status' => 'sometimes|in:paid,pending',
+        ], [
+            'title.required' => 'Judulnya jangan dihapus dong, nanti lupa! 😅',
+            'category.required' => 'Kategorinya harus tetap ada ya!',
+            'amount.required' => 'Nominalnya jangan kosong dong! 💸',
+            'amount.min' => 'Nominalnya ga boleh minus ya!',
+            'date.required' => 'Tanggalnya jangan sampai kosong ya! 📅',
+        ]);
+
+        $transaction->update($validated);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Sip! Data transaksi berhasil diperbarui! 📝',
             'transaction' => $transaction
         ]);
     }
@@ -107,7 +150,7 @@ class TransactionController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Transaksi berhasil dihapus!'
+            'message' => 'Oke, transaksi berhasil dihapus! 🗑️'
         ]);
     }
 }

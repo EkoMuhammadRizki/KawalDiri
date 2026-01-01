@@ -52,7 +52,10 @@ class DashboardController extends Controller
             $weekStart = Carbon::now()->subWeeks($i)->startOfWeek();
             $weekEnd = Carbon::now()->subWeeks($i)->endOfWeek();
 
-            $weeks[] = 'Week ' . (4 - $i);
+            Carbon::setLocale('id');
+            $date = Carbon::now()->subWeeks($i);
+            // Example: Minggu 1 Jan 2026
+            $weeks[] = 'Minggu ' . $date->weekOfMonth . ' ' . $date->translatedFormat('M Y');
             $completed[] = $user->tasks()
                 ->whereBetween('completed_at', [$weekStart, $weekEnd])
                 ->count();
@@ -90,14 +93,18 @@ class DashboardController extends Controller
     /**
      * Get recent activities (tasks and transactions combined).
      */
-    public function getRecentActivities()
+    public function getRecentActivities(Request $request)
     {
         $user = Auth::user();
+        $page = $request->input('page', 1);
+        $perPage = 5;
 
-        // Get last 5 tasks
+        // Get a pool of recent items (e.g., 20 from each to ensure enough data for pagination)
+        // Note: For deep pagination this is not efficient, but for "Recent Activities" it's acceptable.
+
         $recentTasks = $user->tasks()
             ->latest()
-            ->limit(5)
+            ->limit(20)
             ->get()
             ->map(function ($task) {
                 return [
@@ -106,16 +113,15 @@ class DashboardController extends Controller
                     'priority' => $task->priority,
                     'status' => $task->status,
                     'date' => $task->created_at->diffForHumans(),
-                    'timestamp' => $task->created_at->timestamp, // For sorting
+                    'timestamp' => $task->created_at->timestamp,
                     'icon' => 'task_alt',
                     'color' => $task->status === 'completed' ? 'success' : 'primary'
                 ];
             });
 
-        // Get last 5 transactions
         $recentTransactions = $user->transactions()
             ->latest('date')
-            ->limit(5)
+            ->limit(20)
             ->get()
             ->map(function ($transaction) {
                 return [
@@ -125,20 +131,30 @@ class DashboardController extends Controller
                     'amount' => 'Rp ' . number_format($transaction->amount, 0, ',', '.'),
                     'transaction_type' => $transaction->type,
                     'date' => $transaction->date->diffForHumans(),
-                    'timestamp' => $transaction->date->timestamp, // For sorting
+                    'timestamp' => $transaction->date->timestamp,
                     'icon' => $transaction->type === 'income' ? 'trending_up' : 'trending_down',
                     'color' => $transaction->type === 'income' ? 'success' : 'danger'
                 ];
             });
 
-        // Merge and sort by timestamp
-        $activities = $recentTasks->merge($recentTransactions)
-            ->sortByDesc('timestamp')
-            ->take(10)
-            ->values();
+        // Merge and sort
+        $allActivities = $recentTasks->merge($recentTransactions)->sortByDesc('timestamp')->values();
+
+        // Manual Pagination
+        $total = $allActivities->count();
+        $paginatedItems = $allActivities->forPage($page, $perPage)->values();
+
+        // Calculate pagination metadata
+        $hasMore = ($page * $perPage) < $total;
 
         return response()->json([
-            'activities' => $activities
+            'activities' => $paginatedItems,
+            'pagination' => [
+                'current_page' => (int)$page,
+                'per_page' => $perPage,
+                'has_more' => $hasMore,
+                'total' => $total
+            ]
         ]);
     }
 }

@@ -1,4 +1,4 @@
-# KawalDiri - Life Manager Dashboard
+# KawalDiri - All in One Manager 
 
 **KawalDiri** adalah aplikasi manajemen produktivitas dan keuangan pribadi all-in-one yang dirancang untuk membantu pengguna mengelola aktivitas harian mereka dengan efisien. Dengan antarmuka yang modern, bersih, dan intuitif, KawalDiri memudahkan Anda untuk tetap terorganisir dan fokus pada tujuan Anda.
 
@@ -94,9 +94,6 @@ Aplikasi ini dibangun menggunakan teknologi web modern yang handal:
 **🧹 Data Cleanup:**
 *   Menghapus semua dummy data dari User Dashboard (Tasks, Finance, Activity).
 *   Menampilkan empty state yang informatif untuk data kosong.
-
-**📖 Dokumentasi:**
-*   Penambahan komentar kode (Bahasa Indonesia) lengkap pada semua Controller dan Middleware untuk memudahkan maintenance.
 
 ### Update Sebelumnya: Modernisasi UI & Perbaikan Bug
 *   **Fix Bug:** Memperbaiki masalah layar yang semakin gelap (backdrop stacking) saat membuka modal berulang kali dengan menonaktifkan re-inisialisasi script Bootstrap/SweetAlert oleh Swup.js.

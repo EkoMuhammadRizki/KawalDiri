@@ -42,7 +42,7 @@ function renderTasks(tasksData) {
     if (tasksData.data.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="5" class="text-center py-5 text-muted">
+                <td colspan="6" class="text-center py-5 text-muted">
                     <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-state-2130362-1800926.png" alt="Empty" style="width: 150px; opacity: 0.5">
                     <p class="mt-3">Belum ada tugas</p>
                 </td>
@@ -89,11 +89,19 @@ function renderTasks(tasksData) {
                         ${task.status}
                     </span>
                 </td>
-                <td class="text-end">
+                <td class="text-center">
                     <button class="btn btn-icon btn-sm text-danger hover-bg-danger-subtle" onclick="deleteTask(${task.id})">
                         <span class="material-symbols-outlined">delete</span>
                     </button>
                 </td>
+                <td class="text-center">
+                    <button class="btn btn-icon btn-sm text-primary hover-bg-primary-subtle" 
+                            data-json='${JSON.stringify(task).replace(/'/g, "&apos;")}'
+                            onclick="openEditTask(this)">
+                        <span class="material-symbols-outlined">edit</span>
+                    </button>
+                </td>
+            </tr>
             </tr>
         `;
     });
@@ -114,16 +122,21 @@ window.submitTask = async function () {
     }
 
     const formData = new FormData(form);
+    const taskId = formData.get('id');
     const taskData = {
         title: formData.get('title'),
         description: formData.get('description'),
         priority: formData.get('priority'),
+        status: formData.get('status'),
         due_date: formData.get('due_date'),
     };
 
+    const url = taskId ? `/tasks/${taskId}` : '/tasks';
+    const method = taskId ? 'PUT' : 'POST';
+
     try {
-        const response = await fetch('/tasks', {
-            method: 'POST',
+        const response = await fetch(url, {
+            method: method,
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': getCsrfToken(),
@@ -137,7 +150,7 @@ window.submitTask = async function () {
         if (data.success) {
             await Swal.fire({
                 icon: 'success',
-                title: 'Berhasil!',
+                title: taskId ? 'Siap Merubah! 🛠️' : 'Mantap! 🎉',
                 text: data.message,
                 timer: 2000,
                 showConfirmButton: false
@@ -149,20 +162,67 @@ window.submitTask = async function () {
 
             // Reset form
             form.reset();
+            document.getElementById('taskId').value = ''; // Clear ID
 
-            // Reload tasks (akan reload halaman atau update table)
+            // Reload tasks
             window.location.reload();
         } else {
-            throw new Error(data.message || 'Gagal menambahkan tugas');
+            throw new Error(data.message || 'Gagal menyimpan tugas');
         }
     } catch (error) {
         console.error('Error submitting task:', error);
         Swal.fire({
             icon: 'error',
-            title: 'Gagal!',
-            text: error.message || 'Terjadi kesalahan saat menambahkan tugas'
+            title: 'Oops! 😬',
+            text: error.message || 'Terjadi kesalahan saat menyimpan tugas'
         });
     }
+};
+
+/**
+ * Open Modal to Edit Task
+ */
+window.openEditTask = function (btn) {
+    const data = JSON.parse(btn.getAttribute('data-json'));
+
+    // Reset form first
+    const form = document.getElementById('taskForm');
+    form.reset();
+
+    // Fill ID
+    document.getElementById('taskId').value = data.id;
+
+    // Fill Fields
+    document.getElementById('taskName').value = data.title;
+    document.getElementById('taskCategory').value = data.description; // Description used as Category
+    document.getElementById('taskCategory').value = data.description; // Description used as Category
+    document.getElementById('taskPriority').value = data.priority;
+    document.getElementById('taskStatus').value = data.status;
+
+    // Date (Handle YYYY-MM-DD format)
+    if (data.due_date) {
+        const dateDate = new Date(data.due_date);
+        const yyyy = dateDate.getFullYear();
+        const mm = String(dateDate.getMonth() + 1).padStart(2, '0');
+        const dd = String(dateDate.getDate()).padStart(2, '0');
+        document.getElementById('taskDueDate').value = `${yyyy}-${mm}-${dd}`;
+    }
+
+    // Update Modal Title & Button
+    document.getElementById('taskModalLabel').textContent = 'Edit Tugas';
+    document.querySelector('#taskModal .btn-modern-primary').textContent = 'Update Tugas';
+
+    // Show Modal
+    const modal = new bootstrap.Modal(document.getElementById('taskModal'));
+    modal.show();
+
+    // Reset modal on close/hide to default state (Create mode)
+    document.getElementById('taskModal').addEventListener('hidden.bs.modal', function () {
+        form.reset();
+        document.getElementById('taskId').value = '';
+        document.getElementById('taskModalLabel').textContent = 'Buat Tugas Baru';
+        document.querySelector('#taskModal .btn-modern-primary').textContent = 'Simpan Tugas';
+    }, { once: true });
 };
 
 /**
@@ -197,12 +257,12 @@ window.toggleTaskStatus = async function (taskId) {
 window.deleteTask = async function (taskId) {
     const result = await Swal.fire({
         title: 'Hapus Tugas?',
-        text: 'Tugas yang dihapus tidak dapat dikembalikan!',
+        text: 'Tugas yang dihapus tidak dapat dikembalikan! Yakin? 🤔',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
         cancelButtonColor: '#6c757d',
-        confirmButtonText: 'Ya, Hapus!',
+        confirmButtonText: 'Ya, Hapus Aja!',
         cancelButtonText: 'Batal'
     });
 
@@ -223,7 +283,7 @@ window.deleteTask = async function (taskId) {
             await Swal.fire({
                 icon: 'success',
                 title: 'Terhapus!',
-                text: data.message,
+                text: data.message, // "Tugas berhasil dihapus! Satu beban berkurang. chaks! 😌"
                 timer: 2000,
                 showConfirmButton: false
             });
@@ -236,12 +296,39 @@ window.deleteTask = async function (taskId) {
         Swal.fire({
             icon: 'error',
             title: 'Gagal!',
-            text: 'Terjadi kesalahan saat menghapus tugas'
+            text: 'Duh, ada masalah saat menghapus tugas 😔'
         });
     }
 };
 
 // Initialize on page load
+// Initialize on page load
+window.initTaskManager = function () {
+    console.log('✓ Task Manager JS Check');
+
+    // Init logic if needed (e.g. specific listeners not handled inline)
+    // Most task listeners are inline (onclick) which works fine with Swup replacement
+    // But modal events need reattachment
+
+    const taskModalEl = document.getElementById('taskModal');
+    if (taskModalEl) {
+        taskModalEl.addEventListener('hidden.bs.modal', function () {
+            const form = document.getElementById('taskForm');
+            if (form) form.reset();
+            const idInput = document.getElementById('taskId');
+            if (idInput) idInput.value = '';
+            const label = document.getElementById('taskModalLabel');
+            if (label) label.textContent = 'Buat Tugas Baru';
+            const btn = document.querySelector('#taskModal .btn-modern-primary');
+            if (btn) btn.textContent = 'Simpan Tugas';
+        });
+    }
+};
+
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('✓ Task Manager JS loaded');
+    if (document.getElementById('taskTableBody')) {
+        window.initTaskManager();
+    }
+});
+console.log('✓ Task Manager JS loaded');
 });

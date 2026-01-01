@@ -58,6 +58,7 @@ Route::middleware(['auth'])->group(function () {
     // Halaman Pelacak Keuangan (Finance Tracker)
     Route::get('/finance', [App\Http\Controllers\TransactionController::class, 'index'])->name('finance');
     Route::post('/transactions', [App\Http\Controllers\TransactionController::class, 'store'])->name('transactions.store');
+    Route::put('/transactions/{transaction}', [App\Http\Controllers\TransactionController::class, 'update'])->name('transactions.update');
     Route::delete('/transactions/{transaction}', [App\Http\Controllers\TransactionController::class, 'destroy'])->name('transactions.destroy');
 
     // Dashboard Data API

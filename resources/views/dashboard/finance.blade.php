@@ -72,21 +72,28 @@
 
     <div class="row g-4">
         <!-- Recent Transactions -->
+        <!-- Recent Transactions -->
         <div class="col-lg-8">
             <div class="finance-table-card h-100 rounded-4 overflow-hidden">
-                <div class="p-4 d-flex justify-content-between align-items-center border-bottom">
-                    <h5 class="fw-bold mb-0">Transaksi Terbaru</h5>
+                <div class="p-3 border-bottom">
+                    <h5 class="fw-bold mb-3 px-1">Transaksi Terbaru</h5>
+                    <form action="{{ route('finance') }}" method="GET">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0 rounded-start-3"><span class="material-symbols-outlined text-muted">search</span></span>
+                            <input type="text" name="search" class="form-control border-start-0 rounded-end-3 py-2" placeholder="Cari transaksi..." value="{{ request('search') }}">
+                        </div>
+                    </form>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead>
                             <tr>
-                                <th>Transaksi</th>
-                                <th>Kategori</th>
-                                <th>Tanggal</th>
-                                <th>Status</th>
-                                <th class="text-end">Jumlah</th>
-                                <th class="text-end">Aksi</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Transaksi</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Kategori</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Hapus</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Edit</th>
                             </tr>
                         </thead>
                         <tbody id="transactionTableBody">
@@ -112,9 +119,16 @@
                                 <td class="text-end fw-bold {{ $trx->type == 'income' ? 'text-success' : 'text-danger' }}">
                                     {{ $trx->type == 'income' ? '+' : '-' }} Rp {{ number_format($trx->amount, 0, ',', '.') }}
                                 </td>
-                                <td class="text-end">
+                                <td class="text-center">
                                     <button class="btn btn-icon btn-sm text-danger hover-bg-danger-subtle" onclick="deleteTransaction({{ $trx->id }})">
                                         <span class="material-symbols-outlined">delete</span>
+                                    </button>
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-icon btn-sm text-primary hover-bg-primary-subtle"
+                                        data-json="{{ json_encode($trx) }}"
+                                        onclick="openEditTransaction(this)">
+                                        <span class="material-symbols-outlined">edit</span>
                                     </button>
                                 </td>
                             </tr>
@@ -133,17 +147,17 @@
                     </table>
                 </div>
                 <!-- Pagination -->
-                <div class="p-3 bg-white border-top">
-                    {{ $transactions->appends(request()->query())->links('pagination::bootstrap-5') }}
+                <div class="p-3 bg-white border-top d-flex justify-content-center">
+                    {{ $transactions->appends(request()->query())->links('vendor.pagination.custom') }}
                 </div>
             </div>
         </div>
 
         <!-- Budget Circular Chart -->
         <div class="col-lg-4">
-            <div class="finance-table-card p-4 h-100 bg-white border-0 shadow-sm rounded-4">
+            <div class="finance-table-card p-4 bg-white border-0 shadow-sm rounded-4">
                 <h5 class="fw-bold mb-4">Sisa Anggaran</h5>
-                <div class="d-flex flex-column align-items-center py-4">
+                <div class="align-items-center">
                     <div class="position-relative d-flex align-items-center justify-content-center">
                         <svg class="circle-chart" viewBox="0 0 36 36">
                             <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />

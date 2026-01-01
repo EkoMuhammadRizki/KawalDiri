@@ -28,7 +28,7 @@
                     <div class="icon-box bg-indigo-light text-primary rounded-3 p-2">
                         <span class="material-symbols-outlined">check_circle</span>
                     </div>
-                    <span class="badge bg-primary-subtle text-primary rounded-pill">{{ $totalTasks > 0 ? round(($completedTasks / $totalTasks) * 100) : 0 }}% Selesai</span>
+                    <span class="badge bg-primary-subtle text-primary-emphasis rounded-pill">{{ $totalTasks > 0 ? round(($completedTasks / $totalTasks) * 100) : 0 }}% Selesai</span>
                 </div>
                 <div>
                     <p class="text-muted small mb-1 fw-medium">Tugas Selesai</p>
@@ -82,7 +82,7 @@
                         <span class="material-symbols-outlined">pending_actions</span>
                     </div>
                     @if($overdueTasks > 0)
-                    <span class="badge bg-danger-subtle text-danger rounded-pill">{{ $overdueTasks }} Terlewat</span>
+                    <span class="badge bg-danger-subtle text-danger-emphasis rounded-pill">{{ $overdueTasks }} Terlewat</span>
                     @endif
                 </div>
                 <div>

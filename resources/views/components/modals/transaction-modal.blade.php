@@ -15,6 +15,7 @@
                 </div>
 
                 <form id="transactionForm">
+                    <input type="hidden" id="transId" name="id">
                     <div class="mb-4">
                         <label class="form-label modern-label d-block text-center mb-3">Jenis Transaksi</label>
                         <div class="segmented-control transaction-type">
