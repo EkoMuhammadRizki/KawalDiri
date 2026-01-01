@@ -51,46 +51,4 @@ class DashboardController extends Controller
         // Kirim data stats ke view dashboard admin
         return view('admin.dashboard.index', compact('stats'));
     }
-
-    /**
-     * Tampilkan daftar user dengan fitur search & filter
-     * 
-     * Method ini menampilkan tabel user dengan pagination.
-     * Fitur:
-     * - Search: Cari berdasarkan nama atau email
-     * - Filter Role: Filter berdasarkan role (user/admin)
-     * - Pagination: 10 user per halaman
-     * 
-     * @param Request $request - Berisi parameter query 'search' dan 'role'
-     * @return \Illuminate\View\View
-     */
-    public function users(Request $request): \Illuminate\View\View
-    {
-        // Mulai query builder untuk model User
-        $query = User::query();
-
-        // **FITUR SEARCH**
-        // Jika ada parameter 'search' di URL, lakukan pencarian
-        if ($request->has('search')) {
-            $search = $request->search;
-            // Cari user berdasarkan nama ATAU email yang mengandung keyword
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
-            });
-        }
-
-        // **FITUR FILTER ROLE**
-        // Jika ada parameter 'role' di URL dan tidak kosong, filter berdasarkan role
-        if ($request->has('role') && $request->role != '') {
-            $query->where('role', $request->role);
-        }
-
-        // Ambil hasil query dengan pagination 10 item per halaman
-        // Urutan: Terbaru di atas (latest = sort by created_at DESC)
-        $users = $query->latest()->paginate(10);
-
-        // Kirim data users ke view admin.users
-        return view('admin.users', compact('users'));
-    }
 }

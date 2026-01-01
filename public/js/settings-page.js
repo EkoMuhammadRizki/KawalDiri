@@ -329,11 +329,10 @@ window.resetSettings = async function () {
 window.saveNotifications = async function () {
     console.log('saveNotifications called');
 
-    const emailNotif = document.getElementById('emailNotif');
-    const weeklyReport = document.getElementById('weeklyReport');
+    const announcementNotif = document.getElementById('announcementNotif');
 
-    if (!emailNotif || !weeklyReport) {
-        console.error('Notification checkboxes not found');
+    if (!announcementNotif) {
+        console.error('Notification checkbox not found');
         return;
     }
 
@@ -345,8 +344,7 @@ window.saveNotifications = async function () {
                 'X-CSRF-TOKEN': getCsrfToken()
             },
             body: JSON.stringify({
-                email_notifications: emailNotif.checked,
-                weekly_reports: weeklyReport.checked
+                email_notifications: announcementNotif.checked
             })
         });
 

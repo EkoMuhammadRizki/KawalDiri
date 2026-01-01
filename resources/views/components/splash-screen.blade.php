@@ -1,5 +1,5 @@
 <style>
-    /* Clean White Splash Screen (V4) */
+    /* Clean White Splash Screen (V5 - Creative Logo) */
     .modern-splash {
         position: fixed;
         top: 0;
@@ -14,102 +14,86 @@
         transition: opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1);
     }
 
-    .splash-card {
-        background: #ffffff;
-        border-radius: 40px;
-        padding: 50px;
-        /* Subtle neumorphic/soft shadow for depth on white */
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05);
+    .logo-container {
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
-        position: relative;
-        overflow: hidden;
-        animation: card-entry 1s ease-out forwards;
-        transform: translateY(20px);
+        justify-content: center;
+    }
+
+    .creative-logo {
+        width: 280px;
+        /* Diperbesar signifikan */
+        height: auto;
+        filter: drop-shadow(0 20px 40px rgba(99, 102, 241, 0.3));
+        /* Shadow halus berwarna ungu/primary */
         opacity: 0;
+        animation:
+            logo-pop-in 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+            logo-float 4s ease-in-out infinite 1.2s;
+        /* Float mulai setelah pop-in selesai */
     }
 
-    @keyframes card-entry {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .shimmer-effect {
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 50%;
-        height: 100%;
-        /* Subtle shimmer suitable for white */
-        background: linear-gradient(to right, transparent, rgba(200, 200, 255, 0.1), transparent);
-        transform: skewX(-25deg);
-        animation: shimmer 3s infinite;
-    }
-
-    @keyframes shimmer {
+    @keyframes logo-pop-in {
         0% {
-            left: -100%;
+            opacity: 0;
+            transform: scale(0.5) translateY(50px);
+            filter: blur(20px);
         }
 
         100% {
-            left: 200%;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            filter: blur(0);
         }
     }
 
-    .logo-wrapper {
-        position: relative;
-        z-index: 2;
-        margin-bottom: 30px;
-        filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.05));
-    }
-
-    .floating-logo {
-        width: 160px;
-        height: auto;
-        animation: float-logo 4s ease-in-out infinite;
-    }
-
-    @keyframes float-logo {
+    @keyframes logo-float {
 
         0%,
         100% {
             transform: translateY(0);
+            filter: drop-shadow(0 20px 40px rgba(99, 102, 241, 0.3));
         }
 
         50% {
-            transform: translateY(-10px);
+            transform: translateY(-15px);
+            filter: drop-shadow(0 35px 50px rgba(99, 102, 241, 0.2));
         }
     }
 
-    .loading-pulse {
-        width: 60px;
-        height: 60px;
+    /* Ripple Effect Background (Optional, subtle) */
+    .ripple-bg {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.03) 0%, transparent 70%);
         border-radius: 50%;
-        /* Adjusted for white background: primary border with light gray track */
-        border: 4px solid #f3f4f6;
-        border-top-color: #6366f1;
-        /* Brand Primary Color */
-        animation: spin-loader 1s linear infinite;
+        animation: ripple-breath 4s ease-in-out infinite;
+        z-index: -1;
     }
 
-    @keyframes spin-loader {
-        to {
-            transform: rotate(360deg);
+    @keyframes ripple-breath {
+
+        0%,
+        100% {
+            transform: scale(0.8);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: scale(1.2);
+            opacity: 1;
         }
     }
 </style>
 
 <!-- Immersive Splash Screen -->
 <div id="splash-screen" class="modern-splash">
-    <div class="splash-card">
-        <div class="shimmer-effect"></div>
-        <div class="logo-wrapper">
-            <img src="{{ asset('images/Logo.png') }}" alt="KawalDiri" class="floating-logo">
-        </div>
-        <div class="loading-pulse"></div>
+    <div class="logo-container">
+        <div class="ripple-bg"></div>
+        <img src="{{ asset('images/Logo.png') }}" alt="KawalDiri" class="creative-logo">
     </div>
 </div>
 

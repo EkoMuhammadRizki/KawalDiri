@@ -12,6 +12,12 @@
                 <p class="text-dark fw-medium fs-6 mt-1">{{ $greeting }}, {{ Auth::user()->name }} 👋. Pantau produktivitas dan pengeluaran Anda dalam satu tempat.</p>
         </div>
         <div class="d-flex gap-2">
+            <button class="btn btn-light border d-flex align-items-center justify-content-center bg-white rounded-3 shadow-sm position-relative" style="width: 42px; height: 42px;" data-bs-toggle="modal" data-bs-target="#notificationModal">
+                <span class="material-symbols-outlined text-secondary">notifications</span>
+                <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle notification-dot {{ isset($unreadNotificationsCount) && $unreadNotificationsCount > 0 ? '' : 'd-none' }}">
+                    <span class="visually-hidden">New alerts</span>
+                </span>
+            </button>
             <button class="btn btn-light border d-flex align-items-center gap-2 bg-white rounded-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#taskModal">
                 <span class="material-symbols-outlined text-primary">add_task</span>
                 <span class="fw-medium">Tugas Baru</span>
@@ -103,9 +109,8 @@
         <!-- Productivity Chart -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm h-100 rounded-4">
-                <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
+                <div class="card-header bg-transparent border-0 pt-3 px-4 pb-0 d-flex justify-content-between align-items-center">
                     <h5 class="fw-bold mb-0">Tren Produktivitas</h5>
-                    <!-- <button class="btn btn-sm btn-light border rounded-pill px-3">Bulan Ini</button> -->
                 </div>
                 <div class="card-body px-4 pb-4">
                     <div style="height: 300px; width: 100%;">
@@ -118,12 +123,17 @@
         <!-- Expense Chart -->
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm h-100 rounded-4">
-                <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
+                <div class="card-header bg-transparent border-0 pt-3 px-4 pb-0">
                     <h5 class="fw-bold mb-0">Pengeluaran</h5>
                 </div>
                 <div class="card-body px-4 pb-4 d-flex align-items-center justify-content-center">
-                    <div style="height: 250px; width: 100%;">
+                    <div style="height: 300px; width: 100%; position: relative;">
                         <canvas id="expenseChart"></canvas>
+                        <!-- Center Text for Doughnut -->
+                        <div id="expenseTotallabel" class="position-absolute top-50 start-50 translate-middle text-center d-none">
+                            <p class="text-muted small mb-0">Total</p>
+                            <h6 class="fw-bold mb-0" id="totalExpenseChartValue">-</h6>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,6 +165,7 @@
 @push('modals')
 @include('components.modals.task-modal')
 @include('components.modals.transaction-modal')
+@include('components.modals.notification-modal')
 @endpush
 
 @section('scripts')

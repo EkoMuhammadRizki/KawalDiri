@@ -134,23 +134,13 @@
                     <span class="material-symbols-outlined text-primary">notifications</span> Notifikasi
                 </div>
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <p class="mb-0 fw-bold small">Notifikasi Email</p>
-                            <span class="x-small text-muted">Update via email</span>
-                        </div>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="emailNotif" {{ Auth::user()->email_notifications ? 'checked' : '' }} onchange="saveNotifications()">
-                        </div>
-                    </div>
-
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="mb-0 fw-bold small">Ringkasan Mingguan</p>
-                            <span class="x-small text-muted">Laporan aktivitas mingguan</span>
+                            <p class="mb-0 fw-bold small">Notifikasi Pengumuman</p>
+                            <span class="x-small text-muted">Terima siaran pesan dari Admin</span>
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="weeklyReport" {{ Auth::user()->weekly_reports ? 'checked' : '' }} onchange="saveNotifications()">
+                            <input class="form-check-input" type="checkbox" id="announcementNotif" {{ Auth::user()->email_notifications ? 'checked' : '' }} onchange="saveNotifications()">
                         </div>
                     </div>
 

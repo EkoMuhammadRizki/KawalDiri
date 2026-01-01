@@ -33,6 +33,21 @@
 
     </form>
 
+    <!-- Alert Messages -->
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
+    @if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
     <!-- Users Table Card -->
     <div class="stats-card p-0">
         <div class="table-responsive">
@@ -72,12 +87,13 @@
                             <span class="badge bg-success">🟢 Aktif</span>
                         </td>
                         <td class="px-4 py-3 text-end">
-                            <button class="btn btn-sm btn-light" title="Edit" onclick="Swal.fire('Info', 'Fitur edit user belum tersedia.', 'info')">
-                                <span class="material-icons-round" style="font-size: 18px;">edit</span>
-                            </button>
-                            <button class="btn btn-sm btn-light text-danger" title="Hapus" onclick="confirmDelete('{{ $user->name }}')">
+                            <button class="btn btn-sm btn-light text-danger" title="Hapus" onclick="confirmDelete('{{ $user->id }}', '{{ $user->name }}')">
                                 <span class="material-icons-round" style="font-size: 18px;">delete</span>
                             </button>
+                            <form id="delete-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
                         </td>
                     </tr>
                     @empty
@@ -103,7 +119,7 @@
 
 @push('scripts')
 <script>
-    function confirmDelete(userName) {
+    function confirmDelete(userId, userName) {
         Swal.fire({
             title: 'Hapus User?',
             text: `User "${userName}" akan dihapus permanen.`,
@@ -115,13 +131,7 @@
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: 'Dihapus!',
-                    text: 'User berhasil dihapus.',
-                    icon: 'success',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
+                document.getElementById('delete-form-' + userId).submit();
             }
         });
     }

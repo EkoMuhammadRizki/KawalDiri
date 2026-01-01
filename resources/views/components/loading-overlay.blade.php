@@ -37,7 +37,7 @@
 
 <!-- Loading Overlay -->
 <div id="loading-overlay">
-    <img src="{{ asset('images/Logo.png') }}" alt="KawalDiri" style="width: 80px; margin-bottom: 15px;">
+    <img src="{{ asset('images/Logo.png') }}" alt="KawalDiri" style="width: 150px; margin-bottom: 15px;">
     <div class="loading-spinner"></div>
     <p style="margin-top: 15px; font-weight: 600; color: #4b5563;">Sedang Memproses...</p>
 </div>
@@ -45,6 +45,8 @@
 <script>
     // Listen for form submissions on the current page
     document.addEventListener('submit', function(e) {
+        if (e.defaultPrevented) return; // Stop if validation failed
+
         // Find if the event target is a form needing the loader
         if (e.target.tagName === 'FORM' && (e.target.id === 'loginForm' || e.target.id === 'registerForm')) {
             document.getElementById('loading-overlay').style.display = 'flex';

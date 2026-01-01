@@ -17,6 +17,12 @@
     <header class="d-flex justify-content-between align-items-center mb-5">
         <h2 class="fw-bold mb-0">Pelacak Keuangan</h2>
         <div class="d-flex align-items-center gap-3">
+            <button class="btn btn-light border d-flex align-items-center justify-content-center bg-white rounded-3 shadow-sm position-relative" style="width: 42px; height: 42px;" data-bs-toggle="modal" data-bs-target="#notificationModal">
+                <span class="material-symbols-outlined text-secondary">notifications</span>
+                <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle notification-dot {{ isset($unreadNotificationsCount) && $unreadNotificationsCount > 0 ? '' : 'd-none' }}">
+                    <span class="visually-hidden">New alerts</span>
+                </span>
+            </button>
             <button class="btn btn-primary-custom d-flex align-items-center gap-2 px-4 rounded-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#transactionModal">
                 <span class="material-symbols-outlined fs-5">add</span>
                 <span class="fw-semibold">Tambah Transaksi</span>
@@ -197,6 +203,7 @@
 @push('modals')
 @include('components.modals.transaction-modal')
 @include('components.modals.budget-modal')
+@include('components.modals.notification-modal')
 @endpush
 
 @section('scripts')

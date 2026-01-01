@@ -101,11 +101,13 @@ class SettingsController extends Controller
         $user = Auth::user();
 
         $validated = $request->validate([
-            'email_notifications' => 'required|boolean',
-            'weekly_reports' => 'required|boolean',
+            'email_notifications' => 'required|boolean', // Kita gunakan kolom ini untuk "Notifikasi Pengumuman"
         ]);
 
-        $user->update($validated);
+        $user->update([
+            'email_notifications' => $validated['email_notifications'],
+            // Weekly reports kita set false atau biarkan default, karena sudah dihapus dari UI
+        ]);
 
         return response()->json([
             'success' => true,

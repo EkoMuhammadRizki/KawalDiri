@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 // ==========================================
 // Halaman Utama (Landing Page)
 // ==========================================
-// Menampilkan halaman depan website saat user pertama kali berkunjung.
 Route::get('/', function () {
     return view('home');
 })->name('home');
@@ -24,7 +23,6 @@ Route::get('/', function () {
 // ==========================================
 // Rute Otentikasi (Login & Register)
 // ==========================================
-// Menampilkan halaman login & register (Satu view 'auth')
 Route::get('/login', function () {
     return view('auth');
 })->name('login');
@@ -33,7 +31,6 @@ Route::get('/register', function () {
     return view('auth');
 })->name('register');
 
-// Proses Login & Register
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login.post');
 Route::post('/register', [App\Http\Controllers\AuthController::class, 'register'])->name('register.post');
 Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
@@ -41,10 +38,6 @@ Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->
 // ==========================================
 // Rute Halaman Dashboard (Panel Pengguna)
 // ==========================================
-// Grup rute untuk fitur-fitur di dalam dashboard.
-// Catatan: Nanti bisa ditambahkan middleware(['auth']) untuk keamanan.
-
-// Grup rute untuk fitur-fitur di dalam dashboard.
 Route::middleware(['auth'])->group(function () {
     // Halaman Utama Dashboard (Ringkasan)
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
@@ -66,10 +59,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/api/dashboard/expenses', [App\Http\Controllers\DashboardController::class, 'getExpenseData'])->name('dashboard.expenses');
     Route::get('/api/dashboard/activities', [App\Http\Controllers\DashboardController::class, 'getRecentActivities'])->name('dashboard.activities');
 
+    // Notification Routes
+    Route::post('/notifications/mark-read', [App\Http\Controllers\NotificationController::class, 'markRead'])->name('notifications.markRead');
+    Route::delete('/notifications/{id}', [App\Http\Controllers\NotificationController::class, 'destroy'])->name('notifications.destroy');
+
     // Halaman Pengaturan (Settings)
     Route::get('/settings', [App\Http\Controllers\SettingsController::class, 'show'])->name('settings');
-
-    // API endpoints untuk Settings
     Route::put('/settings/profile', [App\Http\Controllers\SettingsController::class, 'updateProfile'])->name('settings.profile');
     Route::put('/settings/avatar', [App\Http\Controllers\SettingsController::class, 'updateAvatar'])->name('settings.avatar');
     Route::put('/settings/password', [App\Http\Controllers\SettingsController::class, 'updatePassword'])->name('settings.password');
@@ -88,18 +83,23 @@ Route::middleware(['auth'])->group(function () {
 // Rute Admin (Admin Panel)
 // ==========================================
 Route::prefix('admin')->name('admin.')->group(function () {
-    // Guest Admin Routes (Tidak perlu login)
+    // Guest Admin Routes
     Route::middleware('guest')->group(function () {
         Route::get('/login', [App\Http\Controllers\Admin\AuthController::class, 'showLoginForm'])->name('login');
         Route::post('/login', [App\Http\Controllers\Admin\AuthController::class, 'login'])->name('login.post');
     });
 
-    // Protected Admin Routes (Harus login sebagai admin)
+    // Protected Admin Routes
     Route::middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
         Route::post('/logout', [App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('logout');
 
-        // Manajemen Users
-        Route::get('/users', [App\Http\Controllers\Admin\DashboardController::class, 'users'])->name('users');
+        // Manajemen Users (Using new UserController)
+        Route::get('/users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('users');
+        Route::delete('/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+
+        // Pusat Komunikasi (Siaran Pengumuman)
+        Route::get('/announcements', [App\Http\Controllers\Admin\AnnouncementController::class, 'index'])->name('announcements.index');
+        Route::post('/announcements', [App\Http\Controllers\Admin\AnnouncementController::class, 'store'])->name('announcements.store');
     });
 });
