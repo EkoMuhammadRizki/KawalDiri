@@ -1,4 +1,4 @@
-# KawalDiri - Life Manager Dashboard
+# KawalDiri - All In One Dashboard
 
 **KawalDiri** adalah aplikasi manajemen produktivitas dan keuangan pribadi all-in-one yang dirancang untuk membantu pengguna mengelola aktivitas harian mereka dengan efisien. Dengan antarmuka yang modern, bersih, dan intuitif, KawalDiri memudahkan Anda untuk tetap terorganisir dan fokus pada tujuan Anda.
 
