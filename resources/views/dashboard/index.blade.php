@@ -4,8 +4,12 @@
 <div class="container-fluid p-0">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
         <div>
-            <h2 class="fw-bold mb-1">Ringkasan Dasbor</h2>
-            <p class="text-muted small">Pantau produktivitas dan pengeluaran Anda dalam satu tempat.</p>
+            @php
+            $hour = \Carbon\Carbon::now('Asia/Jakarta')->hour;
+            $greeting = $hour < 11 ? 'Selamat Pagi' : ($hour < 15 ? 'Selamat Siang' : ($hour < 19 ? 'Selamat Sore' : 'Selamat Malam' ));
+                @endphp
+                <h2 class="fw-bold mb-1">Ringkasan Dasbor</h2>
+                <p class="text-dark fw-medium fs-6 mt-1">{{ $greeting }}, {{ Auth::user()->name }} 👋. Pantau produktivitas dan pengeluaran Anda dalam satu tempat.</p>
         </div>
         <div class="d-flex gap-2">
             <button class="btn btn-light border d-flex align-items-center gap-2 bg-white rounded-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#taskModal">

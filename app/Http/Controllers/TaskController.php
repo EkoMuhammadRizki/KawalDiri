@@ -60,6 +60,7 @@ class TaskController extends Controller
             'description' => 'nullable|string',
             'priority' => 'required|in:low,medium,high',
             'due_date' => 'required|date|after_or_equal:today',
+            'status' => 'nullable|in:pending,completed',
         ], [
             'title.required' => 'Waduh, judul tugasnya lupa diisi nih! 😅',
             'priority.required' => 'Seberapa penting nih? Prioritasnya dipilih dulu ya!',

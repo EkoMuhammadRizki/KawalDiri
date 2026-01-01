@@ -195,7 +195,6 @@ window.openEditTask = function (btn) {
     // Fill Fields
     document.getElementById('taskName').value = data.title;
     document.getElementById('taskCategory').value = data.description; // Description used as Category
-    document.getElementById('taskCategory').value = data.description; // Description used as Category
     document.getElementById('taskPriority').value = data.priority;
     document.getElementById('taskStatus').value = data.status;
 
@@ -331,4 +330,3 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 console.log('✓ Task Manager JS loaded');
-});
