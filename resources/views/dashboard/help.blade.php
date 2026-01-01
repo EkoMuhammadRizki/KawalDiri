@@ -64,8 +64,8 @@
             <div class="row g-3">
                 <div class="col-md-6">
                     <a href="#" class="card quick-link-card h-100 p-4">
-                        <div class="bg-primary bg-opacity-10 text-primary rounded-3 d-inline-flex p-3 mb-3" style="width: fit-content;">
-                            <span class="material-symbols-outlined">menu_book</span>
+                        <div class="rounded-3 d-inline-flex p-3 mb-3" style="width: fit-content; background-color: rgba(var(--accent-color-rgb), 0.1);">
+                            <span class="material-symbols-outlined text-primary">menu_book</span>
                         </div>
                         <h5 class="fw-bold mb-1">Panduan Pengguna</h5>
                         <p class="text-muted small mb-0">Dokumentasi lengkap penggunaan aplikasi.</p>
@@ -73,8 +73,8 @@
                 </div>
                 <div class="col-md-6">
                     <a href="#" class="card quick-link-card h-100 p-4">
-                        <div class="bg-success bg-opacity-10 text-success rounded-3 d-inline-flex p-3 mb-3" style="width: fit-content;">
-                            <span class="material-symbols-outlined">forum</span>
+                        <div class="rounded-3 d-inline-flex p-3 mb-3" style="width: fit-content; background-color: rgba(var(--accent-color-rgb), 0.1);">
+                            <span class="material-symbols-outlined text-primary">forum</span>
                         </div>
                         <h5 class="fw-bold mb-1">Forum Komunitas</h5>
                         <p class="text-muted small mb-0">Diskusi dan tips dari pengguna lain.</p>
@@ -114,4 +114,56 @@
         </div>
     </div>
 </div>
+
+@push('styles')
+<style>
+    .quick-link-card {
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 1px solid var(--border-color);
+    }
+
+    .quick-link-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="dark"] .quick-link-card:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .search-container {
+        position: relative;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+    }
+
+    .search-input {
+        padding-left: 50px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+    }
+
+    [data-theme="dark"] .accordion-button {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+    }
+
+    [data-theme="dark"] .accordion-button:not(.collapsed) {
+        background-color: var(--bg-secondary);
+        color: var(--text-primary);
+    }
+
+    [data-theme="dark"] .accordion-item {
+        border-color: var(--border-color);
+    }
+</style>
+@endpush
 @endsection

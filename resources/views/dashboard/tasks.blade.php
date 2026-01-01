@@ -18,7 +18,7 @@
         <div>
             <h2 class="fw-black mb-0" style="font-weight: 900; letter-spacing: -1px;">Pengelola Tugas</h2>
         </div>
-        <button class="btn btn-primary-custom d-none d-md-flex align-items-center gap-2 rounded-pill" data-bs-toggle="modal" data-bs-target="#taskModal">
+        <button class="btn btn-primary-custom d-none d-md-flex align-items-center gap-2 rounded-3" data-bs-toggle="modal" data-bs-target="#taskModal">
             <span class="material-symbols-outlined fs-5">add</span>
             <span>Tugas Baru</span>
         </button>
@@ -64,7 +64,49 @@
                         <th class="text-end" style="width: 120px;">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="taskTableBody">
+                    @forelse($tasks as $task)
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="material-symbols-outlined cursor-pointer {{ $task->status === 'completed' ? 'text-success' : 'text-secondary' }} hover-scale"
+                                    onclick="toggleTaskStatus({{ $task->id }})">
+                                    {{ $task->status === 'completed' ? 'check_circle' : 'radio_button_unchecked' }}
+                                </span>
+                                <div>
+                                    <h6 class="mb-0 {{ $task->status === 'completed' ? 'text-decoration-line-through text-muted' : 'fw-bold' }}">{{ $task->title }}</h6>
+                                    <small class="text-muted">{{ $task->description }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            @php
+                            $badges = [
+                            'low' => 'bg-success-subtle text-success',
+                            'medium' => 'bg-warning-subtle text-warning',
+                            'high' => 'bg-danger-subtle text-danger'
+                            ];
+                            @endphp
+                            <span class="badge {{ $badges[$task->priority] ?? 'bg-secondary' }} text-uppercase">{{ $task->priority }}</span>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2 text-muted small">
+                                <span class="material-symbols-outlined fs-6">calendar_today</span>
+                                {{ $task->due_date->format('d M Y') }}
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge bg-{{ $task->status === 'completed' ? 'success' : 'secondary' }}-subtle text-{{ $task->status === 'completed' ? 'success' : 'secondary' }} text-capitalize">
+                                {{ $task->status }}
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            <button class="btn btn-icon btn-sm text-danger hover-bg-danger-subtle" onclick="deleteTask({{ $task->id }})">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </td>
+                    </tr>
+                    @empty
                     <tr>
                         <td colspan="5" class="text-center py-5">
                             <div class="d-flex flex-column align-items-center justify-content-center">
@@ -74,21 +116,14 @@
                             </div>
                         </td>
                     </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
 
         <!-- Pagination -->
-        <div class="p-3 d-flex justify-content-between align-items-center bg-white border-top">
-            <span class="small text-muted">Menampilkan <b>1</b> sampai <b>3</b> dari <b>12</b> hasil</span>
-            <nav>
-                <ul class="pagination pagination-sm mb-0">
-                    <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Selanjutnya</a></li>
-                </ul>
-            </nav>
+        <div class="p-3 bg-white border-top rounded-bottom-4">
+            {{ $tasks->appends(['filter' => $filter])->links('pagination::bootstrap-5') }}
         </div>
     </div>
 </div>
@@ -101,6 +136,10 @@
 @push('modals')
 @include('components.modals.task-modal')
 @endpush
+
+@section('scripts')
+<script src="{{ asset('js/task-manager.js') }}"></script>
+@endsection
 
 @endsection
 

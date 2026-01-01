@@ -26,8 +26,13 @@
         background: linear-gradient(135deg, #5b47e5, #a855f7, #ec4899, #f97316, #a855f7, #5b47e5);
         background-size: 300% 300%;
         animation: gradientAnimation 8s ease infinite;
+        animation: gradientAnimation 8s ease infinite;
     }
 </style>
+@include('components.splash-screen')
+
+
+
 
 <section class="section-padding">
     <div class="container">

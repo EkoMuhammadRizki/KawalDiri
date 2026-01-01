@@ -3,6 +3,7 @@
 @section('title', 'KawalDiri - Kelola Waktu & Keuangan Anda')
 
 @push('styles')
+<link rel="icon" type="image/png" href="{{ asset('images/Logo Favicon.png') }}">
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
 

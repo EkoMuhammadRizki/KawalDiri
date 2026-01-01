@@ -47,24 +47,35 @@ Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->
 // Grup rute untuk fitur-fitur di dalam dashboard.
 Route::middleware(['auth'])->group(function () {
     // Halaman Utama Dashboard (Ringkasan)
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    })->name('dashboard');
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     // Halaman Manajer Tugas (To-Do List)
-    Route::get('/tasks', function () {
-        return view('dashboard.tasks', ['filter' => request()->query('filter', 'all')]);
-    })->name('tasks');
+    Route::get('/tasks', [App\Http\Controllers\TaskController::class, 'index'])->name('tasks');
+    Route::post('/tasks', [App\Http\Controllers\TaskController::class, 'store'])->name('tasks.store');
+    Route::put('/tasks/{task}', [App\Http\Controllers\TaskController::class, 'update'])->name('tasks.update');
+    Route::delete('/tasks/{task}', [App\Http\Controllers\TaskController::class, 'destroy'])->name('tasks.destroy');
 
     // Halaman Pelacak Keuangan (Finance Tracker)
-    Route::get('/finance', function () {
-        return view('dashboard.finance');
-    })->name('finance');
+    Route::get('/finance', [App\Http\Controllers\TransactionController::class, 'index'])->name('finance');
+    Route::post('/transactions', [App\Http\Controllers\TransactionController::class, 'store'])->name('transactions.store');
+    Route::delete('/transactions/{transaction}', [App\Http\Controllers\TransactionController::class, 'destroy'])->name('transactions.destroy');
+
+    // Dashboard Data API
+    Route::get('/api/dashboard/productivity', [App\Http\Controllers\DashboardController::class, 'getProductivityData'])->name('dashboard.productivity');
+    Route::get('/api/dashboard/expenses', [App\Http\Controllers\DashboardController::class, 'getExpenseData'])->name('dashboard.expenses');
+    Route::get('/api/dashboard/activities', [App\Http\Controllers\DashboardController::class, 'getRecentActivities'])->name('dashboard.activities');
 
     // Halaman Pengaturan (Settings)
-    Route::get('/settings', function () {
-        return view('dashboard.settings');
-    })->name('settings');
+    Route::get('/settings', [App\Http\Controllers\SettingsController::class, 'show'])->name('settings');
+
+    // API endpoints untuk Settings
+    Route::put('/settings/profile', [App\Http\Controllers\SettingsController::class, 'updateProfile'])->name('settings.profile');
+    Route::put('/settings/avatar', [App\Http\Controllers\SettingsController::class, 'updateAvatar'])->name('settings.avatar');
+    Route::put('/settings/password', [App\Http\Controllers\SettingsController::class, 'updatePassword'])->name('settings.password');
+    Route::put('/settings/preferences', [App\Http\Controllers\SettingsController::class, 'updatePreferences'])->name('settings.preferences');
+    Route::put('/settings/notifications', [App\Http\Controllers\SettingsController::class, 'updateNotifications'])->name('settings.notifications');
+    Route::put('/settings/budget', [App\Http\Controllers\SettingsController::class, 'updateBudget'])->name('settings.budget');
+    Route::post('/settings/reset', [App\Http\Controllers\SettingsController::class, 'reset'])->name('settings.reset');
 
     // Halaman Bantuan & Dukungan (Help Center)
     Route::get('/help', function () {

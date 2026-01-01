@@ -30,12 +30,7 @@
                 <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
             </select>
         </div>
-        <div class="col-md-2 text-end">
-            <button type="button" class="btn btn-primary" onclick="Swal.fire('Info', 'Fitur tambah user belum tersedia.', 'info')">
-                <span class="material-icons-round">person_add</span>
-                Tambah User
-            </button>
-        </div>
+
     </form>
 
     <!-- Users Table Card -->

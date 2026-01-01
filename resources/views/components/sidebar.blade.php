@@ -1,6 +1,6 @@
 <aside class="sidebar d-flex flex-column p-4">
     <div class="d-flex align-items-center gap-3 mb-5 px-2">
-        <div class="rounded-3 d-flex align-items-center justify-content-center text-white" style="width: 40px; height: 40px; background-color: var(--primary-color) !important;">
+        <div class="rounded-3 d-flex align-items-center justify-content-center text-white" style="width: 40px; height: 40px; background-color: var(--accent-color) !important;">
             @php
             $currentRoute = request()->route()->getName();
             $iconMap = [
@@ -40,7 +40,17 @@
         @if(auth()->check())
         <div class="d-flex align-items-center justify-content-between p-2 rounded-3 hover-bg">
             <a href="{{ route('settings') }}" class="d-flex align-items-center gap-3 text-decoration-none text-reset overflow-hidden flex-grow-1">
-                <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=1232e2&color=fff" class="rounded-circle" width="40" height="40">
+                @php
+                $avatarColors = ['6366f1', '10b981', 'f59e0b', 'ef4444', '8b5cf6', '06b6d4', 'ec4899', '14b8a6'];
+                $userAvatar = auth()->user()->avatar ?? 1;
+                $sidebarAvatarColor = $avatarColors[($userAvatar - 1) % 8];
+                @endphp
+                <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background={{ $sidebarAvatarColor }}&color=fff"
+                    class="rounded-circle"
+                    width="40"
+                    height="40"
+                    id="sidebarProfileAvatar"
+                    data-username="{{ urlencode(auth()->user()->name) }}">
                 <div class="overflow-hidden">
                     <p class="small fw-bold mb-0 text-truncate">{{ auth()->user()->name }}</p>
                     <p class="x-small text-muted mb-0 text-truncate">{{ auth()->user()->email }}</p>

@@ -48,7 +48,7 @@ class AuthController extends Controller
 
         // Jika login gagal, kembalikan pesan error dan input email sebelumnya
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'Email atau kata sandi yang Anda masukkan salah.',
         ])->onlyInput('email');
     }
 
