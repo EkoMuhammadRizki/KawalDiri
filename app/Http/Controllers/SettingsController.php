@@ -12,7 +12,7 @@ class SettingsController extends Controller
     /**
      * Tampilkan halaman settings
      */
-    public function show()
+    public function show(): \Illuminate\View\View
     {
         return view('dashboard.settings');
     }
@@ -20,7 +20,7 @@ class SettingsController extends Controller
     /**
      * Update profile user (nama, username, phone)
      */
-    public function updateProfile(Request $request)
+    public function updateProfile(Request $request): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
 
@@ -42,7 +42,7 @@ class SettingsController extends Controller
     /**
      * Update password user
      */
-    public function updatePassword(Request $request)
+    public function updatePassword(Request $request): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
 
@@ -72,7 +72,7 @@ class SettingsController extends Controller
     /**
      * Update preferensi tema & accent color
      */
-    public function updatePreferences(Request $request)
+    public function updatePreferences(Request $request): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
 
@@ -96,7 +96,7 @@ class SettingsController extends Controller
     /**
      * Update pengaturan notifikasi
      */
-    public function updateNotifications(Request $request)
+    public function updateNotifications(Request $request): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
 
@@ -116,7 +116,7 @@ class SettingsController extends Controller
     /**
      * Update avatar user
      */
-    public function updateAvatar(Request $request)
+    public function updateAvatar(Request $request): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
 
@@ -136,7 +136,7 @@ class SettingsController extends Controller
     /**
      * Reset semua pengaturan ke default
      */
-    public function reset(Request $request)
+    public function reset(Request $request): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
 
@@ -157,7 +157,7 @@ class SettingsController extends Controller
     /**
      * Update user budget
      */
-    public function updateBudget(Request $request)
+    public function updateBudget(Request $request): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
 

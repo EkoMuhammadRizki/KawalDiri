@@ -14,10 +14,18 @@ function getCsrfToken() {
  */
 async function loadTransactions(filters = {}) {
     try {
-        const params = new URLSearchParams(filters);
-        const response = await fetch(`/finance?${params}`, {
+        // Use current URL parameters as base
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Merge with new filters
+        for (const [key, value] of Object.entries(filters)) {
+            urlParams.set(key, value);
+        }
+
+        const response = await fetch(`/finance?${urlParams.toString()}`, {
             headers: {
                 'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
             }
         });
 
@@ -158,8 +166,8 @@ window.submitTransaction = async function () {
             form.reset();
             document.getElementById('transId').value = ''; // Clear ID
 
-            // Reload page
-            window.location.reload();
+            // Reload transactions and stats without page refresh
+            await loadTransactions();
         } else {
             throw new Error(data.message || 'Gagal menyimpan transaksi');
         }
@@ -384,8 +392,8 @@ window.deleteTransaction = async function (transactionId) {
                 showConfirmButton: false
             });
 
-            // Reload page
-            window.location.reload();
+            // Reload transactions and stats
+            await loadTransactions();
         }
     } catch (error) {
         console.error('Error deleting transaction:', error);
@@ -400,6 +408,8 @@ window.deleteTransaction = async function (transactionId) {
 /**
  * Update budget display
  */
+const formatNumber = (num) => new Intl.NumberFormat('id-ID').format(num);
+
 function updateBudgetDisplay(stats) {
     if (!stats) return;
 
@@ -476,7 +486,7 @@ window.submitBudget = async function () {
                 showConfirmButton: false
             });
 
-            window.location.reload();
+            await loadTransactions();
         }
     } catch (error) {
         console.error('Error setting budget:', error);

@@ -26,7 +26,7 @@ class DashboardController extends Controller
      * 
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         // Mengumpulkan statistik untuk dashboard admin
         $stats = [
@@ -64,7 +64,7 @@ class DashboardController extends Controller
      * @param Request $request - Berisi parameter query 'search' dan 'role'
      * @return \Illuminate\View\View
      */
-    public function users(Request $request)
+    public function users(Request $request): \Illuminate\View\View
     {
         // Mulai query builder untuk model User
         $query = User::query();

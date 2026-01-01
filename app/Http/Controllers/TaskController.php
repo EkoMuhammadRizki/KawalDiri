@@ -53,7 +53,7 @@ class TaskController extends Controller
     /**
      * Store a newly created task.
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\JsonResponse
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -80,7 +80,7 @@ class TaskController extends Controller
     /**
      * Update the specified task.
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, Task $task): \Illuminate\Http\JsonResponse
     {
         // Pastikan task milik user yang sedang login
         if ($task->user_id !== Auth::id()) {
@@ -126,7 +126,7 @@ class TaskController extends Controller
     /**
      * Remove the specified task.
      */
-    public function destroy(Task $task)
+    public function destroy(Task $task): \Illuminate\Http\JsonResponse
     {
         // Pastikan task milik user yang sedang login
         if ($task->user_id !== Auth::id()) {

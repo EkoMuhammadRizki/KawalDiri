@@ -63,8 +63,8 @@
                 <thead>
                     <tr>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Detail Tugas</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2" style="width: 150px;">Prioritas</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2" style="width: 200px;">Tenggat</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width: 150px;">Prioritas</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width: 200px;">Tenggat</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width: 80px;">Hapus</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width: 80px;">Edit</th>
@@ -85,7 +85,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td>
+                        <td class="text-center">
                             @php
                             $badges = [
                             'low' => 'bg-success-subtle text-success',
@@ -95,14 +95,14 @@
                             @endphp
                             <span class="badge {{ $badges[$task->priority] ?? 'bg-secondary' }} text-uppercase">{{ $task->priority }}</span>
                         </td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2 text-muted small">
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center gap-2 text-muted small">
                                 <span class="material-symbols-outlined fs-6">calendar_today</span>
                                 {{ $task->due_date->format('d M Y') }}
                             </div>
                         </td>
-                        <td>
-                            <span class="badge bg-{{ $task->status === 'completed' ? 'success' : 'secondary' }}-subtle text-{{ $task->status === 'completed' ? 'success' : 'secondary' }} text-capitalize">
+                        <td class="text-center">
+                            <span class="badge bg-{{ $task->status === 'completed' ? 'success' : 'secondary' }}-subtle text-{{ $task->status === 'completed' ? 'success' : 'secondary' }} text-capitalize task-status-badge">
                                 {{ $task->status }}
                             </span>
                         </td>

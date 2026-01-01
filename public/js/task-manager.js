@@ -14,10 +14,18 @@ function getCsrfToken() {
  */
 async function loadTasks(filters = {}) {
     try {
-        const params = new URLSearchParams(filters);
-        const response = await fetch(`/tasks?${params}`, {
+        // Use current URL parameters as base
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Merge with new filters
+        for (const [key, value] of Object.entries(filters)) {
+            urlParams.set(key, value);
+        }
+
+        const response = await fetch(`/tasks?${urlParams.toString()}`, {
             headers: {
                 'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
             }
         });
 
@@ -67,7 +75,7 @@ function renderTasks(tasksData) {
             <tr>
                 <td>
                     <div class="d-flex align-items-center gap-3">
-                        <span class="material-symbols-outlined cursor-pointer ${checkColor} hover-scale" 
+                        <span class="material-symbols-outlined cursor-pointer ${checkColor} hover-scale user-select-none" 
                               onclick="toggleTaskStatus(${task.id})">
                             ${checkIcon}
                         </span>
@@ -77,15 +85,15 @@ function renderTasks(tasksData) {
                         </div>
                     </div>
                 </td>
-                <td>${priorityBadge}</td>
-                <td>
-                    <div class="d-flex align-items-center gap-2 text-muted small">
+                <td class="text-center">${priorityBadge}</td>
+                <td class="text-center">
+                    <div class="d-flex align-items-center justify-content-center gap-2 text-muted small">
                         <span class="material-symbols-outlined fs-6">calendar_today</span>
                         ${new Date(task.due_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </div>
                 </td>
-                <td>
-                    <span class="badge bg-${task.status === 'completed' ? 'success' : 'secondary'}-subtle text-${task.status === 'completed' ? 'success' : 'secondary'} text-capitalize">
+                <td class="text-center">
+                    <span class="badge bg-${task.status === 'completed' ? 'success' : 'secondary'}-subtle text-${task.status === 'completed' ? 'success' : 'secondary'} text-capitalize task-status-badge">
                         ${task.status}
                     </span>
                 </td>
@@ -164,8 +172,8 @@ window.submitTask = async function () {
             form.reset();
             document.getElementById('taskId').value = ''; // Clear ID
 
-            // Reload tasks
-            window.location.reload();
+            // Reload tasks without page refresh
+            await loadTasks();
         } else {
             throw new Error(data.message || 'Gagal menyimpan tugas');
         }
@@ -242,8 +250,44 @@ window.toggleTaskStatus = async function (taskId) {
         const data = await response.json();
 
         if (data.success) {
-            // Reload page untuk update UI
-            window.location.reload();
+            // Update UI directly without reload
+            const icon = document.querySelector(`span[onclick="toggleTaskStatus(${taskId})"]`);
+            if (icon) {
+                const row = icon.closest('tr');
+                const title = row.querySelector('h6');
+                const badge = row.querySelector('.task-status-badge'); // Status badge - FIXED
+
+                // Toggle Icon
+                if (data.task.status === 'completed') {
+                    icon.textContent = 'check_circle';
+                    icon.classList.remove('text-secondary');
+                    icon.classList.add('text-success');
+
+                    // Update Title
+                    title.classList.add('text-decoration-line-through', 'text-muted');
+                    title.classList.remove('fw-bold');
+
+                    // Update Badge
+                    if (badge) {
+                        badge.className = 'badge bg-success-subtle text-success text-capitalize task-status-badge';
+                        badge.textContent = 'completed';
+                    }
+                } else {
+                    icon.textContent = 'radio_button_unchecked';
+                    icon.classList.remove('text-success');
+                    icon.classList.add('text-secondary');
+
+                    // Update Title
+                    title.classList.remove('text-decoration-line-through', 'text-muted');
+                    title.classList.add('fw-bold');
+
+                    // Update Badge
+                    if (badge) {
+                        badge.className = 'badge bg-secondary-subtle text-secondary text-capitalize task-status-badge';
+                        badge.textContent = 'pending';
+                    }
+                }
+            }
         }
     } catch (error) {
         console.error('Error toggling task status:', error);
@@ -287,8 +331,21 @@ window.deleteTask = async function (taskId) {
                 showConfirmButton: false
             });
 
-            // Reload page
-            window.location.reload();
+            // Remove row from table
+            const btn = document.querySelector(`button[onclick="deleteTask(${taskId})"]`);
+            if (btn) {
+                const row = btn.closest('tr');
+                row.style.transition = 'all 0.3s ease';
+                row.style.opacity = '0';
+                setTimeout(() => {
+                    row.remove();
+                    // Check if empty
+                    const tbody = document.getElementById('taskTableBody');
+                    if (tbody && tbody.children.length === 0) {
+                        loadTasks(); // Reload to show empty state or fetch next page
+                    }
+                }, 300);
+            }
         }
     } catch (error) {
         console.error('Error deleting task:', error);

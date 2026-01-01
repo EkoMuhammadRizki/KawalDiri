@@ -52,8 +52,7 @@ class DashboardController extends Controller
             $weekStart = Carbon::now()->subWeeks($i)->startOfWeek();
             $weekEnd = Carbon::now()->subWeeks($i)->endOfWeek();
 
-            Carbon::setLocale('id');
-            $date = Carbon::now()->subWeeks($i);
+            $date = Carbon::now()->subWeeks($i)->locale('id');
             // Example: Minggu 1 Jan 2026
             $weeks[] = 'Minggu ' . $date->weekOfMonth . ' ' . $date->translatedFormat('M Y');
             $completed[] = $user->tasks()

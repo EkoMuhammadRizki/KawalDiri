@@ -37,9 +37,12 @@ class IsAdmin
             return redirect()->route('admin.login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+
         // **PENGECEKAN 2: Apakah user memiliki role 'admin'?**
         // Jika role bukan 'admin', tolak akses dengan HTTP 403 Forbidden
-        if (auth()->user()->role !== 'admin') {
+        if ($user->role !== 'admin') {
             abort(403, 'Akses ditolak. Anda bukan administrator.');
         }
 

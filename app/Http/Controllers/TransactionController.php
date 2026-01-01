@@ -68,7 +68,7 @@ class TransactionController extends Controller
     /**
      * Store a newly created transaction.
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\JsonResponse
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -99,7 +99,7 @@ class TransactionController extends Controller
     /**
      * Update the specified transaction.
      */
-    public function update(Request $request, Transaction $transaction)
+    public function update(Request $request, Transaction $transaction): \Illuminate\Http\JsonResponse
     {
         // Pastikan transaction milik user yang sedang login
         if ($transaction->user_id !== Auth::id()) {
@@ -136,7 +136,7 @@ class TransactionController extends Controller
     /**
      * Remove the specified transaction.
      */
-    public function destroy(Transaction $transaction)
+    public function destroy(Transaction $transaction): \Illuminate\Http\JsonResponse
     {
         // Pastikan transaction milik user yang sedang login
         if ($transaction->user_id !== Auth::id()) {
