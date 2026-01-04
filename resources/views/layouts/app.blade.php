@@ -28,21 +28,19 @@
     <!-- SortableJS -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
-    <!-- Theme Manager -->
+    <!-- Dashboard Theme Styles -->
+    <link rel="stylesheet" href="{{ asset('css/dashboard-theme.css') }}">
+
+    <!-- Dynamic Accent Color (from user settings) -->
     <style>
         :root {
+            --accent-color: {{ Auth::check() ? Auth::user()->accent_color : '#6366f1' }};
+        }
+    </style>
 
-            /* Default Accent Color */
-            --accent-color: {
-                    {
-                    Auth: :check() ? Auth::user()->accent_color: '#6366f1'
-                }
-            }
-
-            ;
-            --accent-color-rgb: 99,
-            102,
-            241;
+    <style>
+        :root {
+            --accent-color-rgb: 99, 102, 241;
             --accent-color-hover: #5558e3;
             --accent-color-light: #818cf8;
 
@@ -350,85 +348,8 @@
     <script src="https://unpkg.com/@swup/scripts-plugin@2"></script>
     <script src="https://unpkg.com/@swup/head-plugin@2"></script>
 
-    <script>
-        const swup = new Swup({
-            containers: ["#swup"],
-            plugins: [new SwupScriptsPlugin(), new SwupHeadPlugin()],
-            linkSelector: 'a[href^="' + window.location.origin + '"]:not([data-no-swup]), a[href^="/"]:not([data-no-swup]), .nav-link'
-        });
-
-        // Function to update sidebar icon based on route
-        function updateSidebarIcon() {
-            const currentPath = window.location.pathname;
-            const iconElement = document.querySelector('.sidebar .material-symbols-outlined');
-
-            if (!iconElement) return;
-
-            const iconMap = {
-                '/dashboard': 'dashboard',
-                '/tasks': 'check_circle',
-                '/finance': 'payments',
-                '/settings': 'settings',
-                '/help': 'help'
-            };
-
-            let newIcon = 'spa'; // default
-            for (const [path, icon] of Object.entries(iconMap)) {
-                if (currentPath === path || currentPath.startsWith(path + '/')) {
-                    newIcon = icon;
-                    break;
-                }
-            }
-            iconElement.textContent = newIcon;
-        }
-
-        // Re-init logic after Swup transition
-        function reinitScripts() {
-            // Re-initialize Bootstrap components
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
-            });
-
-            // Update Sidebar Active State
-            const currentPath = window.location.pathname;
-            const navLinks = document.querySelectorAll('.sidebar .nav-link');
-            navLinks.forEach(link => {
-                const href = link.getAttribute('href');
-                const linkPath = new URL(href, window.location.origin).pathname;
-                if (currentPath === linkPath || (linkPath !== '/' && currentPath.startsWith(linkPath))) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-
-            // Update Sidebar Icon
-            updateSidebarIcon();
-
-            // Init Dashboard if on Dashboard
-            if (document.getElementById('productivityChart')) {
-                if (window.initDashboard) window.initDashboard();
-            }
-
-            // Init Finance if on Finance Page
-            if (document.querySelector('.finance-table-card')) {
-                if (window.initFinanceTracker) window.initFinanceTracker();
-            }
-
-            // Init Tasks if on Task Page
-            if (document.getElementById('taskTableBody')) {
-                if (window.initTaskManager) window.initTaskManager();
-            }
-        }
-
-        swup.hooks.on('content:replace', reinitScripts);
-
-        // Run on initial load too
-        document.addEventListener('DOMContentLoaded', () => {
-            updateSidebarIcon();
-        });
-    </script>
+    <!-- Dashboard Navigation -->
+    <script src="{{ asset('js/dashboard-navigation.js') }}"></script>
     @yield('scripts')
 </body>
 

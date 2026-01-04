@@ -42,6 +42,9 @@ class AuthController extends Controller
             // Regenerasi session ID untuk mencegah session fixation attack
             $request->session()->regenerate();
 
+            // Set user status menjadi aktif saat login berhasil
+            Auth::user()->update(['is_active' => true]);
+
             // Redirect ke halaman yang dimaksud (default: dashboard)
             return redirect()->intended('dashboard');
         }
@@ -80,6 +83,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password), // Hash password
+            'is_active' => true, // Set status aktif untuk user baru
         ]);
 
         // Login otomatis setelah registrasi berhasil
@@ -100,6 +104,11 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
+        // Set user status menjadi tidak aktif sebelum logout
+        if (Auth::check()) {
+            Auth::user()->update(['is_active' => false]);
+        }
+
         // Logout user dari sistem
         Auth::logout();
 

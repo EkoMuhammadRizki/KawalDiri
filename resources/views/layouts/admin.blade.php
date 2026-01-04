@@ -17,143 +17,10 @@
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Admin Layout Styles -->
+    <link rel="stylesheet" href="{{ asset('css/admin/admin-layout.css') }}">
+
     @stack('styles')
-
-    <style>
-        :root {
-            --primary-color: #4338CA;
-            --primary-hover: #3730A3;
-            --emerald-acc: #10B981;
-            --bg-light: #F3F4F6;
-            --text-main: #111827;
-            --text-muted: #6B7280;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-main);
-        }
-
-        /* Sidebar */
-        .admin-sidebar {
-            width: 280px;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: white;
-            border-right: 1px solid #E5E7EB;
-            z-index: 1000;
-            overflow-y: auto;
-        }
-
-        .sidebar-brand {
-            padding: 1.5rem;
-            border-bottom: 1px solid #E5E7EB;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .sidebar-nav {
-            padding: 1rem;
-        }
-
-        .nav-item {
-            margin-bottom: 0.5rem;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            border-radius: 0.75rem;
-            transition: all 0.2s;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            background-color: rgba(67, 56, 202, 0.1);
-            color: var(--primary-color);
-        }
-
-        /* Main Content */
-        .admin-main {
-            margin-left: 280px;
-            min-height: 100vh;
-            padding: 2rem;
-        }
-
-        /* Topbar */
-        .admin-topbar {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.25rem 1.75rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Stats Cards */
-        .stats-card {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.75rem;
-            border: 1px solid #E5E7EB;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s;
-        }
-
-        .stats-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .stats-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-logout {
-            background: #FEF2F2;
-            color: #EF4444;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .btn-logout:hover {
-            background: #FEE2E2;
-            color: #DC2626;
-        }
-
-        .btn-secondary {
-            background: #F3F4F6;
-            color: #4B5563;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .btn-secondary:hover {
-            background: #E5E7EB;
-            color: #1F2937;
-        }
-    </style>
 </head>
 
 <body>
@@ -178,20 +45,20 @@
         <nav class="sidebar-nav">
             <ul class="list-unstyled">
                 <li class="nav-item">
-                    <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" data-no-swup>
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                         <span class="material-icons-round">dashboard</span>
                         <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.users') }}" class="nav-link {{ request()->routeIs('admin.users') ? 'active' : '' }}" data-no-swup>
+                    <a href="{{ route('admin.users') }}" class="nav-link {{ request()->routeIs('admin.users') ? 'active' : '' }}">
                         <span class="material-icons-round">people</span>
                         <span>Manajemen User</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <p class="small text-muted fw-bold px-3 mt-3 mb-1 text-uppercase" style="font-size: 0.7rem;">Pusat Komunikasi</p>
-                    <a href="{{ route('admin.announcements.index') }}" class="nav-link {{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}" data-no-swup>
+                    <a href="{{ route('admin.announcements.index') }}" class="nav-link {{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}">
                         <span class="material-icons-round">campaign</span>
                         <span>Siaran Pengumuman</span>
                     </a>
@@ -232,43 +99,11 @@
         @csrf
     </form>
 
-    <script>
-        function confirmLogout() {
-            Swal.fire({
-                title: 'Yakin Ingin Keluar?',
-                text: 'Anda akan keluar dari panel admin.',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#4338CA',
-                cancelButtonColor: '#6B7280',
-                confirmButtonText: 'Ya, Keluar',
-                cancelButtonText: 'Batal',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('logoutForm').submit();
-                }
-            });
-        }
+    <!-- Admin Layout Scripts -->
+    <script src="{{ asset('js/admin/admin-layout.js') }}"></script>
 
-        function confirmGoToLanding() {
-            Swal.fire({
-                title: 'Kembali ke Landing Page?',
-                text: 'Anda akan diarahkan ke halaman utama.',
-                icon: 'info',
-                showCancelButton: true,
-                confirmButtonColor: '#10B981',
-                cancelButtonColor: '#6B7280',
-                confirmButtonText: 'Ya, Ke Landing Page',
-                cancelButtonText: 'Batal',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = '/';
-                }
-            });
-        }
-    </script>
+    <!-- Admin SPA Navigation -->
+    <script src="{{ asset('js/admin/admin-spa.js') }}"></script>
 
     @stack('scripts')
 </body>

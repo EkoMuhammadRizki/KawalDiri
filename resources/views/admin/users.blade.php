@@ -123,22 +123,5 @@
 @endsection
 
 @push('scripts')
-<script>
-    function confirmDelete(userId, userName) {
-        Swal.fire({
-            title: 'Hapus User?',
-            text: `User "${userName}" akan dihapus permanen.`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ef4444',
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('delete-form-' + userId).submit();
-            }
-        });
-    }
-</script>
+<script src="{{ asset('js/admin/user-management.js') }}"></script>
 @endpush
