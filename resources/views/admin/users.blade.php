@@ -18,9 +18,10 @@
             </div>
         </div>
         <div class="col-md-3">
-            <select class="form-select" disabled title="Fitur ini belum tersedia (kolom status tidak ada di DB)">
+            <select name="status" class="form-select" onchange="this.form.submit()">
                 <option value="">Semua Status</option>
-                <option value="active">Aktif</option>
+                <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Aktif</option>
+                <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Nonaktif</option>
             </select>
         </div>
         <div class="col-md-3">
@@ -84,7 +85,11 @@
                             @endif
                         </td>
                         <td class="px-4 py-3">
+                            @if($user->is_active)
                             <span class="badge bg-success">🟢 Aktif</span>
+                            @else
+                            <span class="badge bg-danger">🔴 Nonaktif</span>
+                            @endif
                         </td>
                         <td class="px-4 py-3 text-end">
                             <button class="btn btn-sm btn-light text-danger" title="Hapus" onclick="confirmDelete('{{ $user->id }}', '{{ $user->name }}')">

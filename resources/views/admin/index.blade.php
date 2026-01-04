@@ -1,135 +1,166 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
-@section('title', 'Admin Dashboard - KawalDiri')
+@section('page-title', 'Admin Dashboard')
+@section('page-subtitle', 'Ringkasan statistik dan aktivitas sistem')
 
 @section('content')
-<div class="page-header">
-    <h1 class="page-title">📊 Admin Dashboard</h1>
-</div>
-
 <!-- Stats Overview -->
-<div class="dashboard-grid mb-6">
-    <div class="widget">
-        <div class="widget-header">
-            <span class="widget-title">👥 Total Users</span>
-        </div>
-        <div class="widget-value">1,245</div>
-        <div class="widget-change positive">
-            <i data-lucide="trending-up"></i>
-            <span>+12% bulan ini</span>
-        </div>
-    </div>
-    <div class="widget">
-        <div class="widget-header">
-            <span class="widget-title">📋 Total Tasks</span>
-        </div>
-        <div class="widget-value">15,782</div>
-        <div class="widget-change positive">
-            <i data-lucide="trending-up"></i>
-            <span>+8% bulan ini</span>
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="stats-card h-100">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="text-muted fw-bold">TOTAL USERS</span>
+                <div class="stats-icon bg-primary bg-opacity-10 text-primary">
+                    <span class="material-icons-round">people</span>
+                </div>
+            </div>
+            <h2 class="fw-bold mb-1">1,245</h2>
+            <div class="d-flex align-items-center text-success small">
+                <span class="material-icons-round fs-6 me-1">trending_up</span>
+                <span class="fw-bold">+12%</span>
+                <span class="text-muted ms-2">bulan ini</span>
+            </div>
         </div>
     </div>
-    <div class="widget">
-        <div class="widget-header">
-            <span class="widget-title">💰 Total Transactions</span>
-        </div>
-        <div class="widget-value">45,321</div>
-        <div class="widget-change positive">
-            <i data-lucide="trending-up"></i>
-            <span>+15% bulan ini</span>
+    <div class="col-md-3">
+        <div class="stats-card h-100">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="text-muted fw-bold">TOTAL TASKS</span>
+                <div class="stats-icon bg-success bg-opacity-10 text-success">
+                    <span class="material-icons-round">check_circle</span>
+                </div>
+            </div>
+            <h2 class="fw-bold mb-1">15,782</h2>
+            <div class="d-flex align-items-center text-success small">
+                <span class="material-icons-round fs-6 me-1">trending_up</span>
+                <span class="fw-bold">+8%</span>
+                <span class="text-muted ms-2">bulan ini</span>
+            </div>
         </div>
     </div>
-    <div class="widget">
-        <div class="widget-header">
-            <span class="widget-title">📈 Active Now</span>
+    <div class="col-md-3">
+        <div class="stats-card h-100">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="text-muted fw-bold">TRANSACTIONS</span>
+                <div class="stats-icon bg-warning bg-opacity-10 text-warning">
+                    <span class="material-icons-round">payments</span>
+                </div>
+            </div>
+            <h2 class="fw-bold mb-1">45,321</h2>
+            <div class="d-flex align-items-center text-success small">
+                <span class="material-icons-round fs-6 me-1">trending_up</span>
+                <span class="fw-bold">+15%</span>
+                <span class="text-muted ms-2">bulan ini</span>
+            </div>
         </div>
-        <div class="widget-value text-success">234</div>
-        <div class="widget-change">
-            <span>Online saat ini</span>
+    </div>
+    <div class="col-md-3">
+        <div class="stats-card h-100">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="text-muted fw-bold">ACTIVE NOW</span>
+                <div class="stats-icon bg-info bg-opacity-10 text-info">
+                    <span class="material-icons-round">bolt</span>
+                </div>
+            </div>
+            <h2 class="fw-bold mb-1">234</h2>
+            <div class="d-flex align-items-center text-info small">
+                <span class="material-icons-round fs-6 me-1">fiber_manual_record</span>
+                <span class="fw-bold">Online</span>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Charts -->
-<div class="dashboard-grid mb-6">
-    <div class="widget widget-span-4">
-        <div class="widget-header">
-            <span class="widget-title">📈 User Activity (30 Hari)</span>
-        </div>
-        <div class="chart-container">
-            <canvas id="activityChart"></canvas>
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="stats-card">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h5 class="fw-bold mb-0">User Activity (30 Hari)</h5>
+                <button class="btn btn-sm btn-light">
+                    <span class="material-icons-round fs-6">more_horiz</span>
+                </button>
+            </div>
+            <div style="height: 300px;">
+                <canvas id="activityChart"></canvas>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Quick Info -->
-<div class="dashboard-grid">
-    <div class="widget widget-span-2">
-        <div class="widget-header">
-            <span class="widget-title">🏆 Top Active Users</span>
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="stats-card h-100">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h5 class="fw-bold mb-0">Top Active Users</h5>
+            </div>
+            <div class="list-group list-group-flush">
+                <div class="list-group-item px-0 border-0 d-flex align-items-center gap-3">
+                    <div class="avatar bg-primary text-white d-flex align-items-center justify-content-center rounded-circle" style="width: 40px; height: 40px;">J</div>
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold">@johndoe</h6>
+                        <small class="text-muted">156 tasks completed</small>
+                    </div>
+                    <span class="badge bg-success bg-opacity-10 text-success">Active</span>
+                </div>
+                <div class="list-group-item px-0 border-0 d-flex align-items-center gap-3">
+                    <div class="avatar bg-success text-white d-flex align-items-center justify-content-center rounded-circle" style="width: 40px; height: 40px;">S</div>
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold">@sarah</h6>
+                        <small class="text-muted">142 tasks completed</small>
+                    </div>
+                    <span class="badge bg-success bg-opacity-10 text-success">Active</span>
+                </div>
+                <div class="list-group-item px-0 border-0 d-flex align-items-center gap-3">
+                    <div class="avatar bg-warning text-white d-flex align-items-center justify-content-center rounded-circle" style="width: 40px; height: 40px;">B</div>
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold">@bobsmith</h6>
+                        <small class="text-muted">98 tasks completed</small>
+                    </div>
+                    <span class="badge bg-success bg-opacity-10 text-success">Active</span>
+                </div>
+            </div>
         </div>
-        <ul class="transaction-list">
-            <li class="transaction-item">
-                <div class="user-avatar" style="width: 40px; height: 40px;">J</div>
-                <div class="transaction-details">
-                    <div class="transaction-title">@johndoe</div>
-                    <div class="transaction-category">156 tasks completed</div>
-                </div>
-                <span class="badge badge-success">Active</span>
-            </li>
-            <li class="transaction-item">
-                <div class="user-avatar" style="width: 40px; height: 40px;">S</div>
-                <div class="transaction-details">
-                    <div class="transaction-title">@sarah</div>
-                    <div class="transaction-category">142 tasks completed</div>
-                </div>
-                <span class="badge badge-success">Active</span>
-            </li>
-            <li class="transaction-item">
-                <div class="user-avatar" style="width: 40px; height: 40px;">B</div>
-                <div class="transaction-details">
-                    <div class="transaction-title">@bobsmith</div>
-                    <div class="transaction-category">98 tasks completed</div>
-                </div>
-                <span class="badge badge-success">Active</span>
-            </li>
-        </ul>
     </div>
-    <div class="widget widget-span-2">
-        <div class="widget-header">
-            <span class="widget-title">🆕 Recent Registrations</span>
+    <div class="col-md-6">
+        <div class="stats-card h-100">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h5 class="fw-bold mb-0">Recent Registrations</h5>
+            </div>
+            <div class="list-group list-group-flush">
+                <div class="list-group-item px-0 border-0 d-flex align-items-center gap-3">
+                    <div class="avatar bg-info text-white d-flex align-items-center justify-content-center rounded-circle" style="width: 40px; height: 40px;">A</div>
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold">Alice Wong</h6>
+                        <small class="text-muted">5 menit yang lalu</small>
+                    </div>
+                    <span class="badge bg-info bg-opacity-10 text-info">New</span>
+                </div>
+                <div class="list-group-item px-0 border-0 d-flex align-items-center gap-3">
+                    <div class="avatar bg-secondary text-white d-flex align-items-center justify-content-center rounded-circle" style="width: 40px; height: 40px;">M</div>
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold">Michael Lee</h6>
+                        <small class="text-muted">2 jam yang lalu</small>
+                    </div>
+                    <span class="badge bg-info bg-opacity-10 text-info">New</span>
+                </div>
+                <div class="list-group-item px-0 border-0 d-flex align-items-center gap-3">
+                    <div class="avatar bg-danger text-white d-flex align-items-center justify-content-center rounded-circle" style="width: 40px; height: 40px;">R</div>
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold">Rachel Kim</h6>
+                        <small class="text-muted">Kemarin</small>
+                    </div>
+                    <span class="badge bg-primary bg-opacity-10 text-primary">Verified</span>
+                </div>
+            </div>
         </div>
-        <ul class="transaction-list">
-            <li class="transaction-item">
-                <div class="user-avatar" style="width: 40px; height: 40px;">A</div>
-                <div class="transaction-details">
-                    <div class="transaction-title">Alice Wong</div>
-                    <div class="transaction-category">5 menit yang lalu</div>
-                </div>
-                <span class="badge badge-info">New</span>
-            </li>
-            <li class="transaction-item">
-                <div class="user-avatar" style="width: 40px; height: 40px;">M</div>
-                <div class="transaction-details">
-                    <div class="transaction-title">Michael Lee</div>
-                    <div class="transaction-category">2 jam yang lalu</div>
-                </div>
-                <span class="badge badge-info">New</span>
-            </li>
-            <li class="transaction-item">
-                <div class="user-avatar" style="width: 40px; height: 40px;">R</div>
-                <div class="transaction-details">
-                    <div class="transaction-title">Rachel Kim</div>
-                    <div class="transaction-category">Kemarin</div>
-                </div>
-                <span class="badge badge-primary">Verified</span>
-            </li>
-        </ul>
     </div>
 </div>
 @endsection
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         new Chart(document.getElementById('activityChart'), {
@@ -141,15 +172,33 @@
                 datasets: [{
                     label: 'Active Users',
                     data: [120, 150, 180, 160, 200, 220, 190, 210, 250, 230, 260, 240, 280, 290, 270, 300, 310, 290, 320, 330, 310, 340, 350, 330, 360, 370, 350, 380, 390, 400],
-                    borderColor: '#8b5cf6',
-                    backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                    borderColor: '#4338CA',
+                    backgroundColor: 'rgba(67, 56, 202, 0.1)',
                     fill: true,
                     tension: 0.4
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            borderDash: [5, 5]
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
             }
         });
     });

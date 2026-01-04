@@ -163,113 +163,114 @@
         <!-- Brand -->
         <div class="sidebar-brand">
             <div class="bg-primary text-white p-2 rounded-3">
-                @php
+
                 <div class="d-flex align-items-center gap-2">
-                    <span class="material-icons-round text-primary" style="font-size: 32px;">security</span>
+                    <span class="material-icons-round text-white" style="font-size: 32px;">security</span>
                     <div>
-                        <h5 class="mb-0 fw-bold text-dark">KawalDiri</h5>
-                        <small class="text-muted" style="font-size: 0.8rem;">Admin Panel</small>
+                        <h5 class="mb-0 fw-bold text-white">KawalDiri</h5>
+                        <small class="text-white-50" style="font-size: 0.8rem;">Admin Panel</small>
                     </div>
                 </div>
             </div>
-
-            <!-- Navigation -->
-            <nav class="sidebar-nav">
-                <ul class="list-unstyled">
-                    <li class="nav-item">
-                        <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" data-no-swup>
-                            <span class="material-icons-round">dashboard</span>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('admin.users') }}" class="nav-link {{ request()->routeIs('admin.users') ? 'active' : '' }}" data-no-swup>
-                            <span class="material-icons-round">people</span>
-                            <span>Manajemen User</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <p class="small text-muted fw-bold px-3 mt-3 mb-1 text-uppercase" style="font-size: 0.7rem;">Pusat Komunikasi</p>
-                        <a href="{{ route('admin.announcements.index') }}" class="nav-link {{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}" data-no-swup>
-                            <span class="material-icons-round">campaign</span>
-                            <span>Siaran Pengumuman</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
         </div>
 
-        <!-- Main Content -->
-        <div class="admin-main">
-            <!-- Topbar -->
-            <div class="admin-topbar">
-                <div>
-                    <h4 class="mb-0 fw-bold">@yield('page-title', 'Dashboard')</h4>
-                    <small class="text-muted">@yield('page-subtitle', 'Selamat datang di panel admin')</small>
-                </div>
-                <div class="d-flex align-items-center gap-3">
-                    <button type="button" class="btn btn-secondary d-flex align-items-center gap-2" onclick="confirmGoToLanding()">
-                        <span class="material-icons-round">home</span>
-                        Landing Page
-                    </button>
-                    <button type="button" class="btn btn-logout d-flex align-items-center gap-2" onclick="confirmLogout()">
-                        <span class="material-icons-round">logout</span>
-                        Logout
-                    </button>
-                </div>
+        <!-- Navigation -->
+        <nav class="sidebar-nav">
+            <ul class="list-unstyled">
+                <li class="nav-item">
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" data-no-swup>
+                        <span class="material-icons-round">dashboard</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.users') }}" class="nav-link {{ request()->routeIs('admin.users') ? 'active' : '' }}" data-no-swup>
+                        <span class="material-icons-round">people</span>
+                        <span>Manajemen User</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <p class="small text-muted fw-bold px-3 mt-3 mb-1 text-uppercase" style="font-size: 0.7rem;">Pusat Komunikasi</p>
+                    <a href="{{ route('admin.announcements.index') }}" class="nav-link {{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}" data-no-swup>
+                        <span class="material-icons-round">campaign</span>
+                        <span>Siaran Pengumuman</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="admin-main">
+        <!-- Topbar -->
+        <div class="admin-topbar">
+            <div>
+                <h4 class="mb-0 fw-bold">@yield('page-title', 'Dashboard')</h4>
+                <small class="text-muted">@yield('page-subtitle', 'Selamat datang di panel admin')</small>
             </div>
-
-            <!-- Content -->
-            @yield('content')
+            <div class="d-flex align-items-center gap-3">
+                <button type="button" class="btn btn-secondary d-flex align-items-center gap-2" onclick="confirmGoToLanding()">
+                    <span class="material-icons-round">home</span>
+                    Landing Page
+                </button>
+                <button type="button" class="btn btn-logout d-flex align-items-center gap-2" onclick="confirmLogout()">
+                    <span class="material-icons-round">logout</span>
+                    Logout
+                </button>
+            </div>
         </div>
 
-        <!-- Bootstrap Bundle JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Content -->
+        @yield('content')
+    </div>
 
-        <!-- Logout Form (Hidden) -->
-        <form id="logoutForm" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-        <script>
-            function confirmLogout() {
-                Swal.fire({
-                    title: 'Yakin Ingin Keluar?',
-                    text: 'Anda akan keluar dari panel admin.',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#4338CA',
-                    cancelButtonColor: '#6B7280',
-                    confirmButtonText: 'Ya, Keluar',
-                    cancelButtonText: 'Batal',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById('logoutForm').submit();
-                    }
-                });
-            }
+    <!-- Logout Form (Hidden) -->
+    <form id="logoutForm" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
 
-            function confirmGoToLanding() {
-                Swal.fire({
-                    title: 'Kembali ke Landing Page?',
-                    text: 'Anda akan diarahkan ke halaman utama.',
-                    icon: 'info',
-                    showCancelButton: true,
-                    confirmButtonColor: '#10B981',
-                    cancelButtonColor: '#6B7280',
-                    confirmButtonText: 'Ya, Ke Landing Page',
-                    cancelButtonText: 'Batal',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = '/';
-                    }
-                });
-            }
-        </script>
+    <script>
+        function confirmLogout() {
+            Swal.fire({
+                title: 'Yakin Ingin Keluar?',
+                text: 'Anda akan keluar dari panel admin.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#4338CA',
+                cancelButtonColor: '#6B7280',
+                confirmButtonText: 'Ya, Keluar',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('logoutForm').submit();
+                }
+            });
+        }
 
-        @stack('scripts')
+        function confirmGoToLanding() {
+            Swal.fire({
+                title: 'Kembali ke Landing Page?',
+                text: 'Anda akan diarahkan ke halaman utama.',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#10B981',
+                cancelButtonColor: '#6B7280',
+                confirmButtonText: 'Ya, Ke Landing Page',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/';
+                }
+            });
+        }
+    </script>
+
+    @stack('scripts')
 </body>
 
 </html>

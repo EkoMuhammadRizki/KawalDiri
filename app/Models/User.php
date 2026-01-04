@@ -25,6 +25,7 @@ class User extends Authenticatable
         'phone',
         'avatar',
         'role',
+        'is_active',
         'theme_preference',
         'accent_color',
         'email_notifications',

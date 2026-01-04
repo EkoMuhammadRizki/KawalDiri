@@ -32,6 +32,11 @@ class UserController extends Controller
             $query->where('role', $request->role);
         }
 
+        // Filter Status (Aktif/Nonaktif)
+        if ($request->has('status') && $request->status !== '') {
+            $query->where('is_active', $request->status);
+        }
+
         $users = $query->latest()->paginate(10);
 
         return view('admin.users', compact('users'));

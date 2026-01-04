@@ -13,23 +13,34 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        // Cek apakah admin sudah ada
-        $adminExists = User::where('email', 'admin@kawaldiri.id')->exists();
+        // Cari admin berdasarkan email
+        $admin = User::where('email', 'admin@kawaldiri.id')->first();
 
-        if (!$adminExists) {
+        if (!$admin) {
+            // Buat admin baru jika belum ada
             User::create([
                 'name' => 'Administrator',
                 'email' => 'admin@kawaldiri.id',
-                'password' => Hash::make('Admin@123'),
+                'username' => 'admin',
+                'password' => Hash::make('admin123'),
                 'role' => 'admin',
+                'is_active' => true,
                 'email_verified_at' => now(),
             ]);
 
             $this->command->info('✅ Admin user created successfully!');
-            $this->command->info('📧 Email: admin@kawaldiri.id');
-            $this->command->info('🔑 Password: Admin@123');
         } else {
-            $this->command->warn('⚠️  Admin user already exists!');
+            // Update password dan username admin jika sudah ada
+            $admin->username = 'admin';
+            $admin->password = Hash::make('admin123');
+            $admin->is_active = true;
+            $admin->save();
+
+            $this->command->info('✅ Admin credentials updated successfully!');
         }
+
+        $this->command->info('📧 Email: admin@kawaldiri.id');
+        $this->command->info('👤 Username: admin');
+        $this->command->info('🔑 Password: admin123');
     }
 }
