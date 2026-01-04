@@ -168,18 +168,19 @@
 @push('styles')
 <style>
     .nav-underline .nav-link {
-        color: #5d6389;
+        color: var(--text-muted);
         font-weight: 500;
     }
 
     .nav-underline .nav-link.active {
-        color: #4051b5;
+        color: var(--accent-color) !important;
         font-weight: 700;
         border-bottom-width: 2px;
+        border-bottom-color: var(--accent-color) !important;
     }
 
     .nav-underline .nav-link:hover {
-        color: #4051b5;
+        color: var(--accent-color);
     }
 </style>
 @endpush

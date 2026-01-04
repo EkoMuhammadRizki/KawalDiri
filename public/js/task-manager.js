@@ -288,11 +288,84 @@ window.toggleTaskStatus = async function (taskId) {
                     }
                 }
             }
+
+            // Update Dashboard KPI if on dashboard page
+            updateDashboardKPI(data.task.status === 'completed' ? 'completed' : 'pending');
         }
     } catch (error) {
         console.error('Error toggling task status:', error);
     }
 };
+
+/**
+ * Update Dashboard KPI counts after toggle status
+ * @param {string} newStatus - 'completed' or 'pending'
+ */
+function updateDashboardKPI(newStatus) {
+    // Find KPI elements - these exist only on index.blade.php (dashboard)
+    const completedKPIEl = document.querySelector('.kpi-card .icon-box.bg-indigo-light')?.closest('.kpi-card');
+    const pendingKPIEl = document.querySelector('.kpi-card .icon-box.bg-amber-light')?.closest('.kpi-card');
+
+    if (!completedKPIEl || !pendingKPIEl) {
+        // Not on dashboard page, skip update
+        return;
+    }
+
+    // Get current values
+    const completedValueEl = completedKPIEl.querySelector('h3');
+    const pendingValueEl = pendingKPIEl.querySelector('h3');
+
+    if (!completedValueEl || !pendingValueEl) return;
+
+    // Parse current completed/total (format: "5/10")
+    const completedText = completedValueEl.textContent.trim();
+    const match = completedText.match(/(\d+)/);
+    if (!match) return;
+
+    let completedCount = parseInt(match[1]);
+    let pendingCount = parseInt(pendingValueEl.textContent.trim());
+
+    // Get total from the span inside h3
+    const totalSpan = completedValueEl.querySelector('span');
+    let totalCount = 0;
+    if (totalSpan) {
+        const totalMatch = totalSpan.textContent.match(/(\d+)/);
+        if (totalMatch) totalCount = parseInt(totalMatch[1]);
+    }
+
+    // Update counts based on new status
+    if (newStatus === 'completed') {
+        completedCount++;
+        pendingCount--;
+    } else {
+        completedCount--;
+        pendingCount++;
+    }
+
+    // Ensure minimum is 0
+    completedCount = Math.max(0, completedCount);
+    pendingCount = Math.max(0, pendingCount);
+
+    // Update UI
+    completedValueEl.innerHTML = `${completedCount}<span class="text-muted h6 fw-normal">/${totalCount}</span>`;
+    pendingValueEl.textContent = pendingCount;
+
+    // Update progress bar
+    const progressBar = completedKPIEl.querySelector('.progress-bar');
+    if (progressBar && totalCount > 0) {
+        const percentage = (completedCount / totalCount) * 100;
+        progressBar.style.width = `${percentage}%`;
+    }
+
+    // Update badge percentage
+    const percentBadge = completedKPIEl.querySelector('.badge');
+    if (percentBadge && totalCount > 0) {
+        const percentage = Math.round((completedCount / totalCount) * 100);
+        percentBadge.textContent = `${percentage}% Selesai`;
+    }
+
+    console.log(`✓ Dashboard KPI updated: ${completedCount}/${totalCount} completed, ${pendingCount} pending`);
+}
 
 /**
  * Delete task with confirmation
