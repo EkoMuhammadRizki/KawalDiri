@@ -106,59 +106,70 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /**
-     * Show loading overlay
+     * Show loading bar di bagian atas halaman
      */
     function showLoadingState() {
-        // Create loading overlay if not exists
-        let overlay = document.getElementById('admin-loading-overlay');
+        // Create loading bar if not exists
+        let loadingBar = document.getElementById('admin-loading-bar');
 
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.id = 'admin-loading-overlay';
-            overlay.style.cssText = `
+        if (!loadingBar) {
+            loadingBar = document.createElement('div');
+            loadingBar.id = 'admin-loading-bar';
+            loadingBar.style.cssText = `
                 position: fixed;
                 top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(255, 255, 255, 0.8);
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                left: 280px;
+                width: 0;
+                height: 3px;
+                background: linear-gradient(90deg, #4338CA, #6366F1, #818CF8);
                 z-index: 9999;
-                opacity: 0;
-                transition: opacity 0.3s;
+                transition: width 0.3s ease-out;
+                box-shadow: 0 0 10px rgba(67, 56, 202, 0.7);
             `;
 
-            overlay.innerHTML = `
-                <div style="text-align: center;">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <p class="mt-2 text-muted">Loading...</p>
-                </div>
-            `;
-
-            document.body.appendChild(overlay);
+            document.body.appendChild(loadingBar);
         }
 
-        // Show overlay with fade in
+        // Animate loading bar
+        loadingBar.style.width = '0';
+
+        // First phase: quick progress to 30%
         setTimeout(() => {
-            overlay.style.opacity = '1';
+            loadingBar.style.width = '30%';
         }, 10);
+
+        // Second phase: slower progress to 70%
+        setTimeout(() => {
+            loadingBar.style.width = '70%';
+        }, 200);
+
+        // Third phase: slow progress to 90% (waits for response)
+        setTimeout(() => {
+            loadingBar.style.width = '90%';
+            loadingBar.style.transition = 'width 2s ease-out';
+        }, 500);
     }
 
     /**
-     * Hide loading overlay
+     * Hide loading bar dengan animasi complete
      */
     function hideLoadingState() {
-        const overlay = document.getElementById('admin-loading-overlay');
+        const loadingBar = document.getElementById('admin-loading-bar');
 
-        if (overlay) {
-            overlay.style.opacity = '0';
+        if (loadingBar) {
+            // Complete the progress bar
+            loadingBar.style.transition = 'width 0.2s ease-out';
+            loadingBar.style.width = '100%';
+
+            // Fade out and remove
             setTimeout(() => {
-                overlay.remove();
-            }, 300);
+                loadingBar.style.transition = 'opacity 0.3s ease-out';
+                loadingBar.style.opacity = '0';
+
+                setTimeout(() => {
+                    loadingBar.remove();
+                }, 300);
+            }, 200);
         }
     }
 });

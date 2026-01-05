@@ -74,9 +74,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/settings/reset', [App\Http\Controllers\SettingsController::class, 'reset'])->name('settings.reset');
 
     // Halaman Bantuan & Dukungan (Help Center)
-    Route::get('/help', function () {
-        return view('dashboard.help');
-    })->name('help');
+    Route::get('/help', [App\Http\Controllers\HelpController::class, 'index'])->name('help');
+    Route::post('/help/send-message', [App\Http\Controllers\HelpController::class, 'sendMessage'])->name('help.send');
+    Route::get('/help/search', [App\Http\Controllers\HelpController::class, 'searchFaq'])->name('help.search');
 });
 
 // ==========================================

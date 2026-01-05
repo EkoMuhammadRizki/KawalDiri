@@ -40,9 +40,6 @@
                     </p>
                     <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
                         <a href="{{ route('register') }}" class="btn btn-kd-gradient fs-5">Gas Mulai Gratis</a>
-                        <button class="btn btn-outline-light border-2 text-dark fw-bold px-4 py-3 rounded-4 d-flex align-items-center justify-content-center gap-2">
-                            <span class="material-symbols-outlined text-primary">play_circle</span> Lihat Demonya
-                        </button>
                     </div>
                     <div class="mt-5 d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
                         <div class="avatar-group d-flex">

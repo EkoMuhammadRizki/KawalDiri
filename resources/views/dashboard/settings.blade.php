@@ -19,14 +19,6 @@
             <h2 class="fw-bold mb-1">Pengaturan</h2>
             <p class="text-muted mb-0">Kelola preferensi dan konfigurasi akun Anda.</p>
         </div>
-        <div class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-secondary d-flex align-items-center gap-2 px-4 rounded-3" onclick="resetSettings()">
-                <span class="material-symbols-outlined fs-5">restart_alt</span> Atur Ulang
-            </button>
-            <button type="button" class="btn btn-primary-custom d-flex align-items-center gap-2" onclick="saveProfile()">
-                <span class="material-symbols-outlined fs-5">save</span> Simpan Perubahan
-            </button>
-        </div>
     </div>
 
     <div class="row g-4">
@@ -62,7 +54,6 @@
                         @csrf
                         {{-- Form Pengaturan Profil --}}
                         {{-- Field Nama dan Email dibuat read-only (tidak bisa diedit) dengan background khusus --}}
-                        {{-- sesuai permintaan user agar terlihat sebagai data default dari sistem --}}
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold">Nama Lengkap</label>
@@ -72,21 +63,10 @@
                                 <label class="form-label small fw-bold">Alamat Email</label>
                                 <input type="email" class="form-control form-control-readonly" value="{{ Auth::user()->email }}" readonly disabled>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold">Nama Pengguna</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light">@</span>
-                                    <input type="text" class="form-control" name="username" value="{{ Auth::user()->username ?? str_replace(' ', '_', strtolower(Auth::user()->name)) }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold">Nomor Telepon</label>
-                                <input type="tel" class="form-control" name="phone" value="{{ Auth::user()->phone }}" placeholder="+62 812 0000 0000">
-                            </div>
                         </div>
                     </form>
 
-                    <hr class="my-5">
+                    <hr class="my-4">
 
                     <h6 class="fw-bold text-uppercase small tracking-widest mb-4">Kata Sandi & Keamanan</h6>
                     <form id="passwordForm">

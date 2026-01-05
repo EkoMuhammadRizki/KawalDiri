@@ -21,10 +21,6 @@
         <p class="text-muted">Pusat bantuan untuk pertanyaan dan masalah teknis Anda.</p>
     </header>
 
-    <div class="search-container mb-5">
-        <span class="material-symbols-outlined search-icon">search</span>
-        <input type="text" class="form-control search-input shadow-sm" placeholder="Cari artikel bantuan, topik, atau pertanyaan...">
-    </div>
 
     <div class="row g-4">
         <div class="col-lg-8">
@@ -33,7 +29,8 @@
                     <span class="material-symbols-outlined text-primary">quiz</span> Pertanyaan Umum (FAQ)
                 </div>
                 <div class="accordion accordion-flush" id="faqAccordion">
-                    <div class="accordion-item">
+                    <!-- FAQ 1 -->
+                    <div class="accordion-item" data-keywords="password sandi reset lupa kata sandi ganti password">
                         <h2 class="accordion-header">
                             <button class="accordion-button fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
                                 Bagaimana cara mereset kata sandi saya?
@@ -46,69 +43,138 @@
                         </div>
                     </div>
 
-                    <div class="accordion-item">
+                    <!-- FAQ 2 -->
+                    <div class="accordion-item" data-keywords="data aman privasi keamanan enkripsi pribadi">
                         <h2 class="accordion-header">
-                            <button class="accordion-button collapsed fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            <button class="accordion-button collapsed fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
                                 Apakah data pribadi saya aman?
                             </button>
                         </h2>
-                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body text-muted small lh-lg">
                                 Keamanan data adalah prioritas utama kami. Semua data dienkripsi menggunakan standar industri AES-256. Kami tidak pernah membagikan data pribadi Anda tanpa izin.
                             </div>
                         </div>
                     </div>
+
+                    <!-- FAQ 3 -->
+                    <div class="accordion-item" data-keywords="tugas task tambah baru buat todo">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                Bagaimana cara menambahkan tugas baru?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted small lh-lg">
+                                Klik tombol "Tambah Tugas" di halaman Manajer Tugas, isi detail tugas seperti judul, deskripsi, prioritas, dan tanggal jatuh tempo, lalu klik "Simpan".
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 4 -->
+                    <div class="accordion-item" data-keywords="transaksi keuangan uang tambah catat pengeluaran pemasukan finance">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                Bagaimana cara mencatat transaksi keuangan?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted small lh-lg">
+                                Buka halaman Pelacak Keuangan dan klik tombol "Tambah Transaksi". Pilih tipe (pemasukan/pengeluaran), masukkan jumlah, kategori, dan deskripsi, lalu simpan.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 5 -->
+                    <div class="accordion-item" data-keywords="tema dark light gelap terang mode theme tampilan">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                Bagaimana cara mengubah tema aplikasi?
+                            </button>
+                        </h2>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted small lh-lg">
+                                Buka halaman Pengaturan dan cari bagian "Tema". Anda dapat memilih antara tema Terang, Gelap, atau mengikuti pengaturan sistem.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 6 -->
+                    <div class="accordion-item" data-keywords="hapus akun delete tutup buang remove">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                Bagaimana cara menghapus akun saya?
+                            </button>
+                        </h2>
+                        <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted small lh-lg">
+                                Untuk menghapus akun, buka Pengaturan > Reset Akun. Perhatikan bahwa tindakan ini akan menghapus semua data Anda secara permanen dan tidak dapat dibatalkan.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 7 -->
+                    <div class="accordion-item" data-keywords="gratis bayar free harga biaya langganan berbayar">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                                Apakah aplikasi ini gratis?
+                            </button>
+                        </h2>
+                        <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted small lh-lg">
+                                Ya! KawalDiri adalah aplikasi yang 100% gratis. Semua fitur tersedia tanpa biaya langganan atau pembayaran tersembunyi.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No results message -->
+                <div id="noFaqResults" class="p-4 text-center text-muted d-none">
+                    <span class="material-symbols-outlined fs-1 mb-2 d-block">search_off</span>
+                    <p class="mb-0">Tidak ada FAQ yang cocok dengan pencarian Anda.</p>
                 </div>
             </div>
 
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <a href="#" class="card quick-link-card h-100 p-4">
-                        <div class="rounded-3 d-inline-flex p-3 mb-3" style="width: fit-content; background-color: rgba(var(--accent-color-rgb), 0.1);">
-                            <span class="material-symbols-outlined text-primary">menu_book</span>
-                        </div>
-                        <h5 class="fw-bold mb-1">Panduan Pengguna</h5>
-                        <p class="text-muted small mb-0">Dokumentasi lengkap penggunaan aplikasi.</p>
-                    </a>
-                </div>
-                <div class="col-md-6">
-                    <a href="#" class="card quick-link-card h-100 p-4">
-                        <div class="rounded-3 d-inline-flex p-3 mb-3" style="width: fit-content; background-color: rgba(var(--accent-color-rgb), 0.1);">
-                            <span class="material-symbols-outlined text-primary">forum</span>
-                        </div>
-                        <h5 class="fw-bold mb-1">Forum Komunitas</h5>
-                        <p class="text-muted small mb-0">Diskusi dan tips dari pengguna lain.</p>
-                    </a>
-                </div>
-            </div>
         </div>
 
+        <!-- Kolom Kanan: Card Bantuan -->
         <div class="col-lg-4">
-            <div class="card p-4 mb-4 text-center">
-                <h5 class="fw-bold mb-3">Butuh bantuan lebih?</h5>
-                <p class="text-muted small mb-4">Tim dukungan kami siap membantu Anda Senin - Jumat, 09:00 - 17:00 WIB.</p>
-                <button class="btn btn-primary-custom w-100 d-flex align-items-center justify-content-center gap-2 mb-3">
-                    <span class="material-symbols-outlined fs-5">chat</span> Chat Langsung
-                </button>
-                <a href="mailto:support@lifemanager.com" class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2 rounded-3">
-                    <span class="material-symbols-outlined fs-5">mail</span> Kirim Email
-                </a>
-            </div>
-
             <div class="card p-4">
-                <h5 class="fw-bold mb-4 d-flex align-items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">send</span> Kirim Pesan Cepat
-                </h5>
-                <form>
+                <h5 class="fw-bold mb-3 text-center">Butuh bantuan lebih?</h5>
+                <p class="text-muted small mb-4 text-center">Tim dukungan kami siap membantu Anda Senin - Jumat, 09:00 - 17:00 WIB.</p>
+
+                <!-- Tombol WhatsApp -->
+                <a href="https://wa.me/6285893803247" target="_blank" class="btn btn-success w-100 d-flex align-items-center justify-content-center gap-2 mb-4 rounded-3">
+                    <span class="material-symbols-outlined fs-5">chat</span> Chat WhatsApp
+                </a>
+
+                <hr class="my-3">
+
+                <!-- Form Email via Formspree -->
+                <h6 class="fw-bold mb-3 d-flex align-items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">mail</span> Kirim Email
+                </h6>
+                <form action="https://formspree.io/f/xzdzwpwa" method="POST">
+                    <input type="hidden" name="_subject" value="Pesan dari KawalDiri - Bantuan & Dukungan">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Nama</label>
+                        <input type="text" name="name" class="form-control" placeholder="Nama Anda" value="{{ auth()->user()->name ?? '' }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Email</label>
+                        <input type="email" name="email" class="form-control" placeholder="Email Anda" value="{{ auth()->user()->email ?? '' }}" required>
+                    </div>
                     <div class="mb-3">
                         <label class="form-label small fw-bold">Subjek</label>
-                        <input type="text" class="form-control" placeholder="Masalah login, tagihan, dll">
+                        <input type="text" name="subject" class="form-control" placeholder="Masalah login, fitur, dll" required>
                     </div>
                     <div class="mb-4">
                         <label class="form-label small fw-bold">Pesan</label>
-                        <textarea class="form-control" rows="4" placeholder="Jelaskan masalah Anda..."></textarea>
+                        <textarea name="message" class="form-control" rows="4" placeholder="Jelaskan masalah atau pertanyaan Anda..." required></textarea>
                     </div>
-                    <button type="button" class="btn btn-dark w-100 py-2 rounded-3 fw-bold">Kirim Pesan</button>
+                    <button type="submit" class="btn btn-dark w-100 py-2 rounded-3 fw-bold d-flex align-items-center justify-content-center gap-2">
+                        <span class="material-symbols-outlined fs-5">send</span> Kirim Email
+                    </button>
                 </form>
             </div>
         </div>
@@ -117,40 +183,6 @@
 
 @push('styles')
 <style>
-    .quick-link-card {
-        text-decoration: none;
-        transition: all 0.3s ease;
-        border: 1px solid var(--border-color);
-    }
-
-    .quick-link-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    [data-theme="dark"] .quick-link-card:hover {
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .search-container {
-        position: relative;
-    }
-
-    .search-icon {
-        position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--text-muted);
-        pointer-events: none;
-    }
-
-    .search-input {
-        padding-left: 50px;
-        border-radius: 12px;
-        border: 1px solid var(--border-color);
-    }
-
     [data-theme="dark"] .accordion-button {
         background-color: var(--bg-primary);
         color: var(--text-primary);
