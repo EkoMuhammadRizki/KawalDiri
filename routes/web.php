@@ -34,6 +34,10 @@ Route::get('/register', function () {
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login.post');
 Route::post('/register', [App\Http\Controllers\AuthController::class, 'register'])->name('register.post');
 Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+Route::get('/lupa-sandi', [App\Http\Controllers\LupaSandiController::class, 'showLinkRequestForm'])->name('lupa-sandi');
+Route::post('/lupa-sandi/email', [App\Http\Controllers\LupaSandiController::class, 'sendResetLinkEmail'])->name('lupa-sandi.email');
+Route::get('/reset-sandi/{token}', [App\Http\Controllers\LupaSandiController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-sandi', [App\Http\Controllers\LupaSandiController::class, 'reset'])->name('password.update');
 
 // ==========================================
 // Rute Halaman Dashboard (Panel Pengguna)

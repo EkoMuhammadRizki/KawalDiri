@@ -574,7 +574,7 @@
                         <input class="form-check-input" type="checkbox" name="remember" id="rememberMe">
                         <label class="form-check-label small text-muted ms-1" for="rememberMe">Ingat Saya</label>
                     </div>
-                    <a href="#" class="text-decoration-none fw-bold small" style="color: #6366f1;">Lupa sandi?</a>
+                    <a href="{{ route('lupa-sandi') }}" class="text-decoration-none fw-bold small" style="color: #6366f1;">Lupa sandi?</a>
                 </div>
 
                 <button type="submit" class="btn-primary-custom">Masuk Sekarang</button>
