@@ -1,9 +1,29 @@
 /**
- * Task Manager JavaScript
- * Mengelola interaksi antara UI dan backend untuk fitur Task Manager
+ * =================================================================
+ * MANAJER-TUGAS.JS - Script Pengelola Tugas KawalDiri
+ * =================================================================
+ * 
+ * File ini mengelola semua operasi CRUD tugas:
+ * - Muat daftar tugas (loadTasks)
+ * - Render tugas ke tabel (renderTasks)
+ * - Tambah tugas baru (submitTask)
+ * - Edit tugas (openEditTask)
+ * - Toggle status selesai/pending (toggleTaskStatus)
+ * - Hapus tugas (deleteTask)
+ * - Update KPI di dashboard (updateDashboardKPI)
+ * 
+ * Dependencies:
+ * - SweetAlert2 untuk notifikasi
+ * - Bootstrap Modal untuk form tugas
+ * - CSRF token dari meta tag
  */
 
-// Helper function untuk get CSRF token
+/**
+ * Mengambil CSRF token dari meta tag untuk keamanan request
+ * Token ini wajib disertakan pada setiap request POST/PUT/DELETE
+ * 
+ * @returns {string} CSRF token
+ */
 function getCsrfToken() {
     const meta = document.querySelector('meta[name="csrf-token"]');
     return meta ? meta.getAttribute('content') : '';

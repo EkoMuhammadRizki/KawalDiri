@@ -100,10 +100,10 @@
     </form>
 
     <!-- Admin Layout Scripts -->
-    <script src="{{ asset('js/admin/admin-layout.js') }}"></script>
+    <script src="{{ asset('js/admin/tata-letak-admin.js') }}"></script>
 
     <!-- Admin SPA Navigation -->
-    <script src="{{ asset('js/admin/admin-spa.js') }}"></script>
+    <script src="{{ asset('js/admin/spa-admin.js') }}"></script>
 
     @stack('scripts')
 </body>

@@ -325,5 +325,5 @@
 </style>
 
 <!-- Settings Page JavaScript -->
-<script src="{{ asset('js/settings-page.js') }}"></script>
+<script src="{{ asset('js/halaman-pengaturan.js') }}"></script>
 @endsection

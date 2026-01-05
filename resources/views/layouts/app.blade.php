@@ -19,8 +19,8 @@
     <!-- Custom CSS & Vite -->
     <!-- Custom CSS (Static) -->
     <link rel="stylesheet" href="{{ asset('css/app-style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/custom-bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/dark-mode.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-kustom.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/mode-gelap.css') }}">
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -29,12 +29,18 @@
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
     <!-- Dashboard Theme Styles -->
-    <link rel="stylesheet" href="{{ asset('css/dashboard-theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/tema-dasbor.css') }}">
 
     <!-- Dynamic Accent Color (from user settings) -->
     <style>
         :root {
-            --accent-color: {{ Auth::check() ? Auth::user()->accent_color : '#6366f1' }};
+            --accent-color: {
+                    {
+                    Auth: :check() ? Auth::user()->accent_color: '#6366f1'
+                }
+            }
+
+            ;
         }
     </style>
 
@@ -341,7 +347,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Theme Manager -->
-    <script src="{{ asset('js/theme-manager.js') }}"></script>
+    <script src="{{ asset('js/manajer-tema.js') }}"></script>
 
     <!-- Swup JS -->
     <script src="https://unpkg.com/swup@4"></script>
@@ -349,7 +355,7 @@
     <script src="https://unpkg.com/@swup/head-plugin@2"></script>
 
     <!-- Dashboard Navigation -->
-    <script src="{{ asset('js/dashboard-navigation.js') }}"></script>
+    <script src="{{ asset('js/navigasi-dasbor.js') }}"></script>
     @yield('scripts')
 </body>
 

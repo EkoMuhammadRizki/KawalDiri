@@ -173,10 +173,10 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <!-- Dashboard Logic -->
-<script src="{{ asset('js/dashboard.js') }}"></script>
+<script src="{{ asset('js/dasbor.js') }}"></script>
 
 <!-- Task & Finance Logic (for Modals) -->
-<script src="{{ asset('js/task-manager.js') }}"></script>
-<script src="{{ asset('js/finance-tracker.js') }}"></script>
+<script src="{{ asset('js/manajer-tugas.js') }}"></script>
+<script src="{{ asset('js/pelacak-keuangan.js') }}"></script>
 @endsection
 @endsection

@@ -1,9 +1,29 @@
 /**
- * Finance Tracker JavaScript
- * Mengelola interaksi antara UI dan backend untuk fitur Pelacak Keuangan
+ * =================================================================
+ * PELACAK-KEUANGAN.JS - Script Pelacak Keuangan KawalDiri
+ * =================================================================
+ * 
+ * File ini mengelola semua operasi transaksi keuangan:
+ * - Muat daftar transaksi (loadTransactions)
+ * - Render transaksi ke tabel (renderTransactions)
+ * - Tambah transaksi baru (submitTransaction)
+ * - Edit transaksi (openEditTransaction)
+ * - Hapus transaksi (deleteTransaction)
+ * - Update tampilan anggaran (updateBudgetDisplay)
+ * - Atur anggaran bulanan (submitBudget)
+ * 
+ * Dependencies:
+ * - SweetAlert2 untuk notifikasi
+ * - Bootstrap Modal untuk form transaksi
+ * - CSRF token dari meta tag
  */
 
-// Helper function untuk get CSRF token
+/**
+ * Mengambil CSRF token dari meta tag untuk keamanan request
+ * Token ini wajib disertakan pada setiap request POST/PUT/DELETE
+ * 
+ * @returns {string} CSRF token
+ */
 function getCsrfToken() {
     const meta = document.querySelector('meta[name="csrf-token"]');
     return meta ? meta.getAttribute('content') : '';

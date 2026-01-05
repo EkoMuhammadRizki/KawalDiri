@@ -1,10 +1,31 @@
 /**
- * Dashboard Navigation (Swup)
- * Script untuk SPA-style navigation pada dashboard user menggunakan Swup.js
+ * =================================================================
+ * NAVIGASI-DASBOR.JS - Script Navigasi SPA Dashboard KawalDiri
+ * =================================================================
+ * 
+ * File ini mengimplementasikan navigasi SPA (Single Page Application)
+ * menggunakan library Swup.js untuk transisi halaman yang mulus.
+ * 
+ * Fitur utama:
+ * - Navigasi tanpa refresh halaman penuh
+ * - Transisi halaman yang smooth
+ * - Re-inisialisasi script saat pindah halaman
+ * - Update status aktif di sidebar
+ * - Update ikon sidebar sesuai halaman aktif
+ * 
+ * Dependencies:
+ * - Swup.js untuk navigasi SPA
+ * - SwupScriptsPlugin untuk re-execute inline scripts
+ * - SwupHeadPlugin untuk update head elements
  */
 
 /**
- * Initialize Swup for smooth page transitions
+ * Inisialisasi Swup untuk navigasi SPA
+ * 
+ * Konfigurasi:
+ * - containers: elemen yang akan di-replace saat navigasi (#swup)
+ * - plugins: plugin tambahan untuk scripts dan head management
+ * - linkSelector: selector untuk link yang akan di-handle oleh Swup
  */
 const swup = new Swup({
     containers: ["#swup"],

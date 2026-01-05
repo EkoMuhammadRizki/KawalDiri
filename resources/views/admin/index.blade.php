@@ -161,5 +161,5 @@
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{{ asset('js/admin/admin-dashboard.js') }}"></script>
+<script src="{{ asset('js/admin/dasbor-admin.js') }}"></script>
 @endpush

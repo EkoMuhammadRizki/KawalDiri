@@ -207,5 +207,5 @@
 @endpush
 
 @section('scripts')
-<script src="{{ asset('js/finance-tracker.js') }}"></script>
+<script src="{{ asset('js/pelacak-keuangan.js') }}"></script>
 @endsection

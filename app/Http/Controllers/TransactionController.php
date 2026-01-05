@@ -6,48 +6,69 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * TransactionController
+ * 
+ * Controller untuk mengelola transaksi keuangan pengguna.
+ * Menyediakan operasi CRUD: tampilkan daftar, buat baru, update, dan hapus transaksi.
+ * Juga menghitung statistik anggaran bulanan.
+ */
 class TransactionController extends Controller
 {
     /**
-     * Display a listing of the user's transactions.
+     * Menampilkan daftar transaksi pengguna.
+     * 
+     * Mendukung filter berdasarkan tipe (income/expense), kategori,
+     * pencarian berdasarkan judul, dan paginasi.
+     * Juga menghitung statistik anggaran untuk ditampilkan di sidebar.
+     * 
+     * @param Request $request
+     * @return \Illuminate\View\View|\Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
+        // Ambil transaksi user yang login, urutkan dari tanggal terbaru
         $query = Auth::user()->transactions()->latest('date');
 
-        // Filter by type
+        // Filter berdasarkan tipe (income/expense)
         if ($request->has('type') && $request->type !== 'all') {
             $query->where('type', $request->type);
         }
 
-        // Filter by category
+        // Filter berdasarkan kategori
         if ($request->has('category') && $request->category !== 'all') {
             $query->where('category', $request->category);
         }
 
-        // Search by title
+        // Pencarian berdasarkan judul transaksi
         if ($request->has('search') && $request->search) {
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
+        // Paginasi: 5 transaksi per halaman
         $transactions = $query->paginate(5);
 
-        // Calculate budget stats
+        // Hitung statistik anggaran bulanan
         $user = Auth::user();
+
+        // Total pengeluaran bulan ini
         $monthlyExpenses = $user->transactions()
             ->thisMonth()
             ->expense()
             ->sum('amount');
 
+        // Total pemasukan bulan ini
         $monthlyIncome = $user->transactions()
             ->thisMonth()
             ->income()
             ->sum('amount');
 
+        // Kalkulasi persentase dan sisa anggaran
         $budget = $user->budget ?? 0;
         $budgetUsedPercent = $budget > 0 ? ($monthlyExpenses / $budget) * 100 : 0;
         $budgetRemaining = $budget - $monthlyExpenses;
 
+        // Jika request dari API (AJAX), kembalikan JSON
         if ($request->expectsJson()) {
             return response()->json([
                 'success' => true,
@@ -62,14 +83,22 @@ class TransactionController extends Controller
             ]);
         }
 
+        // Tampilkan view dengan data transaksi dan statistik
         return view('dashboard.finance', compact('transactions', 'monthlyExpenses', 'monthlyIncome', 'budget', 'budgetUsedPercent', 'budgetRemaining'));
     }
 
     /**
-     * Store a newly created transaction.
+     * Menyimpan transaksi baru.
+     * 
+     * Validasi input dan simpan transaksi baru ke database.
+     * Pesan error menggunakan bahasa Indonesia yang ramah.
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request): \Illuminate\Http\JsonResponse
     {
+        // Validasi input dengan pesan error Indonesia
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'category' => 'required|string|max:255',
@@ -85,8 +114,10 @@ class TransactionController extends Controller
             'date.required' => 'Kapan nih transaksinya? Tanggalnya diisi ya! 📅',
         ]);
 
+        // Set default status ke 'paid' jika tidak diisi
         $validated['status'] = $validated['status'] ?? 'paid';
 
+        // Buat transaksi baru milik user yang login
         $transaction = Auth::user()->transactions()->create($validated);
 
         return response()->json([
@@ -97,11 +128,17 @@ class TransactionController extends Controller
     }
 
     /**
-     * Update the specified transaction.
+     * Memperbarui transaksi yang ada.
+     * 
+     * Hanya pemilik transaksi yang dapat mengupdate transaksi miliknya.
+     * 
+     * @param Request $request
+     * @param Transaction $transaction
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Transaction $transaction): \Illuminate\Http\JsonResponse
     {
-        // Pastikan transaction milik user yang sedang login
+        // Verifikasi kepemilikan: hanya pemilik yang bisa update
         if ($transaction->user_id !== Auth::id()) {
             return response()->json([
                 'success' => false,
@@ -109,6 +146,7 @@ class TransactionController extends Controller
             ], 403);
         }
 
+        // Validasi input dengan pesan error Indonesia
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'category' => 'required|string|max:255',
@@ -124,6 +162,7 @@ class TransactionController extends Controller
             'date.required' => 'Tanggalnya jangan sampai kosong ya! 📅',
         ]);
 
+        // Update data transaksi
         $transaction->update($validated);
 
         return response()->json([
@@ -134,11 +173,16 @@ class TransactionController extends Controller
     }
 
     /**
-     * Remove the specified transaction.
+     * Menghapus transaksi.
+     * 
+     * Hanya pemilik transaksi yang dapat menghapus transaksi miliknya.
+     * 
+     * @param Transaction $transaction
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Transaction $transaction): \Illuminate\Http\JsonResponse
     {
-        // Pastikan transaction milik user yang sedang login
+        // Verifikasi kepemilikan: hanya pemilik yang bisa hapus
         if ($transaction->user_id !== Auth::id()) {
             return response()->json([
                 'success' => false,
@@ -146,6 +190,7 @@ class TransactionController extends Controller
             ], 403);
         }
 
+        // Hapus transaksi dari database
         $transaction->delete();
 
         return response()->json([

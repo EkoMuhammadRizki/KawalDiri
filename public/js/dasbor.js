@@ -1,46 +1,64 @@
 /**
- * Dashboard JavaScript
- * Mengelola charts dan recent activities di dashboard
+ * =================================================================
+ * DASBOR.JS - Script Utama Dashboard KawalDiri
+ * =================================================================
+ * 
+ * File ini mengelola semua komponen visual di halaman dashboard:
+ * - Grafik Produktivitas (Line Chart) - menampilkan tugas selesai per minggu
+ * - Grafik Pengeluaran (Doughnut Chart) - distribusi pengeluaran per kategori
+ * - Aktivitas Terbaru - gabungan tugas dan transaksi terbaru
+ * 
+ * Dependencies:
+ * - Chart.js untuk rendering grafik
+ * - API endpoints: /api/dashboard/productivity, /api/dashboard/expenses, /api/dashboard/activities
  */
 
+// Variabel global untuk menyimpan instance Chart.js
+// Dibutuhkan agar bisa di-destroy dan di-reinitialize saat page reload (Swup)
 let productivityChart = null;
 let expenseChart = null;
 
 /**
- * Initialize productivity chart (Line Chart)
+ * Inisialisasi Grafik Produktivitas (Line Chart)
+ * 
+ * Menampilkan jumlah tugas yang diselesaikan per minggu selama 4 minggu terakhir.
+ * Grafik menggunakan efek gradient untuk visual yang menarik.
  */
 async function initProductivityChart() {
     try {
+        // Ambil data dari API
         const response = await fetch('/api/dashboard/productivity');
         const data = await response.json();
 
+        // Cari elemen canvas untuk grafik
         const ctx = document.getElementById('productivityChart');
         if (!ctx) {
             console.warn('Productivity chart canvas not found');
             return;
         }
 
-        // Destroy existing chart if any
+        // Hapus grafik yang ada (penting untuk Swup navigation)
         if (productivityChart) {
             productivityChart.destroy();
         }
 
-        // Create Gradient
+        // Buat efek gradient dari atas ke bawah
         let gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, 'rgba(99, 102, 241, 0.5)'); // Top color (Primary)
-        gradient.addColorStop(1, 'rgba(99, 102, 241, 0.0)'); // Bottom color (Transparent)
+        gradient.addColorStop(0, 'rgba(99, 102, 241, 0.5)');  // Warna atas (Primary ungu)
+        gradient.addColorStop(1, 'rgba(99, 102, 241, 0.0)');  // Warna bawah (Transparan)
 
+        // Konfigurasi dan buat grafik
         productivityChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: data.labels, // Assuming labels are already ['Minggu 1', 'Minggu 2', ...] from API
+                labels: data.labels,  // Label minggu dari API: ['Minggu 1', 'Minggu 2', ...]
                 datasets: [{
                     label: 'Produktivitas',
                     data: data.data,
-                    borderColor: '#6366f1', // Primary Color
-                    backgroundColor: gradient,
+                    borderColor: '#6366f1',           // Warna garis (Primary)
+                    backgroundColor: gradient,         // Fill area dengan gradient
                     borderWidth: 3,
-                    tension: 0.4, // Smooth Spline
+                    tension: 0.4,                      // Kurva halus (spline)
                     fill: true,
                     pointBackgroundColor: '#fff',
                     pointBorderColor: '#6366f1',
@@ -56,9 +74,10 @@ async function initProductivityChart() {
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        display: false
+                        display: false  // Sembunyikan legend karena hanya 1 dataset
                     },
                     tooltip: {
+                        // Styling tooltip saat hover
                         backgroundColor: 'rgba(255, 255, 255, 0.9)',
                         titleColor: '#1e293b',
                         bodyColor: '#1e293b',
@@ -76,6 +95,7 @@ async function initProductivityChart() {
                             weight: 'bold'
                         },
                         callbacks: {
+                            // Format label tooltip dengan bahasa Indonesia
                             label: function (context) {
                                 return context.parsed.y + ' Tugas Selesai';
                             }
@@ -86,7 +106,7 @@ async function initProductivityChart() {
                     y: {
                         beginAtZero: true,
                         grid: {
-                            borderDash: [5, 5],
+                            borderDash: [5, 5],   // Garis putus-putus
                             color: '#e2e8f0',
                             drawBorder: false,
                         },
@@ -96,7 +116,7 @@ async function initProductivityChart() {
                             font: {
                                 family: "'Plus Jakarta Sans', sans-serif"
                             },
-                            precision: 0
+                            precision: 0  // Hanya angka bulat
                         },
                         border: {
                             display: false
@@ -126,41 +146,47 @@ async function initProductivityChart() {
             }
         });
 
-        console.log('✓ Productivity chart initialized');
+        console.log('✓ Grafik produktivitas berhasil diinisialisasi');
     } catch (error) {
-        console.error('Error initializing productivity chart:', error);
+        console.error('Error inisialisasi grafik produktivitas:', error);
     }
 }
 
 /**
- * Initialize expense chart (Doughnut Chart)
+ * Inisialisasi Grafik Pengeluaran (Doughnut Chart)
+ * 
+ * Menampilkan distribusi pengeluaran berdasarkan kategori dalam bentuk donat.
+ * Warna berbeda untuk setiap kategori agar mudah dibedakan.
  */
 async function initExpenseChart() {
     try {
+        // Ambil data pengeluaran dari API
         const response = await fetch('/api/dashboard/expenses');
         const data = await response.json();
 
+        // Cari elemen canvas
         const ctx = document.getElementById('expenseChart');
         if (!ctx) {
             console.warn('Expense chart canvas not found');
             return;
         }
 
-        // Destroy existing chart if any
+        // Hapus grafik yang ada (penting untuk Swup navigation)
         if (expenseChart) {
             expenseChart.destroy();
         }
 
-        // Chart colors
+        // Palet warna untuk kategori pengeluaran
         const colors = [
-            '#ef4444', // Red
-            '#f59e0b', // Orange
-            '#10b981', // Green
-            '#3b82f6', // Blue
-            '#8b5cf6', // Purple
-            '#ec4899', // Pink
+            '#ef4444',  // Merah
+            '#f59e0b',  // Orange
+            '#10b981',  // Hijau
+            '#3b82f6',  // Biru
+            '#8b5cf6',  // Ungu
+            '#ec4899',  // Pink
         ];
 
+        // Konfigurasi dan buat grafik donat
         expenseChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -177,7 +203,7 @@ async function initExpenseChart() {
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        position: 'bottom',
+                        position: 'bottom',  // Legenda di bawah grafik
                         labels: {
                             padding: 15,
                             font: {
@@ -189,6 +215,7 @@ async function initExpenseChart() {
                         backgroundColor: 'rgba(0, 0, 0, 0.8)',
                         padding: 12,
                         callbacks: {
+                            // Format tooltip dengan currency Indonesia
                             label: function (context) {
                                 let label = context.label || '';
                                 if (label) {
@@ -203,29 +230,34 @@ async function initExpenseChart() {
             }
         });
 
-        console.log('✓ Expense chart initialized');
+        console.log('✓ Grafik pengeluaran berhasil diinisialisasi');
     } catch (error) {
-        console.error('Error initializing expense chart:', error);
+        console.error('Error inisialisasi grafik pengeluaran:', error);
     }
 }
 
 /**
- * Load recent activities
- */
-/**
- * Load recent activities
+ * Memuat Aktivitas Terbaru
+ * 
+ * Menggabungkan tugas dan transaksi terbaru, dengan paginasi.
+ * Setiap aktivitas ditampilkan dengan ikon dan warna sesuai tipenya.
+ * 
+ * @param {number} page - Nomor halaman untuk paginasi (default: 1)
  */
 async function loadRecentActivities(page = 1) {
     try {
+        // Ambil data aktivitas dari API dengan parameter page
         const response = await fetch(`/api/dashboard/activities?page=${page}`);
         const data = await response.json();
 
+        // Cari container untuk menampilkan aktivitas
         const container = document.getElementById('recentActivitiesContainer');
         if (!container) {
             console.warn('Recent activities container not found');
             return;
         }
 
+        // Tampilkan pesan jika tidak ada aktivitas
         if (data.activities.length === 0) {
             container.innerHTML = `
                 <div class="text-center py-5">
@@ -236,9 +268,11 @@ async function loadRecentActivities(page = 1) {
             return;
         }
 
+        // Generate HTML untuk setiap aktivitas
         let html = '';
         data.activities.forEach(activity => {
             if (activity.type === 'task') {
+                // Template untuk aktivitas tugas
                 html += `
                     <div class="activity-item p-3 rounded-3 mb-2 hover-bg-light cursor-pointer">
                         <div class="d-flex align-items-center gap-3">
@@ -257,6 +291,7 @@ async function loadRecentActivities(page = 1) {
                     </div>
                 `;
             } else if (activity.type === 'transaction') {
+                // Template untuk aktivitas transaksi
                 html += `
                     <div class="activity-item p-3 rounded-3 mb-2 hover-bg-light cursor-pointer">
                         <div class="d-flex align-items-center gap-3">
@@ -277,7 +312,7 @@ async function loadRecentActivities(page = 1) {
             }
         });
 
-        // Render Pagination Controls
+        // Tambahkan kontrol paginasi jika ada data paginasi
         if (data.pagination) {
             const paginationHtml = `
                 <div class="d-flex justify-content-between align-items-center mt-3 custom-pagination-controls">
@@ -297,25 +332,34 @@ async function loadRecentActivities(page = 1) {
             html += paginationHtml;
         }
 
+        // Render HTML ke container
         container.innerHTML = html;
-        console.log('✓ Recent activities loaded:', data.activities.length);
+        console.log('✓ Aktivitas terbaru berhasil dimuat:', data.activities.length);
 
     } catch (error) {
-        console.error('Error loading recent activities:', error);
+        console.error('Error memuat aktivitas terbaru:', error);
     }
 }
 
-// Initialize on page load
-// Initialize on page load
+/**
+ * Fungsi Inisialisasi Dashboard
+ * 
+ * Dipanggil saat halaman dashboard pertama kali dimuat atau
+ * saat navigasi Swup ke halaman dashboard.
+ * Menginisialisasi semua grafik dan memuat aktivitas terbaru.
+ */
 window.initDashboard = function () {
-    console.log('✓ Dashboard JS initialized');
-    // Initialize charts and activities
-    initProductivityChart();
-    initExpenseChart();
-    loadRecentActivities();
+    console.log('✓ Dashboard JS diinisialisasi');
+
+    // Inisialisasi semua komponen
+    initProductivityChart();   // Grafik produktivitas
+    initExpenseChart();        // Grafik pengeluaran
+    loadRecentActivities();    // Aktivitas terbaru
 };
 
+// Auto-inisialisasi saat DOM ready (untuk akses langsung, bukan via Swup)
 document.addEventListener('DOMContentLoaded', function () {
+    // Hanya inisialisasi jika canvas grafik produktivitas ada (artinya di halaman dashboard)
     if (document.getElementById('productivityChart')) {
         window.initDashboard();
     }

@@ -1,11 +1,37 @@
 /**
- * Theme Manager - Mengelola tema (Light/Dark/System) dan warna aksen
+ * =================================================================
+ * MANAJER-TEMA.JS - Script Pengelola Tema KawalDiri
+ * =================================================================
+ * 
+ * File ini mengelola tema dan warna aksen aplikasi:
+ * - Tema: Light (Terang), Dark (Gelap), System (Ikuti sistem)
+ * - Warna Aksen: Warna utama yang bisa dikustomisasi pengguna
+ * 
+ * Fitur utama:
+ * - Sinkronisasi preferensi tema dengan database user
+ * - Fallback ke localStorage untuk guest/offline
+ * - Deteksi perubahan tema sistem (prefers-color-scheme)
+ * - Variasi warna otomatis (hover, light, rgb) dari aksen
+ * 
+ * Prioritas pengambilan tema:
+ * 1. Database user (via data-user-theme attribute)
+ * 2. localStorage (untuk guest atau cache)
+ * 3. Default: 'system'
  */
 
+/**
+ * Class ThemeManager
+ * 
+ * Mengelola semua operasi terkait tema dan warna aksen.
+ * Instance global tersedia di window.themeManager
+ */
 class ThemeManager {
+    /**
+     * Konstruktor - inisialisasi default values dan panggil init()
+     */
     constructor() {
-        this.currentTheme = 'system';
-        this.currentAccent = '#6366f1';
+        this.currentTheme = 'system';     // Tema aktif: 'light', 'dark', 'system'
+        this.currentAccent = '#6366f1';   // Warna aksen default (Indigo)
         this.init();
     }
 

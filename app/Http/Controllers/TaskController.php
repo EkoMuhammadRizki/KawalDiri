@@ -6,25 +6,37 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * TaskController
+ * 
+ * Controller untuk mengelola tugas pengguna.
+ * Menyediakan operasi CRUD: tampilkan daftar, buat baru, update, dan hapus tugas.
+ */
 class TaskController extends Controller
 {
     /**
-     * Display a listing of the user's tasks.
+     * Menampilkan daftar tugas pengguna.
+     * 
+     * Mendukung filter berdasarkan status (pending/completed),
+     * pencarian berdasarkan judul, dan paginasi.
+     * 
+     * @param Request $request
+     * @return \Illuminate\View\View|\Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
+        // Ambil tugas user yang login, urutkan dari terbaru
         $query = Auth::user()->tasks()->latest();
         $filter = $request->query('filter', 'all');
 
-        // Filter by status or priority
+        // Filter berdasarkan status jika dipilih
         if ($filter !== 'all') {
-            // Check if filter is status
             if (in_array($filter, ['pending', 'completed'])) {
                 $query->where('status', $filter);
             }
         }
 
-        // Additional filters if provided explicitly (api/fallback)
+        // Filter tambahan via parameter (untuk API atau fallback)
         if ($request->has('status') && $request->status !== 'all') {
             $query->where('status', $request->status);
         }
@@ -33,13 +45,15 @@ class TaskController extends Controller
             $query->where('priority', $request->priority);
         }
 
-        // Search by title
+        // Pencarian berdasarkan judul tugas
         if ($request->has('search') && $request->search) {
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
+        // Paginasi: 5 tugas per halaman
         $tasks = $query->paginate(5);
 
+        // Jika request dari API (AJAX), kembalikan JSON
         if ($request->expectsJson()) {
             return response()->json([
                 'success' => true,
@@ -47,14 +61,22 @@ class TaskController extends Controller
             ]);
         }
 
+        // Tampilkan view dengan data tugas
         return view('dashboard.tasks', compact('tasks', 'filter'));
     }
 
     /**
-     * Store a newly created task.
+     * Menyimpan tugas baru.
+     * 
+     * Validasi input dan simpan tugas baru ke database.
+     * Pesan error menggunakan bahasa Indonesia yang ramah.
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request): \Illuminate\Http\JsonResponse
     {
+        // Validasi input dengan pesan error Indonesia
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -68,6 +90,7 @@ class TaskController extends Controller
             'due_date.after_or_equal' => 'Masa deadline-nya di masa lalu? Move on dong! 😆',
         ]);
 
+        // Buat tugas baru milik user yang login
         $task = Auth::user()->tasks()->create($validated);
 
         return response()->json([
@@ -78,11 +101,19 @@ class TaskController extends Controller
     }
 
     /**
-     * Update the specified task.
+     * Memperbarui tugas yang ada.
+     * 
+     * Mendukung dua mode:
+     * 1. Toggle status (pending <-> completed) - jika parameter toggle_status=true
+     * 2. Update data tugas secara lengkap
+     * 
+     * @param Request $request
+     * @param Task $task
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Task $task): \Illuminate\Http\JsonResponse
     {
-        // Pastikan task milik user yang sedang login
+        // Verifikasi kepemilikan: hanya pemilik yang bisa update
         if ($task->user_id !== Auth::id()) {
             return response()->json([
                 'success' => false,
@@ -90,12 +121,12 @@ class TaskController extends Controller
             ], 403);
         }
 
-        // Toggle status jika request hanya toggle
+        // Mode 1: Toggle status saja (klik checkbox selesai/belum)
         if ($request->has('toggle_status') && $request->toggle_status) {
             if ($task->status === 'pending') {
-                $task->markAsCompleted();
+                $task->markAsCompleted();  // Tandai sebagai selesai
             } else {
-                $task->markAsPending();
+                $task->markAsPending();     // Kembalikan ke tertunda
             }
 
             return response()->json([
@@ -105,7 +136,7 @@ class TaskController extends Controller
             ]);
         }
 
-        // Update normal
+        // Mode 2: Update data tugas secara lengkap
         $validated = $request->validate([
             'title' => 'sometimes|required|string|max:255',
             'description' => 'nullable|string',
@@ -124,11 +155,16 @@ class TaskController extends Controller
     }
 
     /**
-     * Remove the specified task.
+     * Menghapus tugas.
+     * 
+     * Hanya pemilik tugas yang dapat menghapus tugas miliknya.
+     * 
+     * @param Task $task
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Task $task): \Illuminate\Http\JsonResponse
     {
-        // Pastikan task milik user yang sedang login
+        // Verifikasi kepemilikan: hanya pemilik yang bisa hapus
         if ($task->user_id !== Auth::id()) {
             return response()->json([
                 'success' => false,
@@ -136,6 +172,7 @@ class TaskController extends Controller
             ], 403);
         }
 
+        // Hapus tugas dari database
         $task->delete();
 
         return response()->json([

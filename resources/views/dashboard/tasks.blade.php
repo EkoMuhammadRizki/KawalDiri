@@ -160,7 +160,7 @@
 @endpush
 
 @section('scripts')
-<script src="{{ asset('js/task-manager.js') }}"></script>
+<script src="{{ asset('js/manajer-tugas.js') }}"></script>
 @endsection
 
 @endsection
