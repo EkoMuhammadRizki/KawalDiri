@@ -16,10 +16,11 @@
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%;
             animation: gradient 15s ease infinite;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
 
         @keyframes gradient {
@@ -97,7 +98,7 @@
             <span class="material-symbols-rounded" style="font-size: 64px;">lock_reset</span>
         </div>
         <h2 class="fw-bold mb-2">Lupa Kata Sandi?</h2>
-        <p class="text-muted mb-4 small">Jangan khawatir! Masukkan email Anda di bawah ini dan kami akan mengirimkan instruksi untuk mereset kata sandi Anda.</p>
+        <p class="text-muted mb-4 small">Masukkan email dan password baru Anda. Password akan langsung direset tanpa konfirmasi email.</p>
 
         @if (session('status'))
         <div class="alert alert-success border-0 bg-success-subtle text-success small mb-4" role="alert">
@@ -107,19 +108,37 @@
 
         @if ($errors->any())
         <div class="alert alert-danger border-0 bg-danger-subtle text-danger small mb-4">
-            {{ $errors->first() }}
+            <ul class="mb-0 ps-3 text-start">
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
         @endif
 
         <form method="POST" action="{{ route('lupa-sandi.email') }}">
             @csrf
-            <div class="mb-4 text-start">
+
+            <!-- Email -->
+            <div class="mb-3 text-start">
                 <label class="form-label fw-bold small text-muted">ALAMAT EMAIL</label>
                 <input type="email" class="form-control form-control-custom" name="email" value="{{ old('email') }}" placeholder="nama@email.com" required autofocus>
             </div>
 
+            <!-- Password Baru -->
+            <div class="mb-3 text-start">
+                <label class="form-label fw-bold small text-muted">PASSWORD BARU</label>
+                <input type="password" class="form-control form-control-custom" name="password" placeholder="Minimal 8 karakter" required>
+            </div>
+
+            <!-- Konfirmasi Password -->
+            <div class="mb-4 text-start">
+                <label class="form-label fw-bold small text-muted">KONFIRMASI PASSWORD</label>
+                <input type="password" class="form-control form-control-custom" name="password_confirmation" placeholder="Ulangi password baru" required>
+            </div>
+
             <button type="submit" class="btn btn-primary-custom">
-                Kirim Link Reset
+                Reset Password Sekarang
             </button>
         </form>
 

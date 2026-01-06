@@ -3,16 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
 
 class LupaSandiController extends Controller
 {
     /**
-     * Menampilkan form permintaan link reset password.
+     * Menampilkan form reset password langsung (tanpa email).
      */
     public function showLinkRequestForm()
     {
@@ -20,64 +18,56 @@ class LupaSandiController extends Controller
     }
 
     /**
-     * Mengirimkan email link reset password.
+     * Langsung reset password tanpa kirim email.
+     * User input: email + password baru
      */
     public function sendResetLinkEmail(Request $request)
     {
-        $request->validate(['email' => 'required|email']);
+        // Validasi input
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|confirmed|min:8',
+        ], [
+            'email.required' => 'Email wajib diisi!',
+            'email.email' => 'Format email tidak valid!',
+            'password.required' => 'Password baru wajib diisi!',
+            'password.confirmed' => 'Konfirmasi password tidak cocok!',
+            'password.min' => 'Password minimal 8 karakter!',
+        ]);
 
-        // Kita akan mengirimkan link reset password menggunakan Password Facade
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        // Cari user berdasarkan email
+        $user = User::where('email', $request->email)->first();
 
-        if ($status === Password::RESET_LINK_SENT) {
-            return back()->with(['status' => __($status)]);
+        // Jika email tidak ditemukan
+        if (!$user) {
+            throw ValidationException::withMessages([
+                'email' => 'Email tidak terdaftar di sistem kami.',
+            ]);
         }
 
-        return back()->withErrors(['email' => __($status)]);
+        // Update password langsung
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        // Redirect ke login dengan pesan sukses
+        return redirect()->route('login')->with('status', 'Password berhasil direset! Silakan login dengan password baru Anda.');
     }
 
     /**
-     * Menampilkan form reset password (input password baru).
+     * Method ini tidak digunakan lagi (dihapus alur email)
      */
     public function showResetForm(Request $request, $token = null)
     {
-        return view('auth.reset-sandi')->with(
-            ['token' => $token, 'email' => $request->email]
-        );
+        // Redirect ke lupa sandi karena tidak pakai token lagi
+        return redirect()->route('lupa-sandi');
     }
 
     /**
-     * Memproses reset password.
+     * Method ini tidak digunakan lagi (dihapus alur email)
      */
     public function reset(Request $request)
     {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:8',
-        ]);
-
-        // Reset password user
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                // Update password dengan hashing baru
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->setRememberToken(Str::random(60));
-
-                $user->save();
-            }
-        );
-
-        // Jika berhasil, redirect ke login dengan pesan sukses
-        if ($status === Password::PASSWORD_RESET) {
-            return redirect()->route('login')->with('status', __($status));
-        }
-
-        // Jika gagal, kembalikan dengan error
-        return back()->withErrors(['email' => [__($status)]]);
+        // Redirect ke lupa sandi karena tidak pakai token lagi
+        return redirect()->route('lupa-sandi');
     }
 }
