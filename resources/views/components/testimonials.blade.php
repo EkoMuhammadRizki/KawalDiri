@@ -65,7 +65,7 @@
                 <div class="d-flex align-items-center gap-3">
                     <img src="https://ui-avatars.com/api/?name=Sarah+Amelia&background=random" class="rounded-circle" width="45">
                     <div>
-                        <h6 class="fw-bold mb-0">Sarah Amelia</h6>
+                        <h6 class="fw-bold mb-0">Aldy Alfiansyah</h6>
                         <small class="text-muted">Desainer Grafis</small>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                 <div class="d-flex align-items-center gap-3">
                     <img src="https://ui-avatars.com/api/?name=Raka+Pratama&background=random" class="rounded-circle" width="45">
                     <div>
-                        <h6 class="fw-bold mb-0">Raka Pratama</h6>
+                        <h6 class="fw-bold mb-0">Hanifah Nurul Aini</h6>
                         <small class="text-muted">Mahasiswa</small>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                 <div class="d-flex align-items-center gap-3">
                     <img src="https://ui-avatars.com/api/?name=Fanny+Rose&background=random" class="rounded-circle" width="45">
                     <div>
-                        <h6 class="fw-bold mb-0">Fanny Rose</h6>
+                        <h6 class="fw-bold mb-0">Rifat Ali Nurjaman</h6>
                         <small class="text-muted">Freelancer</small>
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                 <div class="d-flex align-items-center gap-3">
                     <img src="https://ui-avatars.com/api/?name=Dimas+Anggara&background=random" class="rounded-circle" width="45">
                     <div>
-                        <h6 class="fw-bold mb-0">Dimas Anggara</h6>
+                        <h6 class="fw-bold mb-0">Nailah Rasya</h6>
                         <small class="text-muted">Content Creator</small>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                 <div class="d-flex align-items-center gap-3">
                     <img src="https://ui-avatars.com/api/?name=Bella+Putri&background=random" class="rounded-circle" width="45">
                     <div>
-                        <h6 class="fw-bold mb-0">Bella Putri</h6>
+                        <h6 class="fw-bold mb-0">Rima Silvia Melani</h6>
                         <small class="text-muted">Akuntan</small>
                     </div>
                 </div>
@@ -140,7 +140,7 @@
                 <div class="d-flex align-items-center gap-3">
                     <img src="https://ui-avatars.com/api/?name=Eko+Susilo&background=random" class="rounded-circle" width="45">
                     <div>
-                        <h6 class="fw-bold mb-0">Eko Susilo</h6>
+                        <h6 class="fw-bold mb-0">Fitri Haerani</h6>
                         <small class="text-muted">Web Developer</small>
                     </div>
                 </div>
@@ -155,7 +155,7 @@
                 <div class="d-flex align-items-center gap-3">
                     <img src="https://ui-avatars.com/api/?name=Gita+Savitri&background=random" class="rounded-circle" width="45">
                     <div>
-                        <h6 class="fw-bold mb-0">Gita Savitri</h6>
+                        <h6 class="fw-bold mb-0">Ghibran Pratama</h6>
                         <small class="text-muted">Penulis</small>
                     </div>
                 </div>
@@ -170,7 +170,7 @@
                 <div class="d-flex align-items-center gap-3">
                     <img src="https://ui-avatars.com/api/?name=Hendra+Wijaya&background=random" class="rounded-circle" width="45">
                     <div>
-                        <h6 class="fw-bold mb-0">Hendra Wijaya</h6>
+                        <h6 class="fw-bold mb-0">Fatin Khairunnisa</h6>
                         <small class="text-muted">Manajer Proyek</small>
                     </div>
                 </div>
@@ -185,7 +185,7 @@
                 <div class="d-flex align-items-center gap-3">
                     <img src="https://ui-avatars.com/api/?name=Indah+Permata&background=random" class="rounded-circle" width="45">
                     <div>
-                        <h6 class="fw-bold mb-0">Indah Permata</h6>
+                        <h6 class="fw-bold mb-0">Fara Firoza</h6>
                         <small class="text-muted">Ibu Rumah Tangga</small>
                     </div>
                 </div>
@@ -200,7 +200,7 @@
                 <div class="d-flex align-items-center gap-3">
                     <img src="https://ui-avatars.com/api/?name=Joko+Anwar&background=random" class="rounded-circle" width="45">
                     <div>
-                        <h6 class="fw-bold mb-0">Joko Anwar</h6>
+                        <h6 class="fw-bold mb-0">Abdusallam Azzahra</h6>
                         <small class="text-muted">Sutradara</small>
                     </div>
                 </div>

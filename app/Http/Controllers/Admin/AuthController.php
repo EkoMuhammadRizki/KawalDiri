@@ -31,21 +31,36 @@ class AuthController extends Controller
     /**
      * Proses login admin
      * 
-     * Memvalidasi email dan password, kemudian melakukan autentikasi.
+     * Memvalidasi email/username dan password, kemudian melakukan autentikasi.
+     * Mendukung login dengan EMAIL atau USERNAME secara otomatis.
      * Jika berhasil login, dilakukan pengecekan tambahan pada kolom 'role'.
      * Hanya user dengan role = 'admin' yang diizinkan masuk ke dashboard admin.
      * 
-     * @param Request $request - Berisi email, password, dan checkbox remember
+     * @param Request $request - Berisi email/username, password, dan checkbox remember
      * @return RedirectResponse
      * @throws ValidationException - Jika kredensial salah atau bukan admin
      */
     public function login(Request $request)
     {
-        // Validasi input login: Email harus valid, password wajib diisi
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
+        // Validasi input login: email/username wajib diisi, password wajib diisi
+        $request->validate([
+            'email' => ['required', 'string'],
             'password' => ['required'],
         ]);
+
+        // Ambil input dari user
+        $login = $request->input('email');
+        $password = $request->input('password');
+
+        // Deteksi apakah input adalah email atau username
+        // Jika mengandung '@', anggap sebagai email, jika tidak maka username
+        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        // Siapkan credentials untuk login
+        $credentials = [
+            $fieldType => $login,
+            'password' => $password
+        ];
 
         // Coba login dengan kredensial yang diberikan
         // Parameter kedua mengecek apakah "remember me" dicentang
@@ -67,9 +82,9 @@ class AuthController extends Controller
             return redirect()->intended(route('admin.dashboard'));
         }
 
-        // Login gagal (email/password salah)
+        // Login gagal (email/username/password salah)
         throw ValidationException::withMessages([
-            'email' => 'Email atau password salah.',
+            'email' => 'Email/Username atau password salah.',
         ]);
     }
 

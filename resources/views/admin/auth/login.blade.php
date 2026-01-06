@@ -225,16 +225,16 @@
                         <form method="POST" action="{{ route('admin.login.post') }}">
                             @csrf
 
-                            <!-- Email -->
+                            <!-- Email atau Username -->
                             <div class="mb-4">
                                 <label class="form-label small fw-bold text-muted text-uppercase tracking-wider">Nama Pengguna atau Email</label>
                                 <div class="input-group-custom">
                                     <span class="material-icons-round">person_outline</span>
                                     <input
-                                        type="email"
+                                        type="text"
                                         name="email"
                                         class="form-control @error('email') is-invalid @enderror"
-                                        placeholder="admin@kawaldiri.id"
+                                        placeholder="admin atau admin@kawaldiri.id"
                                         value="{{ old('email') }}"
                                         required
                                         autofocus>

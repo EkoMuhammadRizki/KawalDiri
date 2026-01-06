@@ -40,7 +40,7 @@ Route::get('/reset-sandi/{token}', [App\Http\Controllers\LupaSandiController::cl
 Route::post('/reset-sandi', [App\Http\Controllers\LupaSandiController::class, 'reset'])->name('password.update');
 
 // ==========================================
-// Rute Halaman Dashboard (Panel Pengguna)
+// Rute Bagian Halaman Dashboard (Panel Pengguna)
 // ==========================================
 Route::middleware(['auth'])->group(function () {
     // Halaman Utama Dashboard (Ringkasan)
@@ -84,7 +84,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // ==========================================
-// Rute Admin (Admin Panel)
+// Rute BagianAdmin (Admin Panel)
 // ==========================================
 Route::prefix('admin')->name('admin.')->group(function () {
     // Guest Admin Routes
