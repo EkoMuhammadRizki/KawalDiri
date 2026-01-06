@@ -563,7 +563,7 @@ Route::prefix('admin')->group(function() {
 
 ---
 
-## 🗄️ Database Migration
+## Database Migration
 
 **Migration** adalah sistem version control untuk database. Setiap perubahan struktur database (create table, add column, dll) dilakukan melalui migration file.
 
@@ -772,7 +772,7 @@ php artisan migrate:fresh --seed
 
 ---
 
-## 🌱 Database Seeder
+## Database Seeder
 
 **Seeder** adalah cara untuk mengisi database dengan data awal atau data dummy untuk testing.
 
@@ -882,7 +882,7 @@ Task::factory(100)->create(['user_id' => $user->id]);
 
 ---
 
-## 🎨 Template Engine (Blade)
+## Template Engine (Blade)
 
 **Blade** adalah template engine bawaan Laravel yang powerful namun sederhana.
 
@@ -1067,7 +1067,7 @@ Task::factory(100)->create(['user_id' => $user->id]);
 
 ---
 
-## 🔄 Alur Kerja Aplikasi
+## Alur Kerja Aplikasi
 
 Mari kita lihat alur lengkap ketika user berinteraksi dengan aplikasi.
 
@@ -1407,7 +1407,7 @@ public function getProductivityData()
 
 ---
 
-## 🔒 Middleware & Security
+## Middleware & Security
 
 **Middleware** adalah filter yang dijalankan sebelum request masuk ke Controller.
 
@@ -1533,7 +1533,7 @@ Blade otomatis escape output:
 
 ---
 
-## 📡 API Endpoints
+## API Endpoints
 
 Aplikasi ini menyediakan beberapa API endpoint untuk AJAX requests:
 
@@ -1593,7 +1593,7 @@ Semua API mengembalikan JSON:
 
 ---
 
-## 🎯 Kesimpulan
+## Kesimpulan
 
 ### Ringkasan Alur Kerja
 
@@ -1630,7 +1630,7 @@ Semua API mengembalikan JSON:
 
 ---
 
-## 📞 Kontak & Repository
+## Kontak & Repository
 
 **Developer**: Eko Muhammad Rizki  
 **Project**: KawalDiri - Aplikasi Manajemen Produktivitas & Keuangan  
