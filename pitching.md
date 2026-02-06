@@ -25,7 +25,7 @@
 - **Frontend**: Bootstrap 5.3, Blade Template Engine
 - **JavaScript Libraries**: 
   - Chart.js (untuk grafik)
-  - SweetAlert2 (untuk notifikasi)
+  - SweetAlert2 (untuk validasi)
 
 ### Fitur Utama
 ✅ Manajemen Tugas (To-Do List)  
@@ -34,7 +34,7 @@
 ✅ Admin Panel untuk Pengelolaan User  
 ✅ Sistem Notifikasi Real-time  
 ✅ Dark Mode & Theme Customization  
-✅ Password Reset & Email Verification
+✅ Password Reset
 
 ---
 
